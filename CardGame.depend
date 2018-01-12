@@ -1,0 +1,36 @@
+# depslib dependency file v1.0
+1515105855 source:/home/anvik/3720/CardGame/src/main.cpp
+	<iostream>
+
+1515109017 source:/home/anvik/3720/CardGame/src/Player.cpp
+	"Player.h"
+
+1515108953 /home/anvik/3720/CardGame/include/Player.h
+	<string>
+	<vector>
+	"Card.h"
+
+1515454229 /home/anvik/3720/CardGame/include/Card.h
+	<iostream>
+
+1515455762 source:/home/anvik/3720/CardGame/src/Deck.cpp
+	"Deck.h"
+	<vector>
+	<random>
+	<iostream>
+
+1515452500 /home/anvik/3720/CardGame/include/Deck.h
+	"Card.h"
+	<list>
+
+1515452850 source:/home/anvik/3720/CardGame/test/runTests.cpp
+	"gtest/gtest.h"
+
+1515454946 source:/home/anvik/3720/CardGame/test/DeckTest.cpp
+	"gtest/gtest.h"
+	"Deck.h"
+	<iostream>
+
+1515454838 source:/home/anvik/3720/CardGame/src/Card.cpp
+	"Card.h"
+

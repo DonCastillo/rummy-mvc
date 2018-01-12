@@ -7,8 +7,8 @@
 class GoFish : public Game
 {
     public:
-        GoFish();
-        virtual ~GoFish();
+        GoFish(GameUI* ui, Deck* d) : Game(ui, d){}
+        virtual ~GoFish(){}
 
     protected:
 

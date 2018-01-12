@@ -2,6 +2,10 @@
 #define GAME_H_INCLUDED
 
 #include <vector>
+#include "Card.h"
+#include "Deck.h"
+#include "GameUI.h"
+#include "Player.h"
 
 class Game {
 

@@ -35,3 +35,18 @@ TEST (DeckTest, DeckShuffle)
 
     //cout << *c << endl;
 }
+
+TEST (DeckTest, DeckEmpty)
+{
+    Deck d;
+    unsigned int deckSize = d.size();
+    for(unsigned int i=0; i < deckSize; i++)
+    {
+        d.getCard();
+    }
+
+    EXPECT_TRUE(d.getCard() == nullptr);
+    EXPECT_TRUE(d.getCard() == nullptr);
+
+    //cout << *c << endl;
+}

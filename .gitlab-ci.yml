@@ -1,0 +1,26 @@
+build-test:
+   stage: build
+   script:
+      - make gameTest
+   artifacts:
+      paths:
+         - gameTest
+
+test-game:
+   stage: test
+   script:
+      - gameTest
+
+pages:
+   stage: deploy
+   dependencies:
+      - test-game
+   script:
+      - make coverage
+   artifacts:
+      paths:
+         - coverage
+      expire_in: 30 days
+   only:
+      - master
+

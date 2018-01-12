@@ -34,6 +34,9 @@ Deck::Deck()
 }
 
 Card* Deck::getCard(){
+    if(deck.empty())
+        return nullptr;
+
     Card* card = deck.front();
     deck.pop_front();
     return card;

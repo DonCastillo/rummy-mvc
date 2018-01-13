@@ -1,25 +1,50 @@
+build-game:
+   stage: build
+   script:
+      - make game
+   artifacts:
+      paths:
+         - game
+
 build-test:
    stage: build
    script:
-      - make gameTest
+      - make test
    artifacts:
       paths:
-         - gameTest
+         - test
 
 test-game:
    stage: test
    script:
-      - gameTest
+      - test
+      - make memcheck-test
+      - make static
+   artifacts:
+      paths:
+         - results.memcheck
+         - results.static
 
 pages:
    stage: deploy
    dependencies:
-      - test-game
+      - test
    script:
       - make coverage
    artifacts:
       paths:
          - coverage
+      expire_in: 30 days
+   only:
+      - master
+
+pages:
+   stage: deploy
+   script:
+      - make docs
+   artifacts:
+      paths:
+         - docs
       expire_in: 30 days
    only:
       - master

@@ -1,6 +1,6 @@
 #include "Card.h"
 
-string getRank(const Card::Rank rank)
+string Card::getRank(const Card::Rank rank)
 {
     switch(rank)
     {
@@ -34,7 +34,7 @@ string getRank(const Card::Rank rank)
     return "?";
 }
 
-string getSuit(const Card::Suit suit)
+string Card::getSuit(const Card::Suit suit)
 {
     switch(suit)
     {
@@ -52,6 +52,6 @@ string getSuit(const Card::Suit suit)
 
 ostream& operator<<(ostream& os, const Card& c)
 {
-    os << getRank(c.rank) << ":" << getSuit(c.suit);
+    os << Card::getRank(c.rank) << ":" << Card::getSuit(c.suit);
     return os;
 }

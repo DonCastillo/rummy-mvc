@@ -11,12 +11,15 @@ class Game {
 
     public:
 
-        virtual void play() = 0;
-        virtual bool validate(Card* c) = 0;
+        virtual bool valid(Card* c) = 0;
         virtual bool isOver() = 0;
+        virtual void dealCards(vector<Player*> p) = 0;
+        virtual void beforeCardPlayed(unsigned int playerNum, unsigned int numPlayers) = 0;
+        virtual void afterCardPlayed(Player* currentPlayer, vector<Player*> players, Card* played) = 0;
 
         Game(GameUI* ui, Deck* d):deck(d),ui(ui){};
         void addPlayer(Player* p);
+        vector<Player*> getPlayers();
         void start();
 
 

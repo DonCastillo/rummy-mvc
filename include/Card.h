@@ -13,6 +13,9 @@ public:
     enum Rank {ACE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,TEN,JACK,QUEEN,KING};
 
     Card(Suit s, Rank r):suit(s), rank(r) {}
+    static string getRank(Card::Rank r);
+    static string getSuit(Card::Suit s);
+
 
     const Suit suit;
     const Rank rank;

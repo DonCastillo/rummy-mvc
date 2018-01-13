@@ -5,7 +5,12 @@
 
 #include <iostream>
 
-Deck::Deck()
+void Deck::addCard(Card* card)
+{
+    deck.push_back(card);
+}
+
+void Deck::createStandard()
 {
     vector<Card::Suit> suits;
     suits.push_back(Card::CLUB);
@@ -28,12 +33,13 @@ Deck::Deck()
     ranks.push_back(Card::QUEEN);
     ranks.push_back(Card::KING);
 
-    for(vector<Card::Suit>::iterator suit = suits.begin(); suit != suits.end(); suit++)
-        for(vector<Card::Rank>::iterator rank = ranks.begin(); rank != ranks.end(); rank++)
-            deck.push_back(new Card(*suit, *rank));
+    for(vector<Card::Suit>::iterator suit = suits.begin(); suit != suits.end(); ++suit)
+        for(vector<Card::Rank>::iterator rank = ranks.begin(); rank != ranks.end(); ++rank)
+            addCard(new Card(*suit, *rank));
 }
 
-Card* Deck::getCard(){
+Card* Deck::getCard()
+{
     if(deck.empty())
         return nullptr;
 
@@ -42,10 +48,12 @@ Card* Deck::getCard(){
     return card;
 }
 
-void Deck::shuffle(){
+void Deck::shuffle()
+{
     list<Card*> shuffledDeck;
 
-    while(deck.size() > 0){
+    while(deck.size() > 0)
+    {
         //cout << "Selecting card" << endl;
         int selection = rand() % deck.size();
 
@@ -53,7 +61,7 @@ void Deck::shuffle(){
 
         list<Card*>::iterator card = deck.begin();
         for(int i=0; i<selection; i++)
-             card = ++card;
+            card = ++card;
         //cout << "Adding " << **card << endl;
 
         shuffledDeck.push_back(*card);
@@ -62,10 +70,11 @@ void Deck::shuffle(){
 
     deck.clear();
     //copy(shuffledDeck.begin(), shuffledDeck.end(), deck);
-     for(list<Card*>::iterator card = shuffledDeck.begin(); card != shuffledDeck.end(); card++)
+    for(list<Card*>::iterator card = shuffledDeck.begin(); card != shuffledDeck.end(); ++card)
         deck.push_back(*card);
 }
 
-unsigned int Deck::size(){
+unsigned int Deck::size()
+{
     return deck.size();
 }

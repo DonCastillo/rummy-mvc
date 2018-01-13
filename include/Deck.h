@@ -9,12 +9,14 @@ using namespace std;
 class Deck
 {
     public:
-        Deck();
+
         virtual ~Deck(){}
         void shuffle();
+        void addCard(Card* card);
         Card* getCard();
         unsigned int size();
 
+        void createStandard();
     protected:
 
     private:

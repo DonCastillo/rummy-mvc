@@ -4,22 +4,27 @@
 using namespace std;
 
 #include <string>
-#include <vector>
+#include <list>
 #include "Card.h"
 
 class Player
 {
     public:
-        Player(string n) : name(n) {}
+        explicit Player(const string& n) : name(n) {}
         virtual ~Player() {}
         void addCard(Card* c);
-        Card* getPlay(int (*playPrompt)());
+        Card* getCard(unsigned int index);
+        list<Card*>* getHand();
+        void addPoints(unsigned int points);
+        unsigned int getScore();
+
+        const string name;
 
     protected:
 
     private:
-        string name;
-        vector<Card*> hand;
+        list<Card*> hand;
+        unsigned int score = 0;
 };
 
 #endif // PLAYER_H

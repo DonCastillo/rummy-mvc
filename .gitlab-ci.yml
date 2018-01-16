@@ -28,24 +28,14 @@ test-game:
 pages:
    stage: deploy
    dependencies:
-      - testGame
+      - test-game
    script:
       - make coverage
-   artifacts:
-      paths:
-         - coverage
-      expire_in: 30 days
-   only:
-      - master
-
-pages:
-   stage: deploy
-   script:
       - make docs
    artifacts:
       paths:
+         - coverage
          - docs
-      expire_in: 30 days
+      expire_in: 14 days
    only:
       - master
-

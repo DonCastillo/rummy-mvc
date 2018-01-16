@@ -1,34 +1,34 @@
 build-game:
    stage: build
    script:
-      - make game
+      - make cardGame
    artifacts:
       paths:
-         - game
+         - cardGame
 
 build-test:
    stage: build
    script:
-      - make test
+      - make testGame
    artifacts:
       paths:
-         - test
+         - testGame
 
 test-game:
    stage: test
    script:
-      - test
+      - testGame
       - make memcheck-test
       - make static
    artifacts:
       paths:
-         - results.memcheck
-         - results.static
+         - ValgrindOutput.xml
+         - CppCheckResults.xml
 
 pages:
    stage: deploy
    dependencies:
-      - test
+      - testGame
    script:
       - make coverage
    artifacts:

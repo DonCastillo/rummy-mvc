@@ -4,64 +4,65 @@ CXXFLAGS= -std=c++0x -g -fprofile-arcs -ftest-coverage
 LINKFLAGS= -lgtest
 
 SRC_DIR = src
-SRCS = ${SRC_DIR}/Card.cpp ${SRC_DIR}/Deck.cpp ${SRC_DIR}/GoFish.cpp ${SRC_DIR}/Player.cpp
-
+SRCS = $(SRC_DIR)/Card.cpp $(SRC_DIR)/Deck.cpp $(SRC_DIR)/Game.cpp $(SRC_DIR)/GameUI.cpp $(SRC_DIR)/GoFish.cpp $(SRC_DIR)/GoFishUI.cpp $(SRC_DIR)/Player.cpp
 
 TEST_DIR = test
 
-OBJ_DIR = obj
-OBJS = $(SRC)/Circle.o $(SRC)/Cone.o $(SRC)/Cuboid.o $(SRC)/Cylinder.o $(SRC)/Quadrilateral.o $(SRC)/Sphere.o  $(SRC)/Triangle.o
-ALL_OBJS = $(OBJS)
-TEST_OBJS = $(TEST_DIR)/TestCircle.o $(TEST_DIR)/TestCone.o $(TEST_DIR)/TestCuboid.o $(TEST_DIR)/TestCylinder.o $(TEST_DIR)/TestQuad.o $(TEST_DIR)/TestSphere.o  $(TEST_DIR)/TestTriangle.o $(TEST_DIR)/main.o
-
-INCLUDE = -I include -I test
+SRC_INCLUDE = include
+TEST_INCLUDE = test
+INCLUDE = -I ${SRC_INCLUDE} -I ${TEST_INCLUDE}
 
 GCOV = gcov
 LCOV = lcov
-COVERAGE_RESULTS = result.coverage
+COVERAGE_RESULTS = results.coverage
 COVERAGE_DIR = coverage
 
-MEMCHECK_RESULTS = results.memcheck
+MEMCHECK_RESULTS = ValgrindOut.xml
+
+STATIC_RESULTS = CppCheckResults.xml
 
 PROGRAM = cardGame
-PROGRAM_TEST = gameTest
+PROGRAM_TEST = testGame
 
 .PHONY: all
-all: $(PROGRAM_TEST)
+all: $(PROGRAM) $(PROGRAM_TEST) memcheck-test coverage docs static
 
 # default rule for compiling .cc to .o
 %.o: %.cpp
-# $(CC) $(CFLAGS) -c $< -o $(patsubst %.cpp,%.o,$<) ${INCLUDE}
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:
-	rm -rf *~ $(SRC)/*.o $(TEST_SRC)/*.o *.gcov *.gcda *.gcno $(COVERAGE_RESULTS) $(PROGRAM_TEST) $(MEMCHECK_RESULTS) ${COVERAGE_DIR}
+	rm -rf *~ $(SRC)/*.o $(TEST_SRC)/*.o *.gcov *.gcda *.gcno $(COVERAGE_RESULTS) $(PROGRAM) $(PROGRAM_TEST) $(MEMCHECK_RESULTS) $(COVERAGE_DIR) $(STATIC_RESULTS)
 
 
 .PHONY: clean-all
 clean-all: clean
 	rm -rf $(PROGRAM) $(PROGRAM_TEST)
 
+$(PROGRAM):
+	$(CXX) $(CXXFLAGS) -o $(PROGRAM) -I $(SRC_INCLUDE) $(SRC_DIR)/*.cpp $(LINKFLAGS)
 
 $(PROGRAM_TEST):
-	#$(CC) $(CFLAGS) -o $@ $^ -lgtest $(INCLUDE)
-	$(CXX) $(CXXFLAGS) -o $(PROGRAM_TEST) ${INCLUDE} $(TEST_DIR)/*.cpp ${SRCS} $(LINKFLAGS)
-
-test: $(PROGRAM_TEST)
+	$(CXX) $(CXXFLAGS) -o $(PROGRAM_TEST) $(INCLUDE) $(TEST_DIR)/*.cpp $(SRCS) $(LINKFLAGS)
 	$(PROGRAM_TEST)
 
-memcheck: $(PROGRAM_TEST)
-	rm -f results
-	valgrind --leak-check=yes $(PROGRAM_TEST) &> results
-	more results
+memcheck-game: $(PROGRAM)
+	rm -f
+	valgrind --tool=memcheck --leak-check=yes --xml=yes --xml-file=$(MEMCHECK_RESULTS) $(PROGRAM)
 
-coverage: test
-	$(LCOV) --capture --gcov-tool ${GCOV} --directory . --output-file $(COVERAGE_RESULTS)
-	$(LCOV) --extract ${COVERAGE_RESULTS} "*/src/*" -o ${COVERAGE_RESULTS}
-	genhtml $(COVERAGE_RESULTS) --output-directory ${COVERAGE_DIR}
+
+memcheck-test: $(PROGRAM_TEST)
+	valgrind --tool=memcheck --leak-check=yes --xml=yes --xml-file=$(MEMCHECK_RESULTS) $(PROGRAM_TEST)
+
+coverage: $(PROGRAM_TEST)
+	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS)
+	$(LCOV) --extract $(COVERAGE_RESULTS) "*/src/*" -o $(COVERAGE_RESULTS)
+	genhtml $(COVERAGE_RESULTS) --output-directory $(COVERAGE_DIR)
 	rm -f *.gc*
 
-lib:
-	ar rcs libshapes.a $(OBJS)
+static: ${SRC_DIR}
+	cppcheck --verbose --enable=all --xml ${SRC_DIR} ${TEST_DIR} ${INCLUDE} --suppress=missingInclude &> $(STATIC_RESULTS)
 
+docs: ${SRC_INCLUDE}
+	doxygen

@@ -7,6 +7,7 @@ using namespace std;
 int main()
 {
     Deck* d = new Deck();
+    d->createStandard();
     d->shuffle();
     GameUI* ui = new GoFishUI();
     Game* g = new GoFish(ui, d);

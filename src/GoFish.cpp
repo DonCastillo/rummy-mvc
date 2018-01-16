@@ -7,7 +7,8 @@ bool GoFish::valid(Card* c)
 
 bool GoFish::isOver()
 {
-    for(Player* p : players)      if(p->getHand()->empty())
+    for(Player* p : players)
+        if(p->getHand()->empty())
             return true;
     return false;
 }

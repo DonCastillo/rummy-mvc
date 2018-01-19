@@ -13,8 +13,8 @@ class Deck
         virtual ~Deck(){}
         void shuffle();
         void addCard(Card* card);
-        Card* getCard();
-        unsigned int size();
+        virtual Card* getCard();
+        const unsigned int size() const;
 
         void createStandard();
     protected:

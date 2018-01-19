@@ -11,7 +11,7 @@ class GoFish : public Game
         virtual ~GoFish(){}
 
         bool valid(Card* c);
-        bool isOver();
+        bool isOver() const;
         void dealCards(vector<Player*> p);
         void beforeCardPlayed(unsigned int playerNum, unsigned int numPlayers);
         void afterCardPlayed(Player* currentPlayer, vector<Player*> players, Card* played);

@@ -13,18 +13,23 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
-			<Target title="Release">
-				<Option output="bin/Release/CardGame" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+			<Target title="Testing">
+				<Option output="bin/Testing/CardGame" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/Testing/" />
+				<Option object_output="obj/Testing/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
-					<Add option="-s" />
+					<Add option="-lgtest" />
+					<Add option="-lpthread" />
+					<Add library="/usr/src/gmock/gmock-all.cc" />
+					<Add directory="/home/anvik/3720/CardGame/" />
 				</Linker>
 			</Target>
 		</Build>
@@ -32,7 +37,42 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename=".gitignore" />
+		<Unit filename=".gitlab-ci.yml" />
+		<Unit filename="Makefile" />
+		<Unit filename="include/Card.h" />
+		<Unit filename="include/Deck.h" />
+		<Unit filename="include/Exceptions.h" />
+		<Unit filename="include/Game.h" />
+		<Unit filename="include/GameUI.h" />
+		<Unit filename="include/GoFish.h" />
+		<Unit filename="include/GoFishUI.h" />
+		<Unit filename="include/Player.h" />
+		<Unit filename="src/Card.cpp" />
+		<Unit filename="src/Deck.cpp" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/GameUI.cpp" />
+		<Unit filename="src/GoFish.cpp" />
+		<Unit filename="src/GoFishUI.cpp" />
+		<Unit filename="src/Player.cpp" />
+		<Unit filename="src/main.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="test/DeckTest.cpp">
+			<Option target="Testing" />
+		</Unit>
+		<Unit filename="test/GoFishTest.cpp">
+			<Option target="Testing" />
+		</Unit>
+		<Unit filename="test/MockDeck.h">
+			<Option target="Testing" />
+		</Unit>
+		<Unit filename="test/MockUI.h">
+			<Option target="Testing" />
+		</Unit>
+		<Unit filename="test/runTests.cpp">
+			<Option target="Testing" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />

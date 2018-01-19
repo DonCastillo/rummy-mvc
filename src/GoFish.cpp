@@ -5,7 +5,7 @@ bool GoFish::valid(Card* c)
     return c != nullptr;
 }
 
-bool GoFish::isOver()
+bool GoFish::isOver() const
 {
     for(Player* p : players)
         if(p->getHand()->empty())
@@ -44,7 +44,7 @@ void GoFish::afterCardPlayed(Player* currentPlayer, vector<Player*> players, Car
     {
         if((*card)->rank == played->rank)
         {
-            currentPlayer->getHand()->push_back(*card); // TODO copy card
+            currentPlayer->getHand()->push_back(*card);
             toRemove.push_back(*card);
         }
     }

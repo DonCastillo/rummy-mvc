@@ -8,6 +8,9 @@ SRCS = $(SRC_DIR)/Card.cpp $(SRC_DIR)/Deck.cpp $(SRC_DIR)/Game.cpp $(SRC_DIR)/Ga
 
 TEST_DIR = test
 
+GMOCK = /usr/src/gmock/gmock-all.cc -lpthread
+#GMOCK = -L. -lgmock -lgmock_main -lpthread
+
 SRC_INCLUDE = include
 TEST_INCLUDE = test
 INCLUDE = -I ${SRC_INCLUDE} -I ${TEST_INCLUDE}
@@ -44,7 +47,7 @@ $(PROGRAM):
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM) -I $(SRC_INCLUDE) $(SRC_DIR)/*.cpp $(LINKFLAGS)
 
 $(PROGRAM_TEST):
-	$(CXX) $(CXXFLAGS) -o $(PROGRAM_TEST) $(INCLUDE) $(TEST_DIR)/*.cpp $(SRCS) $(LINKFLAGS)
+	$(CXX) $(CXXFLAGS) -o $(PROGRAM_TEST) $(INCLUDE) $(TEST_DIR)/*.cpp $(SRCS) $(LINKFLAGS) $(GMOCK)
 	$(PROGRAM_TEST)
 
 memcheck-game: $(PROGRAM)
@@ -57,7 +60,7 @@ memcheck-test: $(PROGRAM_TEST)
 
 coverage: $(PROGRAM_TEST)
 	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS)
-	$(LCOV) --extract $(COVERAGE_RESULTS) "*/src/*" -o $(COVERAGE_RESULTS)
+	$(LCOV) --extract $(COVERAGE_RESULTS) "*/CardGame/src/*" -o $(COVERAGE_RESULTS)
 	genhtml $(COVERAGE_RESULTS) --output-directory $(COVERAGE_DIR)
 	rm -f *.gc*
 

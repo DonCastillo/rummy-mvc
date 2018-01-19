@@ -12,7 +12,7 @@ list<Card*>* Player::getHand()
 }
 
 Card* Player::getCard(unsigned int index){
-    if(index > hand.size())
+    if(index >= hand.size())
         return nullptr;
 
     list<Card*>::iterator card;

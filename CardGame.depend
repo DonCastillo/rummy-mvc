@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1516125729 source:/home/anvik/3720/CardGame/src/main.cpp
+1516126705 source:/home/anvik/3720/CardGame/src/main.cpp
 	"Deck.h"
 	"GoFishUI.h"
 	"GoFish.h"
 
-1516125731 source:/home/anvik/3720/CardGame/src/Player.cpp
+1516320352 source:/home/anvik/3720/CardGame/src/Player.cpp
 	"Player.h"
 	<iostream>
 
@@ -16,20 +16,20 @@
 1516125728 /home/anvik/3720/CardGame/include/Card.h
 	<iostream>
 
-1516125730 source:/home/anvik/3720/CardGame/src/Deck.cpp
+1516316720 source:/home/anvik/3720/CardGame/src/Deck.cpp
 	"Deck.h"
 	<vector>
 	<random>
 	<iostream>
 
-1516125730 /home/anvik/3720/CardGame/include/Deck.h
+1516316728 /home/anvik/3720/CardGame/include/Deck.h
 	"Card.h"
 	<list>
 
-1515452850 source:/home/anvik/3720/CardGame/test/runTests.cpp
+1516128431 source:/home/anvik/3720/CardGame/test/runTests.cpp
 	"gtest/gtest.h"
 
-1515873211 source:/home/anvik/3720/CardGame/test/DeckTest.cpp
+1516128431 source:/home/anvik/3720/CardGame/test/DeckTest.cpp
 	"gtest/gtest.h"
 	"Deck.h"
 	<iostream>
@@ -37,26 +37,26 @@
 1516125729 source:/home/anvik/3720/CardGame/src/Card.cpp
 	"Card.h"
 
-1516126634 source:/home/anvik/3720/CardGame/src/GoFish.cpp
+1516325206 source:/home/anvik/3720/CardGame/src/GoFish.cpp
 	"GoFish.h"
 
-1516125730 /home/anvik/3720/CardGame/include/GoFish.h
+1516313831 /home/anvik/3720/CardGame/include/GoFish.h
 	<Game.h>
 
-1516125730 /home/anvik/3720/CardGame/include/Game.h
+1516207311 /home/anvik/3720/CardGame/include/Game.h
 	<vector>
 	"Card.h"
 	"Deck.h"
 	"GameUI.h"
 	"Player.h"
 
-1516125729 /home/anvik/3720/CardGame/include/GameUI.h
+1516325259 /home/anvik/3720/CardGame/include/GameUI.h
 	<list>
 	<vector>
 	"Card.h"
 	"Player.h"
 
-1516125730 source:/home/anvik/3720/CardGame/src/Game.cpp
+1516320323 source:/home/anvik/3720/CardGame/src/Game.cpp
 	"Game.h"
 	"Exceptions.h"
 
@@ -75,9 +75,11 @@
 	"GameUI.h"
 	<iostream>
 
-1515880460 source:/home/anvik/3720/CardGame/test/GoFishTest.cpp
+1516325511 source:/home/anvik/3720/CardGame/test/GoFishTest.cpp
 	"gtest/gtest.h"
 	"MockGoFish.h"
+	"MockDeck.h"
+	"MockUI.h"
 	"Deck.h"
 	"Card.h"
 
@@ -87,9 +89,20 @@
 1515875406 /home/anvik/3720/CardGame/include/MockGoFish.h
 	"GoFish.h"
 
-1515880498 /home/anvik/3720/CardGame/test/MockGoFish.h
+1516317775 /home/anvik/3720/CardGame/test/MockGoFish.h
 	"GoFish.h"
 	"NoUI.h"
+	"gmock/gmock.h"
 
-1515876267 /home/anvik/3720/CardGame/test/NoUI.h
+1516317756 /home/anvik/3720/CardGame/test/NoUI.h
+	"GameUI.h"
+	"Card.h"
+
+1516317853 /home/anvik/3720/CardGame/test/MockDeck.h
+	"gmock/gmock.h"
+	"Deck.h"
+	"Card.h"
+
+1516325548 /home/anvik/3720/CardGame/test/MockUI.h
+	"GameUI.h"
 

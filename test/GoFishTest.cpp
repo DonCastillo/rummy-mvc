@@ -1,34 +1,24 @@
 #include "gtest/gtest.h"
-#include "MockGoFish.h"
+
+#include "MockDeck.h"
+#include "MockUI.h"
+
 #include "Deck.h"
 #include "Card.h"
-
-Deck* createDeck()
-{
-    vector<Card::Suit> suits;
-    suits.push_back(Card::CLUB);
-    suits.push_back(Card::DIAMOND);
-    suits.push_back(Card::SPADE);
-    suits.push_back(Card::HEART);
-
-    vector<Card::Rank> ranks;
-    ranks.push_back(Card::ACE);
-    ranks.push_back(Card::TWO);
-    ranks.push_back(Card::THREE);
-    ranks.push_back(Card::FOUR);
-    ranks.push_back(Card::FIVE);
-
-    Deck* deck = new Deck();
-    for(vector<Card::Rank>::iterator rank = ranks.begin(); rank != ranks.end(); ++rank)
-        for(vector<Card::Suit>::iterator suit = suits.begin(); suit != suits.end(); ++suit)
-            deck->addCard(new Card(*suit, *rank));
-
-    return deck;
-}
+#include "Game.h"
+#include "GoFish.h"
 
 TEST (GoFishTest, CardDealSmall)
 {
-    Game* game = new MockGoFish(createDeck());
+    MockDeck d;
+    EXPECT_CALL(d, getCard())
+    .Times(14)
+    .WillRepeatedly(Return(new Card(Card::CLUB, Card::ACE)));
+
+    MockUI ui;
+
+    Game* game = new GoFish(&ui, &d);
+
     game->addPlayer(new Player("John"));
     game->addPlayer(new Player("Danielle"));
 
@@ -38,9 +28,18 @@ TEST (GoFishTest, CardDealSmall)
         EXPECT_TRUE(p->getHand()->size() == 7);
 }
 
+
 TEST (GoFishTest, CardDealLarge)
 {
-    Game* game = new MockGoFish(createDeck());
+    MockDeck d;
+    EXPECT_CALL(d, getCard())
+    .Times(20)
+    .WillRepeatedly(Return(new Card(Card::CLUB, Card::ACE)));
+
+    MockUI ui;
+
+    Game* game = new GoFish(&ui, &d);
+
     game->addPlayer(new Player("John"));
     game->addPlayer(new Player("Danielle"));
     game->addPlayer(new Player("Tara"));
@@ -54,49 +53,135 @@ TEST (GoFishTest, CardDealLarge)
     delete game;
 }
 
-TEST (GoFishTest, AfterCardPlayedDraw)
+TEST (GoFishTest, DrawSet)
 {
-    Deck* deck = createDeck();
-    Game* game = new MockGoFish(deck);
+    MockDeck d;
+
+    EXPECT_CALL(d, getCard())
+    .Times(23)
+    // Hands
+    .WillOnce(Return(new Card(Card::CLUB, Card::ACE)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::KING)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::ACE)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::KING)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::ACE)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::KING)))
+
+    .WillOnce(Return(new Card(Card::CLUB, Card::TWO)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::QUEEN)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::TWO)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::QUEEN)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::TWO)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::QUEEN)))
+
+    .WillOnce(Return(new Card(Card::CLUB, Card::THREE)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::JACK)))
+
+    // Deck
+    .WillOnce(Return(new Card(Card::CLUB, Card::ACE)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::KING)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::TWO)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::QUEEN)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::THREE)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::JACK)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::THREE)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::JACK)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::THREE)));
+
+
+    MockUI ui;
+
+    EXPECT_CALL(ui, choosePlayer(_,_))
+    .Times(9)
+    .WillOnce(Return(1))
+    .WillOnce(Return(0))
+    .WillOnce(Return(1))
+    .WillOnce(Return(0))
+    .WillOnce(Return(1))
+    .WillOnce(Return(0))
+    .WillOnce(Return(1))
+    .WillOnce(Return(0))
+    .WillOnce(Return(1));
+
+    EXPECT_CALL(ui, playFailed())
+    .Times(9);
+
+    EXPECT_CALL(ui, requestCard(_))
+    .Times(9);
+
+    EXPECT_CALL(ui, showScores(_))
+    .Times(1);
+
+    Game* game = new GoFish(&ui, &d);
+
     Player* player1 = new Player("John");
     Player* player2 = new Player("Kira");
+
     game->addPlayer(player1);
     game->addPlayer(player2);
+    game->start();
 
-    for(unsigned int i=0; i<3; i++)
-        player1->addCard(deck->getCard());
-
-    Card* card = player1->getCard(0);
-    EXPECT_TRUE(card->rank == Card::ACE);
-    EXPECT_TRUE(card->suit == Card::CLUB);
-
-    card = player1->getCard(2);
-    EXPECT_TRUE(Card::getRank(card->rank) == "Ace");
-    EXPECT_TRUE(Card::getSuit(card->suit) == "S");
-
-    card = player1->getCard(3);
-    EXPECT_TRUE(card == nullptr);
-
-    game->afterCardPlayed(player1, game->getPlayers(), new Card(Card::CLUB, Card::SIX));
-    EXPECT_EQ(1, player1->getScore());
-    EXPECT_TRUE(game->isOver());
+    EXPECT_EQ(3, player1->getScore());
 }
 
 TEST (GoFishTest, AfterCardPlayedSet)
 {
-    Deck* deck = createDeck();
-    Game* game = new MockGoFish(deck);
+   MockDeck d;
+
+    EXPECT_CALL(d, getCard())
+    .Times(15)
+    // Hands
+    .WillOnce(Return(new Card(Card::CLUB, Card::ACE)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::KING)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::ACE)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::KING)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::ACE)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::KING)))
+
+    .WillOnce(Return(new Card(Card::CLUB, Card::TWO)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::QUEEN)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::TWO)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::QUEEN)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::TWO)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::QUEEN)))
+
+    .WillOnce(Return(new Card(Card::CLUB, Card::KING)))
+    .WillOnce(Return(new Card(Card::CLUB, Card::ACE)))
+
+    // Deck
+    .WillOnce(Return(new Card(Card::CLUB, Card::TWO)));
+
+
+    MockUI ui;
+
+    EXPECT_CALL(ui, choosePlayer(_,_))
+    .Times(3)
+    .WillOnce(Return(1))
+    .WillOnce(Return(0))
+    .WillOnce(Return(1));
+
+    EXPECT_CALL(ui, playFailed())
+    .Times(1);
+
+    EXPECT_CALL(ui, playSucceeded())
+    .Times(2);
+
+    EXPECT_CALL(ui, requestCard(_))
+    .Times(3);
+
+    EXPECT_CALL(ui, showScores(_))
+    .Times(1);
+
+
+    Game* game = new GoFish(&ui, &d);
+
     Player* player1 = new Player("John");
     Player* player2 = new Player("Kira");
+
     game->addPlayer(player1);
     game->addPlayer(player2);
+    game->start();
 
-    for(unsigned int i=0; i<3; i++)
-        player1->addCard(deck->getCard());
-    Card* completeSet = deck->getCard();
-    player2->addCard(completeSet);
-
-    game->afterCardPlayed(player1, game->getPlayers(), completeSet);
-    EXPECT_EQ(1, player1->getScore());
+    EXPECT_EQ(2, player1->getScore());
 }
 

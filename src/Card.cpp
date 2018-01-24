@@ -55,3 +55,36 @@ ostream& operator<<(ostream& os, const Card& c)
     os << Card::getRank(c.rank) << ":" << Card::getSuit(c.suit);
     return os;
 }
+
+Card::Rank Card::nextRank(Card::Rank rank)
+{
+    switch(rank)
+    {
+    case Card::ACE:
+        return Card::TWO;
+    case Card::TWO:
+        return Card::THREE;
+    case Card::THREE:
+        return Card::FOUR;
+    case Card::FOUR:
+        return Card::FIVE;
+    case Card::FIVE:
+        return Card::SIX;
+    case Card::SIX:
+        return Card::SEVEN;
+    case Card::SEVEN:
+        return Card::EIGHT;
+    case Card::EIGHT:
+        return Card::NINE;
+    case Card::NINE:
+        return Card::TEN;
+    case Card::TEN:
+        return Card::JACK;
+    case Card::JACK:
+        return Card::QUEEN;
+    case Card::QUEEN:
+        return Card::KING;
+    case Card::KING:
+        return Card::ACE;
+    }
+}

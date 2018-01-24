@@ -4,7 +4,7 @@ CXXFLAGS= -std=c++0x -g -fprofile-arcs -ftest-coverage
 LINKFLAGS= -lgtest
 
 SRC_DIR = src
-SRCS = $(SRC_DIR)/Card.cpp $(SRC_DIR)/Deck.cpp $(SRC_DIR)/Game.cpp $(SRC_DIR)/GameUI.cpp $(SRC_DIR)/GoFish.cpp $(SRC_DIR)/GoFishUI.cpp $(SRC_DIR)/Player.cpp
+SRCS = $(SRC_DIR)/Card.cpp $(SRC_DIR)/Cheat.cpp $(SRC_DIR)/Deck.cpp $(SRC_DIR)/Game.cpp $(SRC_DIR)/GameUI.cpp $(SRC_DIR)/GoFish.cpp $(SRC_DIR)/GoFishUI.cpp $(SRC_DIR)/Player.cpp
 
 TEST_DIR = test
 

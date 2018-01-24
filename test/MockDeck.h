@@ -14,6 +14,8 @@ public:
     virtual ~MockDeck() {}
 
     MOCK_METHOD0(getCard, Card*());
+    MOCK_METHOD0(size, unsigned int());
+    MOCK_METHOD0(shuffle, void());
 
 };
 

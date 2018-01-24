@@ -74,7 +74,7 @@ void Deck::shuffle()
         deck.push_back(*card);
 }
 
-const unsigned int Deck::size() const
+unsigned int Deck::size()
 {
     return deck.size();
 }

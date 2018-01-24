@@ -15,6 +15,7 @@ public:
     Card(Suit s, Rank r):suit(s), rank(r) {}
     static string getRank(Card::Rank r);
     static string getSuit(Card::Suit s);
+    static Rank nextRank(Rank r);
 
 
     const Suit suit;

@@ -11,10 +11,10 @@ class Deck
     public:
 
         virtual ~Deck(){}
-        void shuffle();
-        void addCard(Card* card);
+        virtual void shuffle();
+        virtual void addCard(Card* card);
         virtual Card* getCard();
-        const unsigned int size() const;
+        virtual unsigned int size();
 
         void createStandard();
     protected:

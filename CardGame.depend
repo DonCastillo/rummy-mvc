@@ -4,7 +4,7 @@
 	"GoFishUI.h"
 	"GoFish.h"
 
-1516320352 source:/home/anvik/3720/CardGame/src/Player.cpp
+1516378933 source:/home/anvik/3720/CardGame/src/Player.cpp
 	"Player.h"
 	<iostream>
 
@@ -16,13 +16,13 @@
 1516125728 /home/anvik/3720/CardGame/include/Card.h
 	<iostream>
 
-1516316720 source:/home/anvik/3720/CardGame/src/Deck.cpp
+1516833011 source:/home/anvik/3720/CardGame/src/Deck.cpp
 	"Deck.h"
 	<vector>
 	<random>
 	<iostream>
 
-1516316728 /home/anvik/3720/CardGame/include/Deck.h
+1516833323 /home/anvik/3720/CardGame/include/Deck.h
 	"Card.h"
 	<list>
 
@@ -37,26 +37,26 @@
 1516125729 source:/home/anvik/3720/CardGame/src/Card.cpp
 	"Card.h"
 
-1516325206 source:/home/anvik/3720/CardGame/src/GoFish.cpp
+1516836468 source:/home/anvik/3720/CardGame/src/GoFish.cpp
 	"GoFish.h"
 
-1516313831 /home/anvik/3720/CardGame/include/GoFish.h
+1516745368 /home/anvik/3720/CardGame/include/GoFish.h
 	<Game.h>
 
-1516207311 /home/anvik/3720/CardGame/include/Game.h
+1516745416 /home/anvik/3720/CardGame/include/Game.h
 	<vector>
 	"Card.h"
 	"Deck.h"
 	"GameUI.h"
 	"Player.h"
 
-1516325259 /home/anvik/3720/CardGame/include/GameUI.h
+1516378933 /home/anvik/3720/CardGame/include/GameUI.h
 	<list>
 	<vector>
 	"Card.h"
 	"Player.h"
 
-1516320323 source:/home/anvik/3720/CardGame/src/Game.cpp
+1516826605 source:/home/anvik/3720/CardGame/src/Game.cpp
 	"Game.h"
 	"Exceptions.h"
 
@@ -75,13 +75,14 @@
 	"GameUI.h"
 	<iostream>
 
-1516325511 source:/home/anvik/3720/CardGame/test/GoFishTest.cpp
+1516837013 source:/home/anvik/3720/CardGame/test/GoFishTest.cpp
 	"gtest/gtest.h"
-	"MockGoFish.h"
 	"MockDeck.h"
 	"MockUI.h"
 	"Deck.h"
 	"Card.h"
+	"Game.h"
+	"GoFish.h"
 
 1515875403 source:/home/anvik/3720/CardGame/src/MockGoFish.cpp
 	"MockGoFish.h"
@@ -98,11 +99,24 @@
 	"GameUI.h"
 	"Card.h"
 
-1516317853 /home/anvik/3720/CardGame/test/MockDeck.h
+1516833221 /home/anvik/3720/CardGame/test/MockDeck.h
 	"gmock/gmock.h"
 	"Deck.h"
 	"Card.h"
 
-1516325548 /home/anvik/3720/CardGame/test/MockUI.h
+1516378933 /home/anvik/3720/CardGame/test/MockUI.h
 	"GameUI.h"
+
+1516836645 source:/home/anvik/3720/CardGame/src/Cheat.cpp
+	"Cheat.h"
+	<iostream>
+
+1516745984 /home/anvik/3720/CardGame/include/Cheat.h
+	<Game.h>
+
+1516836827 source:/home/anvik/3720/CardGame/test/CheatTest.cpp
+	"gtest/gtest.h"
+	"MockDeck.h"
+	"MockUI.h"
+	"Cheat.h"
 

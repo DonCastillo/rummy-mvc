@@ -1,6 +1,20 @@
 #include "Game.h"
 #include "Exceptions.h"
 
+bool Game::isOver() const
+{
+    for(Player* p : players)
+        if(p->getHand()->empty())
+            return true;
+    return false;
+}
+
+
+bool Game::valid(Card* c)
+{
+    return c != nullptr;
+}
+
 void Game::addPlayer(Player* p)
 {
     players.push_back(p);
@@ -12,6 +26,7 @@ void Game::start()
         throw game_init_error("No players for game");
 
     // Deal cards
+    deck->shuffle();
     dealCards(players);
 
     unsigned int turn = 0;

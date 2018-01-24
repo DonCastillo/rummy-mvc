@@ -1,18 +1,5 @@
 #include "GoFish.h"
 
-bool GoFish::valid(Card* c)
-{
-    return c != nullptr;
-}
-
-bool GoFish::isOver() const
-{
-    for(Player* p : players)
-        if(p->getHand()->empty())
-            return true;
-    return false;
-}
-
 void GoFish::dealCards(vector<Player*> players)
 {
 
@@ -22,11 +9,15 @@ void GoFish::dealCards(vector<Player*> players)
         numCards = NUM_CARDS_SMALL;
     else
         numCards = NUM_CARDS_LARGE;
-    for(unsigned int i = 0; i < players.size() * numCards; i++)
+
+    if(deck->size() >= players.size() * numCards)
     {
-        Player* p = players.at(playerNum);
-        p->addCard(deck->getCard());
-        playerNum = ++playerNum % players.size();
+        for(unsigned int i = 0; i < players.size() * numCards; i++)
+        {
+            Player* p = players.at(playerNum);
+            p->addCard(deck->getCard());
+            playerNum = ++playerNum % players.size();
+        }
     }
 }
 

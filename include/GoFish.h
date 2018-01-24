@@ -3,15 +3,12 @@
 
 #include <Game.h>
 
-
 class GoFish : public Game
 {
     public:
         GoFish(GameUI* ui, Deck* d) : Game(ui, d){}
         virtual ~GoFish(){}
 
-        bool valid(Card* c);
-        bool isOver() const;
         void dealCards(vector<Player*> p);
         void beforeCardPlayed(unsigned int playerNum, unsigned int numPlayers);
         void afterCardPlayed(Player* currentPlayer, vector<Player*> players, Card* played);

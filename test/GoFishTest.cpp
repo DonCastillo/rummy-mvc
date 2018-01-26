@@ -3,12 +3,11 @@
 #include "MockDeck.h"
 #include "MockUI.h"
 
-#include "Deck.h"
 #include "Card.h"
 #include "Game.h"
 #include "GoFish.h"
 
-TEST (GoFishTest, DISABLED_CardDealSmall)
+TEST (GoFishTest, CardDealSmall)
 {
     MockDeck d;
 
@@ -34,7 +33,7 @@ TEST (GoFishTest, DISABLED_CardDealSmall)
 }
 
 
-TEST (GoFishTest, DISABLED_CardDealLarge)
+TEST (GoFishTest, CardDealLarge)
 {
     MockDeck d;
     EXPECT_CALL(d, getCard())
@@ -62,7 +61,7 @@ TEST (GoFishTest, DISABLED_CardDealLarge)
     delete game;
 }
 
-TEST (GoFishTest, DISABLED_DrawSet)
+TEST (GoFishTest, DrawSet)
 {
     MockDeck d;
 
@@ -137,7 +136,7 @@ TEST (GoFishTest, DISABLED_DrawSet)
     EXPECT_EQ(3, player1->getScore());
 }
 
-TEST (GoFishTest, DISABLED_AfterCardPlayedSet)
+TEST (GoFishTest, AfterCardPlayedSet)
 {
     MockDeck d;
 

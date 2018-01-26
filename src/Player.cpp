@@ -12,13 +12,12 @@ list<Card*>* Player::getHand()
 }
 
 Card* Player::getCard(unsigned int index){
-    if(index >= hand.size())
+    if(index >= hand.size() || index < 0)
         return nullptr;
 
     list<Card*>::iterator card;
     unsigned int count = 0;
     for(card = hand.begin(); card != hand.end() && count < index; ++card){
-//            cout << "Checking " << *(*card) << endl;
             count++;
     }
     return *card;

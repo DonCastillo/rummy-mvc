@@ -12,7 +12,7 @@ class GoFish : public Game
         void dealCards(vector<Player*> p);
         void beforeCardPlayed(unsigned int playerNum, unsigned int numPlayers);
         void afterCardPlayed(Player* currentPlayer, vector<Player*> players, Card* played);
-        bool hasSet(list<Card*>* hand);
+        bool turnOver();
 
     protected:
         unsigned int playerAsked = -1;

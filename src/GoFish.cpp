@@ -1,5 +1,7 @@
 #include "GoFish.h"
 
+bool hasSet(list<Card*>* hand);
+
 void GoFish::dealCards(vector<Player*> players)
 {
 
@@ -10,9 +12,12 @@ void GoFish::dealCards(vector<Player*> players)
     else
         numCards = NUM_CARDS_LARGE;
 
-    if(deck->size() >= players.size() * numCards)
+    unsigned int deckSize = deck->size();
+    unsigned int neededCards = players.size() * numCards;
+
+    if(deckSize >= neededCards)
     {
-        for(unsigned int i = 0; i < players.size() * numCards; i++)
+        for(unsigned int i = 0; i < neededCards; i++)
         {
             Player* p = players.at(playerNum);
             p->addCard(deck->getCard());
@@ -67,7 +72,7 @@ void GoFish::afterCardPlayed(Player* currentPlayer, vector<Player*> players, Car
     }
 }
 
-bool GoFish::hasSet(list<Card*>* hand)
+bool hasSet(list<Card*>* hand)
 {
     list<Card*> toRemove;
     for(list<Card*>::iterator checking = hand->begin(); checking != hand->end(); ++checking)
@@ -95,3 +100,7 @@ bool GoFish::hasSet(list<Card*>* hand)
     return false;
 }
 
+bool GoFish::turnOver()
+{
+    return true;
+}

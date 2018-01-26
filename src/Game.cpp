@@ -30,20 +30,28 @@ void Game::start()
     dealCards(players);
 
     unsigned int turn = 0;
+    Card* c;
     Player* p = players.front();
     while(!isOver())
     {
         p = players.at(turn);
-        beforeCardPlayed(turn, players.size());
-        int index = ui->requestCard(p->getHand());
-        Card* c = p->getCard(index);
-        if(valid(c))
-            turn = ++turn % players.size();
-        afterCardPlayed(p, players, c);
+        do
+        {
+            beforeCardPlayed(turn, players.size());
+            int index = ui->requestCard(p->getHand());
+            c = p->getCard(index);
+            afterCardPlayed(p, players, c);
+        }
+        while(!turnOver());
+
+        turn = ++turn % players.size();
+
+
     }
     ui->showScores(players);
 }
 
-vector<Player*> Game::getPlayers(){
+vector<Player*> Game::getPlayers()
+{
     return players;
 }

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <random>
-
+#include <algorithm>
 #include <iostream>
 
 void Deck::addCard(Card* card)
@@ -44,34 +44,13 @@ Card* Deck::getCard()
         return nullptr;
 
     Card* card = deck.front();
-    deck.pop_front();
+    deck.erase(deck.begin());
     return card;
 }
 
 void Deck::shuffle()
 {
-    list<Card*> shuffledDeck;
-
-    while(deck.size() > 0)
-    {
-        //cout << "Selecting card" << endl;
-        int selection = rand() % deck.size();
-
-        //cout << "Selecting #" << selection << endl;
-
-        list<Card*>::iterator card = deck.begin();
-        for(int i=0; i<selection; i++)
-            card = ++card;
-        //cout << "Adding " << **card << endl;
-
-        shuffledDeck.push_back(*card);
-        deck.erase(card);
-    }
-
-    deck.clear();
-    //copy(shuffledDeck.begin(), shuffledDeck.end(), deck);
-    for(list<Card*>::iterator card = shuffledDeck.begin(); card != shuffledDeck.end(); ++card)
-        deck.push_back(*card);
+    std::random_shuffle(deck.begin(), deck.end());
 }
 
 unsigned int Deck::size()

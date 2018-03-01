@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "Card.h"
-#include <list>
+#include <vector>
 
 class Deck
 {
@@ -20,7 +20,7 @@ class Deck
     protected:
 
     private:
-        list<Card*> deck;
+        vector<Card*> deck;
 
 };
 

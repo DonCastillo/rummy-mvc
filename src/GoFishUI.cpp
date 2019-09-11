@@ -1,12 +1,11 @@
 #include "GoFishUI.h"
 #include <iostream>
+#include <list>
 
-unsigned int GoFishUI::requestCard(list<Card*>* hand)
-{
+unsigned int GoFishUI::requestCard(list<Card*>* hand) {
     cout << "Your hand:" << endl;
     unsigned int index = 0;
-    for(list<Card*>::iterator i = hand->begin(); i != hand->end(); ++i)
-    {
+    for (list<Card*>::iterator i = hand->begin(); i != hand->end(); ++i) {
         Card::Rank r = (*i)->rank;
         cout << "\tChoice " << (++index) << ": " << Card::getRank(r) << endl;
     }
@@ -18,12 +17,10 @@ unsigned int GoFishUI::requestCard(list<Card*>* hand)
     return selection-1;
 }
 
-void GoFishUI::playFailed()
-{
+void GoFishUI::playFailed() {
     cout << "Go Fish!" << endl;
 }
 
-void GoFishUI::playSucceeded()
-{
+void GoFishUI::playSucceeded() {
     cout << "The player had some of those cards!" << endl;
 }

@@ -5,10 +5,9 @@
 
 using namespace std;
 
-class Card
-{
+class Card {
 
-public:
+  public:
     enum Suit {CLUB,DIAMOND,SPADE,HEART};
     enum Rank {ACE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,TEN,JACK,QUEEN,KING};
 

@@ -6,21 +6,20 @@ using namespace std;
 #include "Card.h"
 #include <vector>
 
-class Deck
-{
-    public:
+class Deck {
+  public:
 
-        virtual ~Deck(){}
-        virtual void shuffle();
-        virtual void addCard(Card* card);
-        virtual Card* getCard();
-        virtual unsigned int size();
+    virtual ~Deck() {}
+    virtual void shuffle();
+    virtual void addCard(Card* card);
+    virtual Card* getCard();
+    virtual unsigned int size();
 
-        void createStandard();
-    protected:
+    void createStandard();
+  protected:
 
-    private:
-        vector<Card*> deck;
+  private:
+    vector<Card*> deck;
 
 };
 

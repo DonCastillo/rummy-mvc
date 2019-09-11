@@ -4,8 +4,9 @@
 #include "GameUI.h"
 #include "Card.h"
 
-class GoFishUI : public GameUI {
-  public:
+class GoFishUI : public GameUI
+{
+public:
     GoFishUI() {}
     ~GoFishUI() {}
 

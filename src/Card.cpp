@@ -1,9 +1,7 @@
 #include "Card.h"
 
-string Card::getRank(const Card::Rank rank)
-{
-    switch(rank)
-    {
+string Card::getRank(const Card::Rank rank) {
+    switch(rank) {
     case Card::ACE :
         return "Ace";
     case Card::TWO :
@@ -34,10 +32,8 @@ string Card::getRank(const Card::Rank rank)
     return "?";
 }
 
-string Card::getSuit(const Card::Suit suit)
-{
-    switch(suit)
-    {
+string Card::getSuit(const Card::Suit suit) {
+    switch(suit) {
     case Card::CLUB:
         return "C";
     case Card::DIAMOND:
@@ -50,16 +46,13 @@ string Card::getSuit(const Card::Suit suit)
     return "?";
 }
 
-ostream& operator<<(ostream& os, const Card& c)
-{
+ostream& operator<<(ostream& os, const Card& c) {
     os << Card::getRank(c.rank) << ":" << Card::getSuit(c.suit);
     return os;
 }
 
-Card::Rank Card::nextRank(Card::Rank rank)
-{
-    switch(rank)
-    {
+Card::Rank Card::nextRank(Card::Rank rank) {
+    switch(rank) {
     case Card::ACE:
         return Card::TWO;
     case Card::TWO:
@@ -85,6 +78,7 @@ Card::Rank Card::nextRank(Card::Rank rank)
     case Card::QUEEN:
         return Card::KING;
     case Card::KING:
+    default:
         return Card::ACE;
     }
 }

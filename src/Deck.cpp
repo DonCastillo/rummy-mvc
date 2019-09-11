@@ -5,13 +5,11 @@
 #include <algorithm>
 #include <iostream>
 
-void Deck::addCard(Card* card)
-{
+void Deck::addCard(Card* card) {
     deck.push_back(card);
 }
 
-void Deck::createStandard()
-{
+void Deck::createStandard() {
     vector<Card::Suit> suits;
     suits.push_back(Card::CLUB);
     suits.push_back(Card::DIAMOND);
@@ -33,14 +31,16 @@ void Deck::createStandard()
     ranks.push_back(Card::QUEEN);
     ranks.push_back(Card::KING);
 
-    for(vector<Card::Suit>::iterator suit = suits.begin(); suit != suits.end(); ++suit)
-        for(vector<Card::Rank>::iterator rank = ranks.begin(); rank != ranks.end(); ++rank)
+    for (vector<Card::Suit>::iterator suit = suits.begin(); suit != suits.end();
+            ++suit)
+        for (vector<Card::Rank>::iterator rank = ranks.begin();
+                rank != ranks.end();
+                ++rank)
             addCard(new Card(*suit, *rank));
 }
 
-Card* Deck::getCard()
-{
-    if(deck.empty())
+Card* Deck::getCard() {
+    if (deck.empty())
         return nullptr;
 
     Card* card = deck.front();
@@ -48,12 +48,10 @@ Card* Deck::getCard()
     return card;
 }
 
-void Deck::shuffle()
-{
+void Deck::shuffle() {
     std::random_shuffle(deck.begin(), deck.end());
 }
 
-unsigned int Deck::size()
-{
+unsigned int Deck::size() {
     return deck.size();
 }

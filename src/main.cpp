@@ -2,10 +2,7 @@
 #include "GoFishUI.h"
 #include "GoFish.h"
 
-using namespace std;
-
-int main()
-{
+int main() {
     Deck* d = new Deck();
     d->createStandard();
     GameUI* ui = new GoFishUI();

@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS= -std=c++0x -g -fprofile-arcs -ftest-coverage
+CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage
 
 LINKFLAGS= -lgtest
 
@@ -22,7 +22,13 @@ COVERAGE_DIR = coverage
 
 MEMCHECK_RESULTS = ValgrindOut.xml
 
+STATIC_ANALYSIS = cppcheck
+
+STYLE_CHECK = cpplint.py
+
 STATIC_RESULTS = CppCheckResults.xml
+
+BROWSER = firefox
 
 PROGRAM = cardGame
 PROGRAM_TEST = testGame
@@ -55,16 +61,22 @@ memcheck-game: $(PROGRAM)
 
 
 memcheck-test: $(PROGRAM_TEST)
-	valgrind --tool=memcheck --leak-check=yes --xml=yes --xml-file=$(MEMCHECK_RESULTS) $(PROGRAM_TEST)
+#	valgrind --tool=memcheck --leak-check=yes --xml=yes --xml-file=$(MEMCHECK_RESULTS) $(PROGRAM_TEST)
+	valgrind --tool=memcheck --leak-check=yes $(PROGRAM_TEST)
 
 coverage: $(PROGRAM_TEST)
 	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS)
 	$(LCOV) --extract $(COVERAGE_RESULTS) "*/CardGame/src/*" -o $(COVERAGE_RESULTS)
 	genhtml $(COVERAGE_RESULTS) --output-directory $(COVERAGE_DIR)
 	rm -f *.gc*
+	$(BROWSER) $(COVERAGE_DIR)/index.html
 
 static: ${SRC_DIR}
-	cppcheck --verbose --enable=all --xml ${SRC_DIR} ${TEST_DIR} ${INCLUDE} --suppress=missingInclude &> $(STATIC_RESULTS)
+#	cppcheck --verbose --enable=all --xml ${SRC_DIR} ${TEST_DIR} ${INCLUDE} --suppress=missingInclude &> $(STATIC_RESULTS)
+	cppcheck --verbose --enable=all --xml ${SRC_DIR} ${TEST_DIR} ${INCLUDE} --suppress=missingInclude
+
+style: ${TEST_DIR} ${SRC_INCLUDE} ${SRC_DIR}
+	${STYLE_CHECK} $(SRC_INCLUDE)/* ${TEST_DIR}/* ${SRC_DIR}/*
 
 docs: ${SRC_INCLUDE}
 	doxygen

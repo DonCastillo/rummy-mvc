@@ -3,23 +3,23 @@
 
 #include <Game.h>
 
-class GoFish : public Game
-{
-    public:
-        GoFish(GameUI* ui, Deck* d) : Game(ui, d){}
-        virtual ~GoFish(){}
+class GoFish : public Game {
+  public:
+    GoFish(GameUI* ui, Deck* d) : Game(ui, d) {}
+    virtual ~GoFish() {}
 
-        void dealCards(vector<Player*> p);
-        void beforeCardPlayed(unsigned int playerNum, unsigned int numPlayers);
-        void afterCardPlayed(Player* currentPlayer, vector<Player*> players, Card* played);
-        bool turnOver();
+    void dealCards(vector<Player*> p);
+    void beforeCardPlayed(unsigned int playerNum, unsigned int numPlayers);
+    void afterCardPlayed(Player* currentPlayer, vector<Player*> players,
+                         Card* played);
+    bool turnOver();
 
-    protected:
-        unsigned int playerAsked = -1;
+  protected:
+    unsigned int playerAsked = -1;
 
-    private:
-        const unsigned int NUM_CARDS_SMALL = 7;
-        const unsigned int NUM_CARDS_LARGE = 5;
+  private:
+    const unsigned int NUM_CARDS_SMALL = 7;
+    const unsigned int NUM_CARDS_LARGE = 5;
 
 };
 

@@ -77,12 +77,10 @@ bool hasSet(list<Card*>* hand) {
         }
 
         if (count == 4) {
-            //cout << "Hand before: " << hand->size() << endl;
             for (list<Card*>::iterator card = toRemove.begin();
                     card != toRemove.end();
                     ++card)
                 hand->remove(*card);
-            //cout << "Hand after: " << hand->size() << endl;
             return true;
         }
     }

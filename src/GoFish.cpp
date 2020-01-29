@@ -42,12 +42,10 @@ void GoFish::afterCardPlayed(Player* currentPlayer, vector<Player*> players,
 
     if (toRemove.size() > 0) {
         ui->playSucceeded();
-        //cout << "Hand before: " << hand->size() << endl;
         for (list<Card*>::iterator card = toRemove.begin();
                 card != toRemove.end();
                 ++card)
             hand->remove(*card);
-        //cout << "Hand after: " << hand->size() << endl;
 
         // Check if have a set of cards
         if (hasSet(currentPlayer->getHand())) {
@@ -56,7 +54,6 @@ void GoFish::afterCardPlayed(Player* currentPlayer, vector<Player*> players,
     } else {
         ui->playFailed();
         Card* c = deck->getCard();
-        //cout << "Drew: " << *c << endl;
         currentPlayer->addCard(c);
         if (hasSet(currentPlayer->getHand())) {
             currentPlayer->addPoints(1);

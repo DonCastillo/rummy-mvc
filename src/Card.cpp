@@ -1,4 +1,5 @@
 #include "Card.h"
+#include <string>
 
 std::string Card::getRank(const Card::Rank rank) {
     switch (rank) {

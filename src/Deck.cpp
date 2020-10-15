@@ -10,13 +10,13 @@ void Deck::addCard(Card* card) {
 }
 
 void Deck::createStandard() {
-    vector<Card::Suit> suits;
+    std::vector<Card::Suit> suits;
     suits.push_back(Card::CLUB);
     suits.push_back(Card::DIAMOND);
     suits.push_back(Card::SPADE);
     suits.push_back(Card::HEART);
 
-    vector<Card::Rank> ranks;
+    std::vector<Card::Rank> ranks;
     ranks.push_back(Card::ACE);
     ranks.push_back(Card::TWO);
     ranks.push_back(Card::THREE);
@@ -31,9 +31,9 @@ void Deck::createStandard() {
     ranks.push_back(Card::QUEEN);
     ranks.push_back(Card::KING);
 
-    for (vector<Card::Suit>::iterator suit = suits.begin(); suit != suits.end();
-            ++suit)
-        for (vector<Card::Rank>::iterator rank = ranks.begin();
+    for (std::vector<Card::Suit>::iterator suit = suits.begin();
+            suit != suits.end(); ++suit)
+        for (std::vector<Card::Rank>::iterator rank = ranks.begin();
                 rank != ranks.end();
                 ++rank)
             addCard(new Card(*suit, *rank));

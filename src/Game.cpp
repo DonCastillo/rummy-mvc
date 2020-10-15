@@ -9,11 +9,6 @@ bool Game::isOver() const {
     return false;
 }
 
-
-bool Game::valid(Card* c) {
-    return c != nullptr;
-}
-
 void Game::addPlayer(Player* p) {
     players.push_back(p);
 }
@@ -43,6 +38,6 @@ void Game::start() {
     ui->showScores(players);
 }
 
-vector<Player*> Game::getPlayers() {
+std::vector<Player*> Game::getPlayers() {
     return players;
 }

@@ -57,23 +57,24 @@ $(PROGRAM_TEST):
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM_TEST) $(INCLUDE) $(TEST_DIR)/*.cpp $(SRCS) $(LINKFLAGS) $(GMOCK)
 	$(PROGRAM_TEST)
 
+.PHONY: tests
+tests: $(PROGRAM_TEST)
+
 memcheck-game: $(PROGRAM)
 	valgrind --tool=memcheck --leak-check=yes --xml=yes --xml-file=$(MEMCHECK_RESULTS) $(PROGRAM)
 
 
 memcheck-test: $(PROGRAM_TEST)
-#	valgrind --tool=memcheck --leak-check=yes --xml=yes --xml-file=$(MEMCHECK_RESULTS) $(PROGRAM_TEST)
 	valgrind --tool=memcheck --leak-check=yes $(PROGRAM_TEST)
 
 coverage: $(PROGRAM_TEST)
 	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS)
-	$(LCOV) --extract $(COVERAGE_RESULTS) "*/CardGame/src/*" -o $(COVERAGE_RESULTS)
+	$(LCOV) --extract $(COVERAGE_RESULTS) "*/src/*" -o $(COVERAGE_RESULTS)
 	genhtml $(COVERAGE_RESULTS) --output-directory $(COVERAGE_DIR)
 	rm -f *.gc*
 	$(BROWSER) $(COVERAGE_DIR)/index.html
 
 static: ${SRC_DIR}
-#	cppcheck --verbose --enable=all --xml ${SRC_DIR} ${TEST_DIR} ${INCLUDE} --suppress=missingInclude &> $(STATIC_RESULTS)
 	cppcheck --verbose --enable=all --xml ${SRC_DIR} ${TEST_DIR} ${INCLUDE} --suppress=missingInclude
 
 style: ${TEST_DIR} ${SRC_INCLUDE} ${SRC_DIR}

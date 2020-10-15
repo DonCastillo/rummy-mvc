@@ -2,9 +2,9 @@
 #include <list>
 #include <vector>
 
-bool hasSet(list<Card*>* hand);
+bool hasSet(std::list<Card*>* hand);
 
-void GoFish::dealCards(vector<Player*> players) {
+void GoFish::dealCards(std::vector<Player*> players) {
     unsigned int numCards;
     if (players.size() < 4)
         numCards = NUM_CARDS_SMALL;
@@ -28,11 +28,11 @@ void GoFish::beforeCardPlayed(unsigned int playerNum, unsigned int numPlayers) {
     playerAsked = ui->choosePlayer(playerNum, numPlayers);
 }
 
-void GoFish::afterCardPlayed(Player* currentPlayer, vector<Player*> players,
+void GoFish::afterCardPlayed(Player* currentPlayer, std::vector<Player*> players,
                              Card* played) {
-    list<Card*>* hand = players.at(playerAsked)->getHand();
-    list<Card*>::iterator card;
-    list<Card*> toRemove;
+    std::list<Card*>* hand = players.at(playerAsked)->getHand();
+    std::list<Card*>::iterator card;
+    std::list<Card*> toRemove;
     for (card = hand->begin(); card != hand->end(); ++card) {
         if ((*card)->rank == played->rank) {
             currentPlayer->getHand()->push_back(*card);
@@ -42,7 +42,7 @@ void GoFish::afterCardPlayed(Player* currentPlayer, vector<Player*> players,
 
     if (toRemove.size() > 0) {
         ui->playSucceeded();
-        for (list<Card*>::iterator card = toRemove.begin();
+        for (std::list<Card*>::iterator card = toRemove.begin();
                 card != toRemove.end();
                 ++card)
             hand->remove(*card);
@@ -61,14 +61,14 @@ void GoFish::afterCardPlayed(Player* currentPlayer, vector<Player*> players,
     }
 }
 
-bool hasSet(list<Card*>* hand) {
-    list<Card*> toRemove;
-    for (list<Card*>::iterator checking = hand->begin();
+bool hasSet(std::list<Card*>* hand) {
+    std::list<Card*> toRemove;
+    for (std::list<Card*>::iterator checking = hand->begin();
             checking != hand->end();
             ++checking) {
         toRemove.clear();
         unsigned int count = 0;
-        for (list<Card*>::iterator card = hand->begin();
+        for (std::list<Card*>::iterator card = hand->begin();
             card != hand->end(); ++card) {
             if ((*checking)->rank == (*card)->rank) {
                 count++;
@@ -77,7 +77,7 @@ bool hasSet(list<Card*>* hand) {
         }
 
         if (count == 4) {
-            for (list<Card*>::iterator card = toRemove.begin();
+            for (std::list<Card*>::iterator card = toRemove.begin();
                     card != toRemove.end();
                     ++card)
                 hand->remove(*card);

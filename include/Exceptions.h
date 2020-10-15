@@ -7,7 +7,7 @@
 * Exception when the game cannot start.
 */
 class game_init_error: public std::runtime_error {
-  public:
+ public:
     /**
     * @param errMessage An error message.
     */

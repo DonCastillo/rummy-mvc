@@ -18,8 +18,20 @@ test-game:
    stage: test
    script:
       - testGame
+
+memcheck-test:
+   stage: test
+   script:
       - make memcheck-test
+
+staticAnalysis:
+   stage: test
+   script:
       - make static
+
+style:
+   stage: test
+   script:
       - make style
 
 pages:

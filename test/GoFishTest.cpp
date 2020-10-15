@@ -7,8 +7,11 @@
 #include "Game.h"
 #include "GoFish.h"
 
-TEST (GoFishTest, CardDealSmall)
-{
+using ::testing::Return;
+using ::testing::_;
+using ::testing::Expectation;
+
+TEST(GoFishTest, CardDealSmall) {
     MockDeck d;
 
     EXPECT_CALL(d, getCard())
@@ -28,13 +31,12 @@ TEST (GoFishTest, CardDealSmall)
 
     game->dealCards(game->getPlayers());
 
-    for(Player* p : game->getPlayers())
-        EXPECT_TRUE(p->getHand()->size() == 7);
+    for (Player* p : game->getPlayers())
+        EXPECT_EQ(7, p->getHand()->size());
 }
 
 
-TEST (GoFishTest, CardDealLarge)
-{
+TEST(GoFishTest, CardDealLarge) {
     MockDeck d;
     EXPECT_CALL(d, getCard())
     .Times(20)
@@ -55,14 +57,13 @@ TEST (GoFishTest, CardDealLarge)
 
     game->dealCards(game->getPlayers());
 
-    for(Player* p : game->getPlayers())
-        EXPECT_TRUE(p->getHand()->size() == 5);
+    for (Player* p : game->getPlayers())
+        EXPECT_EQ(5, p->getHand()->size());
 
     delete game;
 }
 
-TEST (GoFishTest, DrawSet)
-{
+TEST(GoFishTest, DrawSet) {
     MockDeck d;
 
     EXPECT_CALL(d, getCard())
@@ -103,7 +104,7 @@ TEST (GoFishTest, DrawSet)
 
     MockUI ui;
 
-    EXPECT_CALL(ui, choosePlayer(_,_))
+    EXPECT_CALL(ui, choosePlayer(_ , _))
     .Times(9)
     .WillOnce(Return(1))
     .WillOnce(Return(0))
@@ -136,8 +137,7 @@ TEST (GoFishTest, DrawSet)
     EXPECT_EQ(3, player1->getScore());
 }
 
-TEST (GoFishTest, AfterCardPlayedSet)
-{
+TEST(GoFishTest, AfterCardPlayedSet) {
     MockDeck d;
 
     Expectation deckShuffled = EXPECT_CALL(d, shuffle());
@@ -172,7 +172,7 @@ TEST (GoFishTest, AfterCardPlayedSet)
 
     MockUI ui;
 
-    EXPECT_CALL(ui, choosePlayer(_,_))
+    EXPECT_CALL(ui, choosePlayer(_, _))
     .Times(3)
     .WillOnce(Return(1))
     .WillOnce(Return(0))
@@ -202,4 +202,3 @@ TEST (GoFishTest, AfterCardPlayedSet)
 
     EXPECT_EQ(2, player1->getScore());
 }
-

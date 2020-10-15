@@ -5,21 +5,21 @@
 unsigned int GameUI::choosePlayer(unsigned int playerNum,
                                   unsigned int numPlayers) {
     unsigned int selection = playerNum;
-    cout << "You are Player #" << playerNum << endl;
+    std::cout << "You are Player #" << playerNum << std::endl;
     while (selection == playerNum || selection >= numPlayers) {
-        cout << "Which player (0-" << numPlayers-1 << ")? ";
-        cin >> selection;
+        std::cout << "Which player (0-" << numPlayers-1 << ")? ";
+        std::cin >> selection;
         if (selection == playerNum)
-            cout << "That is you! Please choose another player." << endl;
+            std::cout << "That is you! Please choose another player." << std::endl;
         if (selection >= numPlayers)
-            cout << "Player #" << selection <<
-                 " doesn't exist! Please choose another player." << endl;
+            std::cout << "Player #" << selection <<
+                 " doesn't exist! Please choose another player." << std::endl;
     }
     return selection;
 }
 
-void GameUI::showScores(vector<Player*> players) {
-    cout << "---- Scores ----" << endl;
+void GameUI::showScores(std::vector<Player*> players) {
+    std::cout << "---- Scores ----" << std::endl;
     for (Player* player : players)
-        cout << player->name << ": " << player->getScore() << endl;
+        std::cout << player->name << ": " << player->getScore() << std::endl;
 }

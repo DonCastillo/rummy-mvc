@@ -3,13 +3,14 @@
 
 #include "GameUI.h"
 #include "Card.h"
+#include <list>
 
 class GoFishUI : public GameUI {
-  public:
+ public:
     GoFishUI() {}
     ~GoFishUI() {}
 
-    unsigned int requestCard(list<Card*>* hand);
+    unsigned int requestCard(std::list<Card*>* hand);
     void playFailed();
     void playSucceeded();
 };

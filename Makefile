@@ -4,12 +4,13 @@ CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage
 LINKFLAGS= -lgtest
 
 SRC_DIR = src
-SRCS = $(SRC_DIR)/Card.cpp $(SRC_DIR)/Cheat.cpp $(SRC_DIR)/Deck.cpp $(SRC_DIR)/Game.cpp $(SRC_DIR)/GameUI.cpp $(SRC_DIR)/GoFish.cpp $(SRC_DIR)/GoFishUI.cpp $(SRC_DIR)/Player.cpp
+SRCS = $(SRC_DIR)/Card.cpp $(SRC_DIR)/Deck.cpp \
+	$(SRC_DIR)/Game.cpp $(SRC_DIR)/GameUI.cpp $(SRC_DIR)/GoFish.cpp \
+	$(SRC_DIR)/GoFishUI.cpp $(SRC_DIR)/Player.cpp
 
 TEST_DIR = test
 
-GMOCK = /usr/src/gmock/gmock-all.cc -lpthread
-#GMOCK = -L. -lgmock -lgmock_main -lpthread
+GMOCK = -lgmock -lpthread
 
 SRC_INCLUDE = include
 TEST_INCLUDE = test

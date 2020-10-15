@@ -7,7 +7,8 @@ unsigned int GoFishUI::requestCard(std::list<Card*>* hand) {
     unsigned int index = 0;
     for (std::list<Card*>::iterator i = hand->begin(); i != hand->end(); ++i) {
         Card::Rank r = (*i)->rank;
-        std::cout << "\tChoice " << (++index) << ": " << Card::getRank(r) << std::endl;
+        std::cout << "\tChoice " << (++index) << ": "
+          << Card::getRank(r) << std::endl;
     }
     std::cout << "Select a choice: ";
 

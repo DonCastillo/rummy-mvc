@@ -24,11 +24,13 @@ void GoFish::dealCards(std::vector<Player*> players) {
     }
 }
 
-void GoFish::beforeCardPlayed(unsigned int playerNum, unsigned int numPlayers) {
+void GoFish::beforeCardPlayed(unsigned int playerNum,
+                              unsigned int numPlayers) {
     playerAsked = ui->choosePlayer(playerNum, numPlayers);
 }
 
-void GoFish::afterCardPlayed(Player* currentPlayer, std::vector<Player*> players,
+void GoFish::afterCardPlayed(Player* currentPlayer,
+                             std::vector<Player*> players,
                              Card* played) {
     std::list<Card*>* hand = players.at(playerAsked)->getHand();
     std::list<Card*>::iterator card;

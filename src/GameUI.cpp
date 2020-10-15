@@ -10,7 +10,8 @@ unsigned int GameUI::choosePlayer(unsigned int playerNum,
         std::cout << "Which player (0-" << numPlayers-1 << ")? ";
         std::cin >> selection;
         if (selection == playerNum)
-            std::cout << "That is you! Please choose another player." << std::endl;
+            std::cout << "That is you! Please choose another player."
+              << std::endl;
         if (selection >= numPlayers)
             std::cout << "Player #" << selection <<
                  " doesn't exist! Please choose another player." << std::endl;

@@ -34,6 +34,15 @@ style:
    script:
       - make style
 
+coverage:
+   stage: test
+   script:
+      - make coverage
+   artifacts:
+      paths:
+         - coverage
+      expire_in: 14 days
+
 pages:
    stage: deploy
    dependencies:
@@ -48,3 +57,12 @@ pages:
       expire_in: 14 days
    only:
       - master
+
+docs:
+   stage: deploy
+   script:
+      - make docs
+   artifacts:
+      paths:
+         - docs
+      expire_in: 14 days

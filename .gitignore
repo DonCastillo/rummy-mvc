@@ -4,3 +4,4 @@ coverage
 docs
 *.gc*
 /testGame
+/include/*.gch

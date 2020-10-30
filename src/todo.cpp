@@ -40,6 +40,16 @@ SCORING
 [] total number of points is agreed upon before the game.
 
 
+functions needed:
+function to:
+  [1] deal cards accoding to numb of players
+  [2] initial creating of discard pile after the cards have been dealt
+  [3] player discards a cards
+  [4] player reveals his/her melds
+  [5]
+  rearrange the card
+
+
 
 
 

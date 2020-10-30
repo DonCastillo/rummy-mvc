@@ -9,7 +9,9 @@
 
 class Rummy : public Game {
  public:
-
+    Rummy(GameUI* ui, Deck* d) : Game(ui, d) {}
+    virtual ~Rummy() {}
+    void dealCards(std::vector<Player*> p);
 
  private:
 

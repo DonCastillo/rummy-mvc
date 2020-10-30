@@ -6,3 +6,6 @@ docs
 /testGame
 /include/*.gch
 *~
+*.layout
+src/todo.cpp
+rummy.depend

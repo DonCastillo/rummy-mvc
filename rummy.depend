@@ -40,3 +40,17 @@
 	<iostream>
 	<list>
 
+1604070622 source:c:\users\donqc\3720\rummy\src\rummy.cpp
+	"Rummy.h"
+	"RummyUI.h"
+	<vector>
+	<string>
+
+1603859788 source:c:\users\donqc\3720\rummy\src\rummyui.cpp
+	"Rummy.h"
+	"RummyUI.h"
+	<iostream>
+	<vector>
+
+1603936621 source:c:\users\donqc\3720\rummy\src\todo.cpp
+

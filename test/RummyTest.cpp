@@ -17,12 +17,6 @@ TEST(RummyTest, deal_cards_with_2_players) {
   EXPECT_CALL(d, getCard())
   .Times(20);
 
-  EXPECT_CALL(d, size())
-  .Times(2)
-  .WillOnce(Return(10))
-  .WillRepeatedly(Return(10));
-
-
   Game* game = new Rummy(&ui, &d);
   Player* michael = new Player("Michael");
   Player* dwight = new Player("Dwight");

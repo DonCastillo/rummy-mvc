@@ -40,6 +40,8 @@
 		<Unit filename="include/GoFish.h" />
 		<Unit filename="include/GoFishUI.h" />
 		<Unit filename="include/Player.h" />
+		<Unit filename="include/Rummy.h" />
+		<Unit filename="include/RummyUI.h" />
 		<Unit filename="src/Card.cpp" />
 		<Unit filename="src/Deck.cpp" />
 		<Unit filename="src/Game.cpp" />
@@ -47,7 +49,10 @@
 		<Unit filename="src/GoFish.cpp" />
 		<Unit filename="src/GoFishUI.cpp" />
 		<Unit filename="src/Player.cpp" />
+		<Unit filename="src/Rummy.cpp" />
+		<Unit filename="src/RummyUI.cpp" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/todo.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

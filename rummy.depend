@@ -40,9 +40,10 @@
 	<iostream>
 	<list>
 
-1604070622 source:c:\users\donqc\3720\rummy\src\rummy.cpp
+1604125773 source:c:\users\donqc\3720\rummy\src\rummy.cpp
 	"Rummy.h"
 	"RummyUI.h"
+	"Card.h"
 	<vector>
 	<string>
 

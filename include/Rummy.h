@@ -18,8 +18,8 @@ class Rummy : public Game {
     void beforeCardPlayed(unsigned int playerNum,
                           unsigned int numPlayers) {}
     void afterCardPlayed(Player* currentPlayer, std::vector<Player*> players,
-                         Card* played);
-    bool turnOver() {}
+                         Card* played) {}
+    bool turnOver();
     void addToDiscard(Card* c);
     Card* drawCard(unsigned int i);
 //    void addToMatchedSets(std::vector<Card*> c, unsigned int i);

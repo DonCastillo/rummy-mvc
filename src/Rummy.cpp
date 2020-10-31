@@ -4,6 +4,10 @@
 #include <vector>
 #include <string>
 
+
+bool Rummy::turnOver() {
+    return true;
+}
 // deal cards
 void Rummy::dealCards(std::vector<Player*> p) {
     unsigned int numOfPlayers = p.size();

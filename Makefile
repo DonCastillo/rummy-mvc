@@ -6,7 +6,8 @@ LINKFLAGS= -lgtest
 SRC_DIR = src
 SRCS = $(SRC_DIR)/Card.cpp $(SRC_DIR)/Deck.cpp \
 	$(SRC_DIR)/Game.cpp $(SRC_DIR)/GameUI.cpp $(SRC_DIR)/GoFish.cpp \
-	$(SRC_DIR)/GoFishUI.cpp $(SRC_DIR)/Player.cpp
+	$(SRC_DIR)/GoFishUI.cpp $(SRC_DIR)/Player.cpp $(SRC_DIR)/Rummy.cpp \
+	$(SRC_DIR)/RummyTest.cpp
 
 TEST_DIR = test
 

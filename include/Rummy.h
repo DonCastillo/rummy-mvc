@@ -15,6 +15,11 @@ class Rummy : public Game {
     Rummy(GameUI* ui, Deck* d) : Game(ui, d) {}
     virtual ~Rummy() {}
     void dealCards(std::vector<Player*> p);
+    void beforeCardPlayed(unsigned int playerNum,
+                          unsigned int numPlayers) {}
+    void afterCardPlayed(Player* currentPlayer, std::vector<Player*> players,
+                         Card* played);
+    bool turnOver() {}
     void addToDiscard(Card* c);
     Card* drawCard(unsigned int i);
 //    void addToMatchedSets(std::vector<Card*> c, unsigned int i);

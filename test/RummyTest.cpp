@@ -1,9 +1,10 @@
+#include <vector>
 #include "gtest/gtest.h"
 #include "MockDeck.h"
 #include "MockUI.h";
 #include "Player.h"
 #include "Rummy.h"
-#include <vector>
+
 
 using ::testing::Return;
 using ::testing::_;

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include <vector>
 #include <map>
 #include "Deck.h"
 #include "Player.h"
@@ -28,7 +29,6 @@ class Rummy : public Game {
 
     /** how many rounds to determine the winner */
     unsigned int numOfRounds;
-
 };
 
 #endif // RUMMY_H

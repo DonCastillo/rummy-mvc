@@ -9,10 +9,7 @@
 
 class RummyUI : public GameUI {
  public:
-
-
  private:
-
 };
 
 #endif // RUMMYUI_H

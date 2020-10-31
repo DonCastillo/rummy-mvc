@@ -25,7 +25,7 @@ void Rummy::dealCards(std::vector<Player*> p) {
     }
 
     // card distribution
-    for(int i = 0; i < numOfCards; ++i) {
+    for (int i = 0; i < numOfCards; ++i) {
         for (Player* x : p) {
             x->addCard(deck->getCard());
         }
@@ -41,16 +41,17 @@ void Rummy::addToDiscard(Card* c) {
 // 0 draw from deck
 // 1 draw from discarded pile
 Card* Rummy::drawCard(unsigned int i) {
+    Card* cardtemp;
     switch (i) {
         case 0:
-            return deck->getCard();
+            cardtemp = deck->getCard();
             break;
         case 1:
-            Card* c = discardPile.back();
+            cardtemp = discardPile.back();
             discardPile.pop_back();
-            return c;
             break;
     }
+    return cardtemp;
 }
 
 // 0 - arrange cards by rank

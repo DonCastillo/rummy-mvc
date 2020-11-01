@@ -214,10 +214,10 @@ TEST(RummyTest, draw_card_from_deck_or_discard_pile) {
   EXPECT_EQ(d.size(), 31);
   EXPECT_EQ(game->getDiscardPile().size(), 1);
 
-  // draw from the deck
-  game->drawCard(michael, 0);
-  EXPECT_EQ(michael->getHand()->size(), 11);  // increase player hand
-  EXPECT_EQ(d.size(), 30);
+  // // draw from the deck
+  // game->drawCard(michael, 0);
+  // EXPECT_EQ(michael->getHand()->size(), 11);  // increase player hand
+  // EXPECT_EQ(d.size(), 30);
 
   delete michael;
   delete dwight;

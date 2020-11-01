@@ -223,5 +223,5 @@ TEST(RummyTest, draw_card_from_deck_or_discard_pile) {
   delete michael;
   delete dwight;
   delete game;
-  delete deck;
+  delete d;
 }

@@ -212,7 +212,7 @@ TEST(RummyTest, draw_card_from_deck_or_discard_pile) {
   game->dealCards(game->getPlayers());
 
   // before drawing
-  EXPECT_CALL(game->getDeck()->size(), 31);
+  EXPECT_EQ(game->getDeck()->size(), 31);
   EXPECT_EQ(game->getDiscardPile().size(), 1);
 
   // draw from the deck

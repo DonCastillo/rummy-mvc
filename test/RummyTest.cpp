@@ -200,28 +200,28 @@ TEST(RummyTest, deal_cards_with_6_players) {
   delete dwight;
 }
 
-TEST(RummyTest, draw_card_from_deck_or_discard_pile) {
-  Deck* d = new Deck();
-  MockUI ui;
-
-  Rummy* game = new Rummy(&ui, d);
-  Player* michael = new Player("Michael");
-  Player* dwight = new Player("Dwight");
-  game->addPlayer(michael);
-  game->addPlayer(dwight);
-  game->dealCards(game->getPlayers());
-
-  // before drawing
-  EXPECT_EQ(game->getDeck()->size(), 31);
-  EXPECT_EQ(game->getDiscardPile().size(), 1);
-
-  // draw from the deck
-  game->drawCard(michael, 0);
-  EXPECT_EQ(michael->getHand()->size(), 11);  // michael's hand
-  EXPECT_EQ(game->getDeck()->size(), 30); // current deck
-
-  delete michael;
-  delete dwight;
-  delete game;
-  delete d;
-}
+// TEST(RummyTest, draw_card_from_deck_or_discard_pile) {
+//   Deck* d = new Deck();
+//   MockUI ui;
+//
+//   Rummy* game = new Rummy(&ui, d);
+//   Player* michael = new Player("Michael");
+//   Player* dwight = new Player("Dwight");
+//   game->addPlayer(michael);
+//   game->addPlayer(dwight);
+//   game->dealCards(game->getPlayers());
+//
+//   // before drawing
+//   EXPECT_EQ(game->getDeck()->size(), 31);
+//   EXPECT_EQ(game->getDiscardPile().size(), 1);
+//
+//   // draw from the deck
+//   game->drawCard(michael, 0);
+//   EXPECT_EQ(michael->getHand()->size(), 11);  // michael's hand
+//   EXPECT_EQ(game->getDeck()->size(), 30); // current deck
+//
+//   delete michael;
+//   delete dwight;
+//   delete game;
+//   delete d;
+// }

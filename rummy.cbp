@@ -53,6 +53,8 @@
 		<Unit filename="src/RummyUI.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/todo.cpp" />
+		<Unit filename="test/MockDeck.h" />
+		<Unit filename="test/MockUI.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

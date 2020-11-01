@@ -1,17 +1,19 @@
 #include "Rummy.h"
-#include "RummyUI.h"
-#include "Card.h"
-#include "Deck.h"
-#include "Player.h"
 #include <vector>
 #include <string>
 #include <list>
+#include <iostream>
 
 
-bool Rummy::turnOver() {
-    return true;
-}
-// deal cards
+
+void createDiscardPile(Deck* d, std::list<Card*> dp);
+void addToDiscard(Card* c);
+Deck* getDeck();
+std::list<Card*> getDiscardPile();
+void drawCard(Player* p, unsigned int i);
+
+
+/////////////////////////////////////////////////////// deal cards
 void Rummy::dealCards(std::vector<Player*> p) {
     unsigned int numOfPlayers = p.size();
     unsigned int numOfCards;
@@ -39,30 +41,42 @@ void Rummy::dealCards(std::vector<Player*> p) {
     }
 
     // create a discarded pile
-    createDiscardPile(deck, discardPile);
-}
-
-
-// create initial discard pile
-void Rummy::createDiscardPile(Deck* d, std::list<Card*> dp) {
-    if (d->size() > 0) {
-        dp.push_back(d->getCard());
+    if (deck->size() > 0) {
+        discardPile.push_back(deck->getCard());
     }
 }
 
+////////////////////////////////////////////////////////////////
+
+//// current player index, all players in the game
+//void Rummy::beforeCardPlayed(unsigned int playerNum,
+//                             unsigned int numPlayers) {
+//
+//}
+
+
+
+
+
+
+bool Rummy::turnOver() {
+    std::cout << discardPile.size() << std::endl;
+    return true;
+}
+
 // put card to a discarded pile
-void Rummy::addToDiscard(Card* c) {
-    discardPile.push_back(c);
-}
+//void addToDiscard(Card* c) {
+//    discardPile.push_back(c);
+//}
+//
+//// get deck
+//Deck* getDeck() {
+//    return deck;
+//}
 
-// get deck
-Deck* Rummy::getDeck() {
-    return deck;
-}
-
-std::list<Card*> Rummy::getDiscardPile() {
-    return discardPile;
-}
+//std::list<Card*> getDiscardPile() {
+//    return discardPile;
+//}
 
 // draw from either the deck or discarded pile
 // 0 draw from deck
@@ -92,6 +106,14 @@ void Rummy::drawCard(Player* p, unsigned int i) {
 //}
 //
 //bool meldRank
+
+
+void Rummy::start() {
+
+
+}
+
+
 
 
 

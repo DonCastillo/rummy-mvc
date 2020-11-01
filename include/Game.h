@@ -16,14 +16,15 @@ class Game {
                                  std::vector<Player*> players,
                                  Card* played) = 0;
     virtual bool turnOver() = 0;
+    virtual void start() = 0;
 
     Game(GameUI* ui, Deck* d):deck(d), ui(ui) {}
     virtual ~Game() {}
     virtual bool isOver() const;
-
     void addPlayer(Player* p);
     std::vector<Player*> getPlayers();
-    void start();
+
+
 
  protected:
     std::vector<Player*> players;

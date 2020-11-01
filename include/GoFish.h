@@ -14,6 +14,7 @@ class GoFish : public Game {
     void afterCardPlayed(Player* currentPlayer, std::vector<Player*> players,
                          Card* played);
     bool turnOver();
+    void start();
 
  protected:
     unsigned int playerAsked = -1;

@@ -20,15 +20,17 @@ class Rummy : public Game {
     void afterCardPlayed(Player* currentPlayer, std::vector<Player*> players,
                          Card* played) {}
     bool turnOver();
-    void addToDiscard(Card* c);
-    void createDiscardPile(Deck* d, std::list<Card*> dp);
+    //void addToDiscard(Card* c);
+    //void createDiscardPile(Deck* d, std::list<Card*> dp);
     void drawCard(Player* p, unsigned int i);
-    std::list<Card*> getDiscardPile();
-    Deck* getDeck();
+    void start();
+    //std::list<Card*> getDiscardPile();
+    //Deck* getDeck();
 //    void addToMatchedSets(std::vector<Card*> c, unsigned int i);
 //    bool isThereMeld(Player* p);
 
  private:
+
     /** pile of cards discarded by players */
     std::list<Card*> discardPile;
 

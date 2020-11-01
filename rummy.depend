@@ -1,57 +1,60 @@
 # depslib dependency file v1.0
-1603855534 source:c:\users\donqc\3720\rummy\src\card.cpp
+1603851934 source:c:\users\donqc\3720\rummy\src\card.cpp
 	"Card.h"
 	<string>
 
-1603855534 source:c:\users\donqc\3720\rummy\src\deck.cpp
+1603851934 source:c:\users\donqc\3720\rummy\src\deck.cpp
 	"Deck.h"
 	<vector>
 	<random>
 	<algorithm>
 	<iostream>
 
-1603855534 source:c:\users\donqc\3720\rummy\src\game.cpp
+1604272029 source:c:\users\donqc\3720\rummy\src\game.cpp
 	"Game.h"
 	"Exceptions.h"
 	<vector>
 
-1603855534 source:c:\users\donqc\3720\rummy\src\gameui.cpp
+1603851934 source:c:\users\donqc\3720\rummy\src\gameui.cpp
 	"GameUI.h"
 	<iostream>
 	<vector>
 
-1603855534 source:c:\users\donqc\3720\rummy\src\gofish.cpp
+1604272129 source:c:\users\donqc\3720\rummy\src\gofish.cpp
 	"GoFish.h"
+	"Exceptions.h"
 	<list>
 	<vector>
 
-1603855534 source:c:\users\donqc\3720\rummy\src\gofishui.cpp
+1603851934 source:c:\users\donqc\3720\rummy\src\gofishui.cpp
 	"GoFishUI.h"
 	<iostream>
 	<list>
 
-1603855534 source:c:\users\donqc\3720\rummy\src\main.cpp
+1604218311 source:c:\users\donqc\3720\rummy\src\main.cpp
 	"Deck.h"
 	"GoFishUI.h"
 	"GoFish.h"
+	"Rummy.h"
+	<iostream>
 
-1603855534 source:c:\users\donqc\3720\rummy\src\player.cpp
+1603851934 source:c:\users\donqc\3720\rummy\src\player.cpp
 	"Player.h"
 	<iostream>
 	<list>
 
-1604125773 source:c:\users\donqc\3720\rummy\src\rummy.cpp
+1604220983 source:c:\users\donqc\3720\rummy\src\rummy.cpp
 	"Rummy.h"
-	"RummyUI.h"
-	"Card.h"
 	<vector>
 	<string>
+	<list>
+	<iostream>
 
-1603859788 source:c:\users\donqc\3720\rummy\src\rummyui.cpp
+1603856188 source:c:\users\donqc\3720\rummy\src\rummyui.cpp
 	"Rummy.h"
 	"RummyUI.h"
 	<iostream>
 	<vector>
 
-1603936621 source:c:\users\donqc\3720\rummy\src\todo.cpp
+1604198624 source:c:\users\donqc\3720\rummy\src\todo.cpp
 

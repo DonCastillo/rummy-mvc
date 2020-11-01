@@ -1,4 +1,5 @@
 #include "GoFish.h"
+#include "Exceptions.h"
 #include <list>
 #include <vector>
 
@@ -91,4 +92,31 @@ bool hasSet(std::list<Card*>* hand) {
 
 bool GoFish::turnOver() {
     return true;
+}
+
+
+
+void GoFish::start() {
+    if (players.empty())
+        throw game_init_error("No players for game");
+
+    // Deal cards
+    deck->shuffle();
+    dealCards(players);
+
+    unsigned int turn = 0;
+    Card* c;
+    Player* p = players.front();
+    while (!isOver()) {
+        p = players.at(turn);
+        do {
+            beforeCardPlayed(turn, players.size());
+            int index = ui->requestCard(p->getHand());
+            c = p->getCard(index);
+            afterCardPlayed(p, players, c);
+        } while (!turnOver());
+
+        turn = ++turn % players.size();
+    }
+    ui->showScores(players);
 }

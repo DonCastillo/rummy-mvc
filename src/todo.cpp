@@ -13,15 +13,15 @@ Rules of Rummy Game
 
 
 DEAL
-[]  if 2 players, each one gets 10 cards, rest is in the deck
-[]  if 3 - 4 players, each one gets 7 cards, rest is in the deck
-[]  if 5 - 6 players, each one gets 6 cards, rest is in the deck
+[X]  if 2 players, each one gets 10 cards, rest is in the deck
+[X]  if 3 - 4 players, each one gets 7 cards, rest is in the deck
+[X]  if 5 - 6 players, each one gets 6 cards, rest is in the deck
 
-[] after the deal, the top card in the deck is placed beside the deck with its face facing up
+[X] after the deal, the top card in the deck is placed beside the deck with its face facing up
 
 
 GAME PLAY
-[] player has an option to draw the top card of the deck OR draw the top card of the discard pile
+[X] player has an option to draw the top card of the deck OR draw the top card of the discard pile
 [] player has an option to lay down possible meld
 [] each player's turns ends by discarding a card from his hand and putting it on top of the discard pile
 [] if the player has drawn from the discard pile, he may not discad the same card on that turns

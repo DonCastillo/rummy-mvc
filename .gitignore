@@ -10,3 +10,5 @@ docs
 *.layout
 src/todo.cpp
 rummy.depend
+*exe
+*o

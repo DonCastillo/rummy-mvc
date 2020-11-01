@@ -5,6 +5,7 @@ docs
 *.gc*
 /testGame
 /include/*.gch
+*.gcda
 *~
 *.layout
 src/todo.cpp

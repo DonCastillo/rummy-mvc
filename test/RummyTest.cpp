@@ -16,7 +16,7 @@ TEST(RummyTest, deal_cards_with_2_players) {
   MockUI ui;
 
   EXPECT_CALL(d, getCard())
-  .Times(20);
+  .Times(21);
 
   EXPECT_CALL(d, size())
   .Times(1)
@@ -51,7 +51,7 @@ TEST(RummyTest, deal_cards_with_3_players) {
   MockUI ui;
 
   EXPECT_CALL(d, getCard())
-  .Times(21);
+  .Times(22);
 
   EXPECT_CALL(d, size())
   .Times(1)
@@ -85,7 +85,7 @@ TEST(RummyTest, deal_cards_with_4_players) {
   MockUI ui;
 
   EXPECT_CALL(d, getCard())
-  .Times(28);
+  .Times(29);
 
   EXPECT_CALL(d, size())
   .Times(1)
@@ -122,7 +122,7 @@ TEST(RummyTest, deal_cards_with_5_players) {
   MockUI ui;
 
   EXPECT_CALL(d, getCard())
-  .Times(30);
+  .Times(31);
 
   EXPECT_CALL(d, size())
   .Times(1)
@@ -163,7 +163,7 @@ TEST(RummyTest, deal_cards_with_6_players) {
   MockUI ui;
 
   EXPECT_CALL(d, getCard())
-  .Times(36);
+  .Times(37);
 
   EXPECT_CALL(d, size())
   .Times(1)

@@ -55,6 +55,11 @@ void Rummy::addToDiscard(Card* c) {
     discardPile.push_back(c);
 }
 
+// get deck
+Deck* Rummy::getDeck() {
+    return deck;
+}
+
 std::list<Card*> Rummy::getDiscardPile() {
     return discardPile;
 }

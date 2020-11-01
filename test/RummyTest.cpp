@@ -202,9 +202,9 @@ TEST(RummyTest, deal_cards_with_6_players) {
 
 TEST(RummyTest, draw_card_from_deck_or_discard_pile) {
   Deck* d = new Deck();
-  GameUI* ui = new GameUI();
+  MockUI ui;
 
-  Rummy* game = new Rummy(ui, d);
+  Rummy* game = new Rummy(&ui, d);
   Player* michael = new Player("Michael");
   Player* dwight = new Player("Dwight");
   game->addPlayer(michael);
@@ -223,4 +223,5 @@ TEST(RummyTest, draw_card_from_deck_or_discard_pile) {
   delete michael;
   delete dwight;
   delete game;
+  delete deck;
 }

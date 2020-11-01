@@ -18,6 +18,10 @@ TEST(RummyTest, deal_cards_with_2_players) {
   EXPECT_CALL(d, getCard())
   .Times(20);
 
+  EXPECT_CALL(d, size())
+  .Times(1)
+  .WillOnce(Return(32));
+
   Game* game = new Rummy(&ui, &d);
   Player* michael = new Player("Michael");
   Player* dwight = new Player("Dwight");
@@ -49,6 +53,10 @@ TEST(RummyTest, deal_cards_with_3_players) {
   EXPECT_CALL(d, getCard())
   .Times(21);
 
+  EXPECT_CALL(d, size())
+  .Times(1)
+  .WillOnce(Return(31));
+
   Game* game = new Rummy(&ui, &d);
   Player* michael = new Player("Michael");
   Player* dwight = new Player("Dwight");
@@ -78,6 +86,10 @@ TEST(RummyTest, deal_cards_with_4_players) {
 
   EXPECT_CALL(d, getCard())
   .Times(28);
+
+  EXPECT_CALL(d, size())
+  .Times(1)
+  .WillOnce(Return(24));
 
   Game* game = new Rummy(&ui, &d);
   Player* michael = new Player("Michael");
@@ -111,6 +123,10 @@ TEST(RummyTest, deal_cards_with_5_players) {
 
   EXPECT_CALL(d, getCard())
   .Times(30);
+
+  EXPECT_CALL(d, size())
+  .Times(1)
+  .WillOnce(Return(22));
 
   Game* game = new Rummy(&ui, &d);
   Player* michael = new Player("Michael");
@@ -148,6 +164,10 @@ TEST(RummyTest, deal_cards_with_6_players) {
 
   EXPECT_CALL(d, getCard())
   .Times(36);
+
+  EXPECT_CALL(d, size())
+  .Times(1)
+  .WillOnce(Return(16));
 
   Game* game = new Rummy(&ui, &d);
   Player* michael = new Player("Michael");

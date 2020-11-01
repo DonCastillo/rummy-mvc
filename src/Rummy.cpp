@@ -1,8 +1,10 @@
 #include "Rummy.h"
 #include "RummyUI.h"
 #include "Card.h"
+#include "Deck.h"
 #include <vector>
 #include <string>
+#include <list>
 
 
 bool Rummy::turnOver() {
@@ -33,6 +35,18 @@ void Rummy::dealCards(std::vector<Player*> p) {
         for (Player* x : p) {
             x->addCard(deck->getCard());
         }
+    }
+
+    // create a discarded pile
+    createDiscardPile(deck, discardPile);
+}
+
+
+// create initial discard pile
+void Rummy::createDiscardPile(Deck* d, std::list<Card*> dp) {
+    // insert a card from the deck to the
+    if (d->size() > 0) {
+        dp.push_back(d->getCard());
     }
 }
 

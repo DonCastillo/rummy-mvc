@@ -55,6 +55,10 @@ void Rummy::addToDiscard(Card* c) {
     discardPile.push_back(c);
 }
 
+std::list<Card*> getDiscardPile() {
+    return discardPile;
+}
+
 // draw from either the deck or discarded pile
 // 0 draw from deck
 // 1 draw from discarded pile

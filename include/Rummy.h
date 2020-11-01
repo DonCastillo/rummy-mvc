@@ -23,6 +23,7 @@ class Rummy : public Game {
     void addToDiscard(Card* c);
     void createDiscardPile(Deck* d, std::list<Card*> dp);
     void drawCard(Player* p, unsigned int i);
+    std::list<Card*> getDiscardPile();
 //    void addToMatchedSets(std::vector<Card*> c, unsigned int i);
 //    bool isThereMeld(Player* p);
 

@@ -9,6 +9,12 @@
 
 class RummyUI : public GameUI {
  public:
+    RummyUI() {}
+    virtual ~RummyUI() {}
+
+    virtual unsigned int requestCard(std::list<Card*>* hand);
+    virtual void playFailed();
+    virtual void playSucceeded();
  private:
 };
 

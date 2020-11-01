@@ -2,6 +2,7 @@
 #include "GoFishUI.h"
 #include "GoFish.h"
 #include "Rummy.h"
+#include "RummyUI.h"
 #include <iostream>
 
 int main() {
@@ -19,7 +20,7 @@ int main() {
 //    g->start();
     Deck* d = new Deck();
     d->createStandard();
-    GameUI* ui = new GoFishUI();
+    GameUI* ui = new RummyUI();
     Game* g = new Rummy(ui, d);
 
     Player* trump = new Player("Trump");
@@ -29,9 +30,5 @@ int main() {
     Player* pelosi = new Player("Pelosi");
     g->addPlayer(trump);
     g->addPlayer(biden);
-    //g->addPlayer(pence);
-
-    //g->start();
-
-    //std::cout << trump->getHand()->size();
+    g->start();
 }

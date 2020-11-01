@@ -2,6 +2,7 @@
 #include "RummyUI.h"
 #include "Card.h"
 #include "Deck.h"
+#include "Player.h"
 #include <vector>
 #include <string>
 #include <list>
@@ -44,7 +45,6 @@ void Rummy::dealCards(std::vector<Player*> p) {
 
 // create initial discard pile
 void Rummy::createDiscardPile(Deck* d, std::list<Card*> dp) {
-    // insert a card from the deck to the
     if (d->size() > 0) {
         dp.push_back(d->getCard());
     }
@@ -58,7 +58,7 @@ void Rummy::addToDiscard(Card* c) {
 // draw from either the deck or discarded pile
 // 0 draw from deck
 // 1 draw from discarded pile
-Card* Rummy::drawCard(unsigned int i) {
+void Rummy::drawCard(Player* p, unsigned int i) {
     Card* cardtemp;
     switch (i) {
         case 0:
@@ -69,7 +69,7 @@ Card* Rummy::drawCard(unsigned int i) {
             discardPile.pop_back();
             break;
     }
-    return cardtemp;
+    p->addCard(cardtemp);
 }
 
 // 0 - arrange cards by rank

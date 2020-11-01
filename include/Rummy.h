@@ -22,7 +22,7 @@ class Rummy : public Game {
     bool turnOver();
     void addToDiscard(Card* c);
     void createDiscardPile(Deck* d, std::list<Card*> dp);
-    Card* drawCard(unsigned int i);
+    void drawCard(Player* p, unsigned int i);
 //    void addToMatchedSets(std::vector<Card*> c, unsigned int i);
 //    bool isThereMeld(Player* p);
 

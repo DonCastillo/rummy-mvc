@@ -204,7 +204,7 @@ TEST(RummyTest, draw_card_from_deck_or_discard_pile) {
   Deck* d = new Deck();
   MockUI ui;
 
-  Rummy* game = new Rummy(&ui, d);
+  Game* game = new Rummy(&ui, d);
   Player* michael = new Player("Michael");
   Player* dwight = new Player("Dwight");
   game->addPlayer(michael);

@@ -3,8 +3,10 @@
 
 #include <list>
 #include <vector>
+#include <string>
 #include "Card.h"
 #include "Player.h"
+#include "Deck.h"
 
 class GameUI {
  public:
@@ -17,6 +19,17 @@ class GameUI {
     virtual unsigned int choosePlayer(unsigned int playerNum,
                                       unsigned int numPlayers);
     virtual void showScores(std::vector<Player*> players);
+    virtual void printDeck(Deck* d);
+    virtual unsigned int choose(std::vector<std::string> choices);
+    virtual void print(std::string left, std::string right);
+    virtual void print(std::string message);
+
+
+ protected:
+    const char LINEFILL = '.';
+    const unsigned int LINEWIDTH = 35;
+    const char TITLEFILL = '=';
+
 };
 
 #endif // GAMEUI_H_INCLUDED

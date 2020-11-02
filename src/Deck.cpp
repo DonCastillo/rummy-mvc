@@ -55,3 +55,7 @@ void Deck::shuffle() {
 unsigned int Deck::size() {
     return deck.size();
 }
+
+std::vector<Card*> Deck::getDeck() {
+  return deck;
+}

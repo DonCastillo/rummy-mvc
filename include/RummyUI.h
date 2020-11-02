@@ -6,15 +6,18 @@
 #include "Deck.h"
 #include "Player.h"
 #include "Game.h"
+#include "GameUI.h"
 
 class RummyUI : public GameUI {
  public:
     RummyUI() {}
     virtual ~RummyUI() {}
 
-    virtual unsigned int requestCard(std::list<Card*>* hand);
-    virtual void playFailed();
-    virtual void playSucceeded();
+    unsigned int requestCard(std::list<Card*>* hand);
+    void playFailed();
+    void playSucceeded();
+
+    //void printDeck();
  private:
 };
 

@@ -22,7 +22,7 @@ class Rummy : public Game {
     bool turnOver();
     //void addToDiscard(Card* c);
     //void createDiscardPile(Deck* d, std::list<Card*> dp);
-    void drawCard(Player* p, unsigned int i);
+    //void drawCard(Player* p, unsigned int i, Deck* d);
     void start();
     //std::list<Card*> getDiscardPile();
     //Deck* getDeck();
@@ -31,11 +31,9 @@ class Rummy : public Game {
 
  private:
 
-    /** pile of cards discarded by players */
-    std::list<Card*> discardPile;
 
-    /** matched sets of cards */
-    std::map<unsigned int, std::vector<Card*>> matchedSets;
+
+
 
     /** how many rounds to determine the winner */
     unsigned int numOfRounds;

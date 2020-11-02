@@ -25,7 +25,6 @@ class Game {
     std::vector<Player*> getPlayers();
 
 
-
  protected:
     std::vector<Player*> players;
     Deck* deck;

@@ -13,6 +13,7 @@ class Deck {
     virtual unsigned int size();
 
     void createStandard();
+    std::vector<Card*> getDeck();
 
  private:
     std::vector<Card*> deck;

@@ -3,7 +3,7 @@
 	"Card.h"
 	<string>
 
-1603851934 source:c:\users\donqc\3720\rummy\src\deck.cpp
+1604275741 source:c:\users\donqc\3720\rummy\src\deck.cpp
 	"Deck.h"
 	<vector>
 	<random>
@@ -15,10 +15,15 @@
 	"Exceptions.h"
 	<vector>
 
-1603851934 source:c:\users\donqc\3720\rummy\src\gameui.cpp
+1604295923 source:c:\users\donqc\3720\rummy\src\gameui.cpp
 	"GameUI.h"
+	"Card.h"
+	"Deck.h"
+	<string>
 	<iostream>
 	<vector>
+	<iomanip>
+	<cctype>
 
 1604272129 source:c:\users\donqc\3720\rummy\src\gofish.cpp
 	"GoFish.h"
@@ -31,11 +36,12 @@
 	<iostream>
 	<list>
 
-1604272263 source:c:\users\donqc\3720\rummy\src\main.cpp
+1604273956 source:c:\users\donqc\3720\rummy\src\main.cpp
 	"Deck.h"
 	"GoFishUI.h"
 	"GoFish.h"
 	"Rummy.h"
+	"RummyUI.h"
 	<iostream>
 
 1603851934 source:c:\users\donqc\3720\rummy\src\player.cpp
@@ -43,16 +49,20 @@
 	<iostream>
 	<list>
 
-1604272386 source:c:\users\donqc\3720\rummy\src\rummy.cpp
+1604298763 source:c:\users\donqc\3720\rummy\src\rummy.cpp
 	"Rummy.h"
+	"RummyUI.h"
+	"Exceptions.h"
 	<vector>
 	<string>
 	<list>
 	<iostream>
 
-1603856188 source:c:\users\donqc\3720\rummy\src\rummyui.cpp
+1604287284 source:c:\users\donqc\3720\rummy\src\rummyui.cpp
 	"Rummy.h"
 	"RummyUI.h"
+	"Deck.h"
+	"Card.h"
 	<iostream>
 	<vector>
 

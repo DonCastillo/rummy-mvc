@@ -7,75 +7,71 @@
 #include "Game.h"
 #include "GoFish.h"
 
-#include <iostream>
-
 using ::testing::Return;
 using ::testing::_;
 using ::testing::Expectation;
 
 class GoFishTest : public ::testing::Test {
  protected:
+  virtual ~GoFishTest() {
+    delete aceClub;
+    delete aceDia;
+    delete aceHeart;
+    delete aceSpade;
 
-   virtual ~GoFishTest() {
-     delete aceClub;
-     delete aceDia;
-     delete aceHeart;
-     delete aceSpade;
+    delete kingClub;
+    delete kingDia;
+    delete kingHeart;
+    delete kingSpade;
 
-     delete kingClub;
-     delete kingDia;
-     delete kingHeart;
-     delete kingSpade;
+    delete twoClub;
+    delete twoDia;
+    delete twoHeart;
+    delete twoSpade;
 
-     delete twoClub;
-     delete twoDia;
-     delete twoHeart;
-     delete twoSpade;
+    delete queenClub;
+    delete queenDia;
+    delete queenHeart;
+    delete queenSpade;
 
-     delete queenClub;
-     delete queenDia;
-     delete queenHeart;
-     delete queenSpade;
+    delete threeClub;
+    delete threeDia;
+    delete threeHeart;
+    delete threeSpade;
 
-     delete threeClub;
-     delete threeDia;
-     delete threeHeart;
-     delete threeSpade;
+    delete jackClub;
+    delete jackHeart;
+    delete jackSpade;
+  }
 
-     delete jackClub;
-     delete jackHeart;
-     delete jackSpade;
+  Card* aceClub = new Card(Card::CLUB, Card::ACE);
+  Card* aceSpade = new Card(Card::SPADE, Card::ACE);
+  Card* aceDia = new Card(Card::DIAMOND, Card::ACE);
+  Card* aceHeart = new Card(Card::HEART, Card::ACE);
 
-   }
+  Card* kingClub = new Card(Card::CLUB, Card::KING);
+  Card* kingSpade = new Card(Card::SPADE, Card::KING);
+  Card* kingDia = new Card(Card::DIAMOND, Card::KING);
+  Card* kingHeart = new Card(Card::HEART, Card::KING);
 
-   Card* aceClub = new Card(Card::CLUB, Card::ACE);
-   Card* aceSpade = new Card(Card::SPADE, Card::ACE);
-   Card* aceDia = new Card(Card::DIAMOND, Card::ACE);
-   Card* aceHeart = new Card(Card::HEART, Card::ACE);
+  Card* twoClub = new Card(Card::CLUB, Card::TWO);
+  Card* twoSpade = new Card(Card::CLUB, Card::TWO);
+  Card* twoDia = new Card(Card::CLUB, Card::TWO);
+  Card* twoHeart = new Card(Card::CLUB, Card::TWO);
 
-   Card* kingClub = new Card(Card::CLUB, Card::KING);
-   Card* kingSpade = new Card(Card::SPADE, Card::KING);
-   Card* kingDia = new Card(Card::DIAMOND, Card::KING);
-   Card* kingHeart = new Card(Card::HEART, Card::KING);
+  Card* queenClub = new Card(Card::CLUB, Card::QUEEN);
+  Card* queenSpade = new Card(Card::CLUB, Card::QUEEN);
+  Card* queenDia = new Card(Card::CLUB, Card::QUEEN);
+  Card* queenHeart = new Card(Card::CLUB, Card::QUEEN);
 
-   Card* twoClub = new Card(Card::CLUB, Card::TWO);
-   Card* twoSpade = new Card(Card::CLUB, Card::TWO);
-   Card* twoDia = new Card(Card::CLUB, Card::TWO);
-   Card* twoHeart = new Card(Card::CLUB, Card::TWO);
+  Card* threeClub = new Card(Card::CLUB, Card::THREE);
+  Card* threeSpade = new Card(Card::CLUB, Card::THREE);
+  Card* threeDia = new Card(Card::CLUB, Card::THREE);
+  Card* threeHeart = new Card(Card::CLUB, Card::THREE);
 
-   Card* queenClub = new Card(Card::CLUB, Card::QUEEN);
-   Card* queenSpade = new Card(Card::CLUB, Card::QUEEN);
-   Card* queenDia = new Card(Card::CLUB, Card::QUEEN);
-   Card* queenHeart = new Card(Card::CLUB, Card::QUEEN);
-
-   Card* threeClub = new Card(Card::CLUB, Card::THREE);
-   Card* threeSpade = new Card(Card::CLUB, Card::THREE);
-   Card* threeDia = new Card(Card::CLUB, Card::THREE);
-   Card* threeHeart = new Card(Card::CLUB, Card::THREE);
-
-   Card* jackClub = new Card(Card::CLUB, Card::JACK);
-   Card* jackSpade = new Card(Card::CLUB, Card::JACK);
-   Card* jackHeart = new Card(Card::CLUB, Card::JACK);
+  Card* jackClub = new Card(Card::CLUB, Card::JACK);
+  Card* jackSpade = new Card(Card::CLUB, Card::JACK);
+  Card* jackHeart = new Card(Card::CLUB, Card::JACK);
 };
 
 TEST_F(GoFishTest, CardDealSmall) {

@@ -6,7 +6,7 @@
 #include <iostream>
 
 Deck::~Deck() {
-  for(Card* c : deck)
+  for (Card* c : deck)
     delete c;
 }
 

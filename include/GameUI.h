@@ -26,7 +26,7 @@ class GameUI {
 
 
  protected:
-    const char LINEFILL = '.';
+    const char LINEFILL = ' ';
     const unsigned int LINEWIDTH = 35;
     const char TITLEFILL = '=';
 

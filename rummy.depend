@@ -15,7 +15,7 @@
 	"Exceptions.h"
 	<vector>
 
-1604295923 source:c:\users\donqc\3720\rummy\src\gameui.cpp
+1604299284 source:c:\users\donqc\3720\rummy\src\gameui.cpp
 	"GameUI.h"
 	"Card.h"
 	"Deck.h"
@@ -49,7 +49,7 @@
 	<iostream>
 	<list>
 
-1604298763 source:c:\users\donqc\3720\rummy\src\rummy.cpp
+1604299084 source:c:\users\donqc\3720\rummy\src\rummy.cpp
 	"Rummy.h"
 	"RummyUI.h"
 	"Exceptions.h"

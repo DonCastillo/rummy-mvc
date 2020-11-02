@@ -6,7 +6,7 @@
 
 class Deck {
  public:
-    virtual ~Deck() {}
+    virtual ~Deck();
     virtual void shuffle();
     virtual void addCard(Card* card);
     virtual Card* getCard();

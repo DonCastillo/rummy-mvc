@@ -1,3 +1,9 @@
+stages:
+   - build
+   - test
+   - quality
+   - docs
+
 build-game:
    stage: build
    script:
@@ -10,27 +16,19 @@ build-test:
    stage: build
    script:
       - make testGame
-   artifacts:
-      paths:
-         - testGame
-
-test-game:
-   stage: test
-   script:
-      - testGame
 
 memcheck-test:
-   stage: test
+   stage: quality
    script:
       - make memcheck-test
 
 staticAnalysis:
-   stage: test
+   stage: quality
    script:
       - make static
 
 style:
-   stage: test
+   stage: quality
    script:
       - make style
 
@@ -43,23 +41,8 @@ coverage:
          - coverage
       expire_in: 14 days
 
-pages:
-   stage: deploy
-   dependencies:
-      - test-game
-   script:
-      - make coverage
-      - make docs
-   artifacts:
-      paths:
-         - coverage
-         - docs
-      expire_in: 14 days
-   only:
-      - master
-
 docs:
-   stage: deploy
+   stage: docs
    script:
       - make docs
    artifacts:

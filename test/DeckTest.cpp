@@ -39,7 +39,7 @@ TEST(DeckTest, DeckEmpty) {
     Card* c;
     unsigned int deckSize = d.size();
     for (unsigned int i=0; i < deckSize; i++) {
-        c = d.getCard();
+        Card* c = d.getCard();
         delete c; // tear up card into little pieces
     }
 

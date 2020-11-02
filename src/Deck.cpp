@@ -5,6 +5,11 @@
 #include <algorithm>
 #include <iostream>
 
+Deck::~Deck() {
+  for(Card* c : deck)
+    delete c;
+}
+
 void Deck::addCard(Card* card) {
     deck.push_back(card);
 }

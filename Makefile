@@ -65,16 +65,15 @@ memcheck-game: $(PROGRAM)
 
 
 memcheck-test: $(PROGRAM_TEST)
-	valgrind --tool=memcheck --leak-check=yes $(PROGRAM_TEST)
+	valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 $(PROGRAM_TEST)
 
+.PHONY: coverage
 coverage: $(PROGRAM_TEST)
 	./$(PROGRAM_TEST)
-	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS) --rc lcov_branch_coverage=1
-	$(LCOV) --extract $(COVERAGE_RESULTS) "*/src/*" -o $(COVERAGE_RESULTS) --rc lcov_branch_coverage=1
-	genhtml $(COVERAGE_RESULTS) --output-directory $(COVERAGE_DIR) --rc lcov_branch_coverage=1
-	#rm -f *.gc*
-	rm -f *.gcda *.gcno
-	$(BROWSER) $(COVERAGE_DIR)/index.html
+	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS)
+	$(LCOV) --extract $(COVERAGE_RESULTS) "*/src/*" -o $(COVERAGE_RESULTS)
+	genhtml $(COVERAGE_RESULTS) --output-directory $(COVERAGE_DIR)
+	rm -f *.gc*
 
 static: ${SRC_DIR}
 	cppcheck --verbose --enable=all --xml ${SRC_DIR} ${TEST_DIR} ${INCLUDE} --suppress=missingInclude

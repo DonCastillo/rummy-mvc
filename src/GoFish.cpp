@@ -43,7 +43,7 @@ void GoFish::afterCardPlayed(Player* currentPlayer,
         }
     }
 
-    if (toRemove.size() > 0) {
+    if (toRemove.empty() == false) {
         ui->playSucceeded();
         for (std::list<Card*>::iterator card = toRemove.begin();
                 card != toRemove.end();

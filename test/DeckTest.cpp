@@ -12,8 +12,9 @@ TEST(DeckTest, DeckCard) {
     Deck d;
     d.createStandard();
     EXPECT_EQ(52, d.size());
-    d.getCard();
+    Card* c = d.getCard();
     EXPECT_EQ(51, d.size());
+    delete c;
 }
 
 
@@ -23,20 +24,23 @@ TEST(DeckTest, DeckShuffle) {
     Card* c = d1.getCard();
     EXPECT_EQ(Card::CLUB, c->suit);
     EXPECT_EQ(Card::ACE, c->rank);
+    delete c;
 
     Deck d2;
     d2.createStandard();
     d2.shuffle();
-    c = d2.getCard();
-
-    EXPECT_FALSE(Card::CLUB == c->suit && Card::ACE == c->rank);
+    Card* c2 = d2.getCard();
+    EXPECT_FALSE(Card::CLUB == c2->suit && Card::ACE == c2->rank);
+    delete c2;
 }
 
 TEST(DeckTest, DeckEmpty) {
     Deck d;
+    Card* c;
     unsigned int deckSize = d.size();
     for (unsigned int i=0; i < deckSize; i++) {
-        d.getCard();
+        Card* c = d.getCard();
+        delete c; // tear up card into little pieces
     }
 
     EXPECT_TRUE(d.getCard() == nullptr);

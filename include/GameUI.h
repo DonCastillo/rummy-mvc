@@ -23,6 +23,7 @@ class GameUI {
     virtual unsigned int choose(std::vector<std::string> choices);
     virtual void print(std::string left, std::string right);
     virtual void print(std::string message);
+    virtual void printMapCard(Card::Suit s, std::list<Card*> right);
 
 
  protected:

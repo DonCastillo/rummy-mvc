@@ -4,6 +4,7 @@
 #include "MockUI.h"
 #include "Player.h"
 #include "Rummy.h"
+#include "RummyUI.h"
 
 
 using ::testing::Return;
@@ -199,6 +200,20 @@ TEST(RummyTest, deal_cards_with_6_players) {
   delete michael;
   delete dwight;
 }
+
+TEST(RummyTest, check_for_melds_based_on_rank) {
+  // no melds
+  MockDeck d;
+  MockUI ui;
+  Game* game = new Rummy(&ui, &d);
+  Player* rick = new Player("Rick");
+  Player* carl = new Player("Carl");
+  game->addPlayer(rick);
+  game->addPlayer(carl);
+
+
+}
+
 
 // TEST(RummyTest, draw_card_from_deck_or_discard_pile) {
 //   Deck* d = new Deck();

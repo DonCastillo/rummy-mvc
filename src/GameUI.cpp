@@ -38,6 +38,14 @@ void GameUI::printDeck(Deck* d) {
     }
 }
 
+void GameUI::printMapCard(Card::Suit s, std::list<Card*> right) {
+    std::cout << Card::getSuit(s) << "=> ";
+    for(Card* c : right)
+        std::cout << *c << " ";
+    std::cout << std::endl;
+}
+
+
 unsigned int GameUI::choose(std::vector<std::string> choices) {
     std::string choice;
     for (int i = 0; i < choices.size(); ++i) {

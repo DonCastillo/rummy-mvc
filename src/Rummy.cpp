@@ -12,13 +12,14 @@
 std::list<Card*> discardPile;
 
 /** matched sets of cards */
+// key 0 = rank
+// key 1 = suit
 std::map<unsigned int, std::vector<Card*>> matchedSets;
 
-
+void sort(std::vector<Card*> c);
 void drawCard(Player* p, unsigned int i, Deck* d);
-bool isThereMeld(Player* p);
-bool meldRank(Player* p);
-bool meldSuit(Player* p);
+bool meldRank(std::list<Card*>* hand);
+bool meldSuit(std::list<Card*>* hand);
 
 
 ///////////////////////////////////////////////////////
@@ -67,7 +68,7 @@ void Rummy::start() {
         // draw card
         drawCard(p, choice, deck);
         // check for melds
-        bool meldExist = isThereMeld(p);
+        bool meldExist = meldRank(p->getHand()) || meldSuit(p->getHand());
         std::cout << std::boolalpha << meldExist << std::endl;
     }
 }
@@ -125,25 +126,22 @@ void drawCard(Player* p, unsigned int i, Deck* d) {
 }
 
 
-bool isThereMeld(Player* p) {
-    return meldRank(p) || meldSuit(p);
-}
-
-
 
 ////////////////////////////////////////////////////////////////
 
-bool meldRank(Player* p) {
+// check if 3 or 4 cards have the same rank
+bool meldRank(std::list<Card*>* hand) {
     std::map<Card::Rank, std::vector<Card*>> handByRank;
     std::map<Card::Rank, std::vector<Card*>>::iterator mapIt;
 
-    std::list<Card*>* hand = p->getHand();
+    //std::list<Card*>* hand = p->getHand();
     std::list<Card*>::iterator it1, it2;
 
     // iterate through hand
     for(it1 = hand->begin(); it1 != hand->end(); ++it1) {
         std::vector<Card*> indexes;
         for(it2 = hand->begin(); it2 != hand->end(); ++it2) {
+            // collect cards with similar rank
             if((*it1)->rank == (*it2)->rank)
                 indexes.push_back(*it2);
         }
@@ -159,8 +157,70 @@ bool meldRank(Player* p) {
     return false;
 }
 
-bool meldSuit(Player* p) {
+// check if 3 or more cards in the same suit are sequential
+bool meldSuit(std::list<Card*>* hand) {
+    std::map<Card::Suit, std::vector<Card*>> handBySuit;
+    std::map<Card::Suit, std::vector<Card*>>::iterator mapIt;
+
+    std::list<Card*>::iterator it1, it2;
+
+    // iterate through hand
+    for(it1 = hand->begin(); it1 != hand->end(); ++it1) {
+        std::vector<Card*> indexes;
+        for(it2 = hand->begin(); it2 != hand->end(); ++it2) {
+            // collect cards with similar suit
+            if((*it1)->suit == (*it2)->suit)
+                indexes.push_back(*it2);
+        }
+        handBySuit.insert(std::pair<Card::Suit, std::vector<Card*>>( (*it1)->suit, indexes ));
+     }
+
+
+    // iterate through the map
+    //std::cout << "****************" << std::endl;
+    for(mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
+
+            ///
+            std::cout << Card::getSuit(mapIt->first) << "=> ";
+            for(Card* c : mapIt->second)
+                std::cout << *c << " ";
+            std::cout << std::endl;
+            ///
+
+            sort(mapIt->second);
+    }
     return false;
+}
+
+void sort(std::vector<Card*> c) {
+    if (c.size() > 1) {
+
+//        for(int i = 0; i < c.size(); ++i) {
+//
+//            c[i]
+//
+//        }
+//        std::cout << x << " ";
+        unsigned int cardSize = c.size();
+        unsigned int index = 0;
+
+        bool x = (*c[0] > *c[1]);   // is it
+
+        std::cout << "___" << std::endl;
+        std::cout << std::boolalpha << y << std::endl;
+
+//        do {
+//
+//
+//
+//        } while();
+    }
+
+
+
+
+
+
 }
 
 bool Rummy::turnOver() {

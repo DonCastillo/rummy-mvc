@@ -19,8 +19,8 @@ std::map<unsigned int, std::vector<Card*>> matchedSets;
 
 bool sortCard(Card* a, Card* b);
 void drawCard(Player* p, unsigned int i, Deck* d);
-bool meldRank(std::list<Card*>* hand);
-bool meldSuit(std::list<Card*>* hand);
+bool hasBook(std::list<Card*>* hand);
+bool hasRun(std::list<Card*>* hand);
 
 
 ///////////////////////////////////////////////////////
@@ -73,12 +73,14 @@ void Rummy::start() {
         //std::cout << std::boolalpha << meldExist << std::endl;
         std::list<Card*> testCards;
         testCards.push_back(new Card(Card::CLUB, Card::ACE));
-        testCards.push_back(new Card(Card::CLUB, Card::TWO));
+        testCards.push_back(new Card(Card::HEART, Card::THREE));
+        testCards.push_back(new Card(Card::DIAMOND, Card::KING));
         testCards.push_back(new Card(Card::CLUB, Card::THREE));
-        //testCards.push_back(new Card(Card::CLUB, Card::FOUR));
+        testCards.push_back(new Card(Card::DIAMOND, Card::TWO));
+
 
         std::cout << "*****" << std::endl;
-        std::cout << std::boolalpha << meldSuit(&testCards) << std::endl;
+        std::cout << std::boolalpha << hasRun(&testCards) << std::endl;
         std::cout << "*****" << std::endl;
 
     }
@@ -141,7 +143,7 @@ void drawCard(Player* p, unsigned int i, Deck* d) {
 ////////////////////////////////////////////////////////////////
 
 // check if 3 or 4 cards have the same rank
-bool meldRank(std::list<Card*>* hand) {
+bool hasBook(std::list<Card*>* hand) {
     std::map<Card::Rank, std::vector<Card*>> handByRank;
     std::map<Card::Rank, std::vector<Card*>>::iterator mapIt;
 
@@ -169,7 +171,7 @@ bool meldRank(std::list<Card*>* hand) {
 }
 
 // check if 3 or more cards in the same suit are sequential
-bool meldSuit(std::list<Card*>* hand) {
+bool hasRun(std::list<Card*>* hand) {
     std::map<Card::Suit, std::vector<Card*>> handBySuit;
     std::map<Card::Suit, std::vector<Card*>>::iterator mapIt;
 
@@ -188,8 +190,7 @@ bool meldSuit(std::list<Card*>* hand) {
 
 
     // iterate through the map
-
-    std::vector<bool> hasRun;
+    std::vector<bool> isRunFinal;
 
     for(mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
         std::vector<Card*> cardTemp = mapIt->second;
@@ -197,15 +198,15 @@ bool meldSuit(std::list<Card*>* hand) {
         // sort cards ascendingly based on rank
         std::sort( cardTemp.begin(), cardTemp.end(), sortCard );
 
-
         // check if cards in the list are sequential
         // only consider list with at least 3 cards
-        unsigned int index = -1;
-        bool proceed = false;
+        bool isRun = false;
 
-        //std::cout << Card::getRank( cardTemp[0]->rank ) << std::endl;
         if (cardTemp.size() >= 3) {
+            unsigned int index = -1;
+            unsigned int chain = 0;
             do {
+
                 ++index;
                 // what is next card rank
                 Card::Rank a = cardTemp[index]->rank;
@@ -215,40 +216,47 @@ bool meldSuit(std::list<Card*>* hand) {
                 Card::Rank b = cardTemp[index + 1]->rank;
 
                 bool isSequential = (a == b);
-                if (isSequential)
-                    proceed = true;
-                else
-                    proceed = false;
-            } while (proceed == true && index < cardTemp.size() - 2);
 
-            hasRun.push_back(proceed);
+                if (isSequential)
+                    chain++;
+                else
+                    chain = 0;
+
+                if(chain >= 2)
+                    isRun = true;
+
+            } while (index < cardTemp.size() - 2);
+        } else {
+            isRun = false;
         }
+
+        isRunFinal.push_back(isRun);
+        mapIt->second = cardTemp;
     }
 
     // is there at least one sequential list
-    bool hasRunFinal = false;
-    for (bool b : hasRun) {
+    bool tempFinal;
+    for (bool b : isRunFinal) {
         if (b == true) {
-            hasRunFinal = true;
+            tempFinal = true;
             break;
         } else {
-            hasRunFinal = false;
+            tempFinal = false;
         }
     }
 
 
-
+//    /// print
 //    for(mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
-//        ///
 //        std::cout << Card::getSuit(mapIt->first) << std::endl;
 //        for(Card* c : mapIt->second) {
 //            std::cout << *c << " ";
 //        }
 //        std::cout << std::endl;
-//        ///
 //    }
+//    /// print
 
-    return hasRunFinal;
+    return tempFinal;
 }
 
 

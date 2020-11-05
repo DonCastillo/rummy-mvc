@@ -69,8 +69,18 @@ void Rummy::start() {
         // draw card
         drawCard(p, choice, deck);
         // check for melds
-        bool meldExist = meldRank(p->getHand()) || meldSuit(p->getHand());
-        std::cout << std::boolalpha << meldExist << std::endl;
+        //bool meldExist = meldRank(p->getHand()) || meldSuit(p->getHand());
+        //std::cout << std::boolalpha << meldExist << std::endl;
+        std::list<Card*> testCards;
+        testCards.push_back(new Card(Card::CLUB, Card::ACE));
+        testCards.push_back(new Card(Card::CLUB, Card::TWO));
+        testCards.push_back(new Card(Card::CLUB, Card::THREE));
+        //testCards.push_back(new Card(Card::CLUB, Card::FOUR));
+
+        std::cout << "*****" << std::endl;
+        std::cout << std::boolalpha << meldSuit(&testCards) << std::endl;
+        std::cout << "*****" << std::endl;
+
     }
 }
 
@@ -203,21 +213,16 @@ bool meldSuit(std::list<Card*>* hand) {
 
                 // actual next card rank
                 Card::Rank b = cardTemp[index + 1]->rank;
+
                 bool isSequential = (a == b);
                 if (isSequential)
                     proceed = true;
                 else
                     proceed = false;
-
-            } while (proceed == true && index < cardTemp.size() - 1);
+            } while (proceed == true && index < cardTemp.size() - 2);
 
             hasRun.push_back(proceed);
         }
-
-
-
-        //mapIt->second = cardTemp;
-
     }
 
     // is there at least one sequential list

@@ -55,51 +55,49 @@ std::ostream& operator<<(std::ostream& os, const Card& c) {
 }
 
 bool operator> (Card const &a, Card const &b) {
-  if( Card::numRank(a.rank) > Card::numRank(b.rank) )
+  if (Card::numRank(a.rank) > Card::numRank(b.rank))
       return true;
   else
       return false;
 }
 
 bool operator< (Card const &a, Card const &b) {
-  if( Card::numRank(a.rank) < Card::numRank(b.rank) )
+  if (Card::numRank(a.rank) < Card::numRank(b.rank))
       return true;
   else
       return false;
 }
 
 bool operator>= (Card const &a, Card const &b) {
-  if( Card::numRank(a.rank) >= Card::numRank(b.rank) )
+  if (Card::numRank(a.rank) >= Card::numRank(b.rank))
       return true;
   else
       return false;
 }
 
 bool operator<= (Card const &a, Card const &b) {
-  if( Card::numRank(a.rank) <= Card::numRank(b.rank) )
+  if (Card::numRank(a.rank) <= Card::numRank(b.rank))
       return true;
   else
       return false;
 }
 
 bool operator== (Card const &a, Card const &b) {
-  if( Card::numRank(a.rank) == Card::numRank(b.rank) )
+  if (Card::numRank(a.rank) == Card::numRank(b.rank))
       return true;
   else
       return false;
 }
 
 bool operator!= (Card const &a, Card const &b) {
-  if( Card::numRank(a.rank) != Card::numRank(b.rank) )
+  if (Card::numRank(a.rank) != Card::numRank(b.rank))
       return true;
   else
       return false;
 }
 
-
-
 Card::Rank Card::nextRank(Rank r) {
-    switch(r) {
+    switch (r) {
     case Card::ACE :
         return Card::TWO;
     case Card::TWO :
@@ -128,7 +126,7 @@ Card::Rank Card::nextRank(Rank r) {
 }
 
 unsigned int Card::numRank(Rank r) {
-    switch(r) {
+    switch (r) {
     case Card::ACE :
         return 1;
     case Card::TWO :
@@ -156,5 +154,4 @@ unsigned int Card::numRank(Rank r) {
     case Card::KING :
         return 13;
     }
-
 }

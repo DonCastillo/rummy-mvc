@@ -210,8 +210,6 @@ TEST(RummyTest, check_for_melds_based_on_rank) {
   Player* carl = new Player("Carl");
   game->addPlayer(rick);
   game->addPlayer(carl);
-
-
 }
 
 

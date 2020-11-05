@@ -6,6 +6,7 @@
 #include <vector>
 #include <iomanip>
 #include <cctype>
+#include <list>
 
 bool choiceValid(std::string choice, unsigned int choicesSize);
 
@@ -40,7 +41,7 @@ void GameUI::printDeck(Deck* d) {
 
 void GameUI::printMapCard(Card::Suit s, std::list<Card*> right) {
     std::cout << Card::getSuit(s) << "=> ";
-    for(Card* c : right)
+    for (Card* c : right)
         std::cout << *c << " ";
     std::cout << std::endl;
 }
@@ -72,8 +73,8 @@ void GameUI::print(std::string message) {
 
 bool choiceValid(std::string choice, unsigned int choicesSize) {
     // check if it's not a digit
-    for(char c : choice) {
-        if(!isdigit(c))
+    for (char c : choice) {
+        if (!isdigit(c))
             return false;
     }
 

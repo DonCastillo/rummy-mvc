@@ -30,7 +30,6 @@ class GameUI {
     const char LINEFILL = ' ';
     const unsigned int LINEWIDTH = 35;
     const char TITLEFILL = '=';
-
 };
 
 #endif // GAMEUI_H_INCLUDED

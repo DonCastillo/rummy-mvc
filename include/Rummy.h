@@ -30,11 +30,6 @@ class Rummy : public Game {
 //    bool isThereMeld(Player* p);
 
  private:
-
-
-
-
-
     /** how many rounds to determine the winner */
     unsigned int numOfRounds;
 };

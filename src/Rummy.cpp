@@ -7,6 +7,7 @@
 #include <iostream>
 #include <map>
 #include <algorithm>
+#include <utility>
 
 
 /** pile of cards discarded by players */
@@ -25,7 +26,6 @@ bool hasRun(std::list<Card*>* hand);
 
 ///////////////////////////////////////////////////////
 void Rummy::start() {
-
     std::vector<std::string> drawChoices;
     drawChoices.push_back("Draw from the deck");
     drawChoices.push_back("Draw from the discarded pile");
@@ -41,8 +41,7 @@ void Rummy::start() {
     unsigned int turn = 0;
     Player* p = players.front();
 
-    while(!isOver()) {
-
+    while (!isOver()) {
         p = players.at(turn);
 
 
@@ -50,12 +49,12 @@ void Rummy::start() {
         ui->print("Deck size", std::to_string(deck->size()));
         ui->print("Discard pile size", std::to_string(discardPile.size()));
         ui->print("Matched sets size", std::to_string(matchedSets.size()));
-        for(Player* p : players) {
+        for (Player* p : players) {
             ui->print(p->name + "\'s hand:");
             ui->print("Hand size: ", std::to_string(p->getHand()->size()));
             std::list<Card*>* hand = p->getHand();
             std::list<Card*>::iterator card;
-            for(card = hand->begin(); card != hand->end(); ++card) {
+            for (card = hand->begin(); card != hand->end(); ++card) {
                 std::cout << **card << std::endl;
             }
         }
@@ -78,11 +77,9 @@ void Rummy::start() {
         testCards.push_back(new Card(Card::CLUB, Card::THREE));
         testCards.push_back(new Card(Card::DIAMOND, Card::TWO));
 
-
         std::cout << "*****" << std::endl;
         std::cout << std::boolalpha << hasRun(&testCards) << std::endl;
         std::cout << "*****" << std::endl;
-
     }
 }
 
@@ -151,20 +148,21 @@ bool hasBook(std::list<Card*>* hand) {
     std::list<Card*>::iterator it1, it2;
 
     // iterate through hand
-    for(it1 = hand->begin(); it1 != hand->end(); ++it1) {
+    for (it1 = hand->begin(); it1 != hand->end(); ++it1) {
         std::vector<Card*> indexes;
-        for(it2 = hand->begin(); it2 != hand->end(); ++it2) {
+        for (it2 = hand->begin(); it2 != hand->end(); ++it2) {
             // collect cards with similar rank
-            if((*it1)->rank == (*it2)->rank)
+            if ((*it1)->rank == (*it2)->rank)
                 indexes.push_back(*it2);
         }
-        handByRank.insert(std::pair<Card::Rank, std::vector<Card*>>( (*it1)->rank, indexes ));
+        handByRank.insert(std::pair<Card::Rank,
+                          std::vector<Card*>>((*it1)->rank, indexes));
     }
 
 
     // iterate through the map
-    for(mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
-        if(mapIt->second.size() >= 3)
+    for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
+        if (mapIt->second.size() >= 3)
             return true;
     }
     return false;
@@ -178,25 +176,26 @@ bool hasRun(std::list<Card*>* hand) {
     std::list<Card*>::iterator it1, it2;
 
     // iterate through hand
-    for(it1 = hand->begin(); it1 != hand->end(); ++it1) {
+    for (it1 = hand->begin(); it1 != hand->end(); ++it1) {
         std::vector<Card*> indexes;
-        for(it2 = hand->begin(); it2 != hand->end(); ++it2) {
+        for (it2 = hand->begin(); it2 != hand->end(); ++it2) {
             // collect cards with similar suit
-            if((*it1)->suit == (*it2)->suit)
+            if ((*it1)->suit == (*it2)->suit)
                 indexes.push_back(*it2);
         }
-        handBySuit.insert(std::pair<Card::Suit, std::vector<Card*>>( (*it1)->suit, indexes ));
+        handBySuit.insert(std::pair<Card::Suit,
+                          std::vector<Card*>>((*it1)->suit, indexes));
      }
 
 
     // iterate through the map
     std::vector<bool> isRunFinal;
 
-    for(mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
+    for (mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
         std::vector<Card*> cardTemp = mapIt->second;
 
         // sort cards ascendingly based on rank
-        std::sort( cardTemp.begin(), cardTemp.end(), sortCard );
+        std::sort(cardTemp.begin(), cardTemp.end(), sortCard);
 
         // check if cards in the list are sequential
         // only consider list with at least 3 cards
@@ -206,7 +205,6 @@ bool hasRun(std::list<Card*>* hand) {
             unsigned int index = -1;
             unsigned int chain = 0;
             do {
-
                 ++index;
                 // what is next card rank
                 Card::Rank a = cardTemp[index]->rank;
@@ -222,9 +220,8 @@ bool hasRun(std::list<Card*>* hand) {
                 else
                     chain = 0;
 
-                if(chain >= 2)
+                if (chain >= 2)
                     isRun = true;
-
             } while (index < cardTemp.size() - 2);
         } else {
             isRun = false;
@@ -244,8 +241,6 @@ bool hasRun(std::list<Card*>* hand) {
             tempFinal = false;
         }
     }
-
-
 //    /// print
 //    for(mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
 //        std::cout << Card::getSuit(mapIt->first) << std::endl;
@@ -255,7 +250,6 @@ bool hasRun(std::list<Card*>* hand) {
 //        std::cout << std::endl;
 //    }
 //    /// print
-
     return tempFinal;
 }
 
@@ -264,7 +258,7 @@ bool Rummy::turnOver() {
     return false;
 }
 
-bool sortCard(Card* a, Card* b){
+bool sortCard(Card* a, Card* b) {
     return *a < *b;
 }
 

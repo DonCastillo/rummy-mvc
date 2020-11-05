@@ -4,6 +4,7 @@
 #include "Card.h"
 #include <iostream>
 #include <vector>
+#include <list>
 
 
 unsigned int RummyUI::requestCard(std::list<Card*>* hand) {

@@ -82,6 +82,21 @@ bool operator<= (Card const &a, Card const &b) {
       return false;
 }
 
+bool operator== (Card const &a, Card const &b) {
+  if( Card::numRank(a.rank) == Card::numRank(b.rank) )
+      return true;
+  else
+      return false;
+}
+
+bool operator!= (Card const &a, Card const &b) {
+  if( Card::numRank(a.rank) != Card::numRank(b.rank) )
+      return true;
+  else
+      return false;
+}
+
+
 
 Card::Rank Card::nextRank(Rank r) {
     switch(r) {

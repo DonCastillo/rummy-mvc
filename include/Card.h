@@ -25,6 +25,8 @@ class Card {
     friend bool operator< (Card const &a, Card const &b);
     friend bool operator>= (Card const &a, Card const &b);
     friend bool operator<= (Card const &a, Card const &b);
+    friend bool operator== (Card const &a, Card const &b);
+    friend bool operator!= (Card const &a, Card const &b);
 };
 
 #endif // CARD_H_INCLUDED

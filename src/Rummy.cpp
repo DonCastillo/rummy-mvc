@@ -6,6 +6,7 @@
 #include <list>
 #include <iostream>
 #include <map>
+#include <algorithm>
 
 
 /** pile of cards discarded by players */
@@ -16,7 +17,7 @@ std::list<Card*> discardPile;
 // key 1 = suit
 std::map<unsigned int, std::vector<Card*>> matchedSets;
 
-void sort(std::vector<Card*> c);
+bool sortCard(Card* a, Card* b);
 void drawCard(Player* p, unsigned int i, Deck* d);
 bool meldRank(std::list<Card*>* hand);
 bool meldSuit(std::list<Card*>* hand);
@@ -177,54 +178,81 @@ bool meldSuit(std::list<Card*>* hand) {
 
 
     // iterate through the map
-    //std::cout << "****************" << std::endl;
+
+    std::vector<bool> hasRun;
+
     for(mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
+        std::vector<Card*> cardTemp = mapIt->second;
 
-            ///
-            std::cout << Card::getSuit(mapIt->first) << "=> ";
-            for(Card* c : mapIt->second)
-                std::cout << *c << " ";
-            std::cout << std::endl;
-            ///
+        // sort cards ascendingly based on rank
+        std::sort( cardTemp.begin(), cardTemp.end(), sortCard );
 
-            sort(mapIt->second);
+
+        // check if cards in the list are sequential
+        // only consider list with at least 3 cards
+        unsigned int index = -1;
+        bool proceed = false;
+
+        //std::cout << Card::getRank( cardTemp[0]->rank ) << std::endl;
+        if (cardTemp.size() >= 3) {
+            do {
+                ++index;
+                // what is next card rank
+                Card::Rank a = cardTemp[index]->rank;
+                a = Card::nextRank(a);
+
+                // actual next card rank
+                Card::Rank b = cardTemp[index + 1]->rank;
+                bool isSequential = (a == b);
+                if (isSequential)
+                    proceed = true;
+                else
+                    proceed = false;
+
+            } while (proceed == true && index < cardTemp.size() - 1);
+
+            hasRun.push_back(proceed);
+        }
+
+
+
+        //mapIt->second = cardTemp;
+
     }
-    return false;
-}
 
-void sort(std::vector<Card*> c) {
-    if (c.size() > 1) {
+    // is there at least one sequential list
+    bool hasRunFinal = false;
+    for (bool b : hasRun) {
+        if (b == true) {
+            hasRunFinal = true;
+            break;
+        } else {
+            hasRunFinal = false;
+        }
+    }
 
-//        for(int i = 0; i < c.size(); ++i) {
-//
-//            c[i]
-//
+
+
+//    for(mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
+//        ///
+//        std::cout << Card::getSuit(mapIt->first) << std::endl;
+//        for(Card* c : mapIt->second) {
+//            std::cout << *c << " ";
 //        }
-//        std::cout << x << " ";
-        unsigned int cardSize = c.size();
-        unsigned int index = 0;
+//        std::cout << std::endl;
+//        ///
+//    }
 
-        bool x = (*c[0] > *c[1]);   // is it
-
-        std::cout << "___" << std::endl;
-        std::cout << std::boolalpha << y << std::endl;
-
-//        do {
-//
-//
-//
-//        } while();
-    }
-
-
-
-
-
-
+    return hasRunFinal;
 }
+
 
 bool Rummy::turnOver() {
     return false;
+}
+
+bool sortCard(Card* a, Card* b){
+    return *a < *b;
 }
 
 

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1604551808 source:c:\users\donqc\3720\rummy\src\card.cpp
+1604618542 source:c:\users\donqc\3720\rummy\src\card.cpp
 	"Card.h"
 	<string>
 
@@ -15,7 +15,7 @@
 	"Exceptions.h"
 	<vector>
 
-1604441582 source:c:\users\donqc\3720\rummy\src\gameui.cpp
+1604618458 source:c:\users\donqc\3720\rummy\src\gameui.cpp
 	"GameUI.h"
 	"Card.h"
 	"Deck.h"
@@ -24,6 +24,7 @@
 	<vector>
 	<iomanip>
 	<cctype>
+	<list>
 
 1604431578 source:c:\users\donqc\3720\rummy\src\gofish.cpp
 	"GoFish.h"
@@ -36,7 +37,7 @@
 	<iostream>
 	<list>
 
-1604553958 source:c:\users\donqc\3720\rummy\src\main.cpp
+1604618076 source:c:\users\donqc\3720\rummy\src\main.cpp
 	"Deck.h"
 	"GoFishUI.h"
 	"GoFish.h"

@@ -20,11 +20,10 @@ std::map<unsigned int, std::vector<Card*>> matchedSets;
 
 bool sortCard(Card* a, Card* b);
 void drawCard(Player* p, unsigned int i, Deck* d);
-bool hasBook(std::list<Card*>* hand);
-bool hasRun(std::list<Card*>* hand);
+unsigned int hasBook(std::list<Card*>* hand);
+unsigned int hasRun(std::list<Card*>* hand);
 
 
-///////////////////////////////////////////////////////
 void Rummy::start() {
     std::vector<std::string> drawChoices;
     drawChoices.push_back("Draw from the deck");
@@ -68,18 +67,9 @@ void Rummy::start() {
         // draw card
         drawCard(p, choice, deck);
         // check for melds
-        //bool meldExist = meldRank(p->getHand()) || meldSuit(p->getHand());
-        //std::cout << std::boolalpha << meldExist << std::endl;
-        std::list<Card*> testCards;
-        testCards.push_back(new Card(Card::CLUB, Card::ACE));
-        testCards.push_back(new Card(Card::HEART, Card::THREE));
-        testCards.push_back(new Card(Card::DIAMOND, Card::KING));
-        testCards.push_back(new Card(Card::CLUB, Card::THREE));
-        testCards.push_back(new Card(Card::DIAMOND, Card::TWO));
+        //bool
 
-        std::cout << "*****" << std::endl;
-        std::cout << std::boolalpha << hasRun(&testCards) << std::endl;
-        std::cout << "*****" << std::endl;
+
     }
 }
 
@@ -137,10 +127,11 @@ void drawCard(Player* p, unsigned int i, Deck* d) {
 
 
 
-////////////////////////////////////////////////////////////////
 
 // check if 3 or 4 cards have the same rank
-bool hasBook(std::list<Card*>* hand) {
+// returns 1 if a book exist
+// returns 0 if no book exist
+unsigned int hasBook(std::list<Card*>* hand) {
     std::map<Card::Rank, std::vector<Card*>> handByRank;
     std::map<Card::Rank, std::vector<Card*>>::iterator mapIt;
 
@@ -163,13 +154,15 @@ bool hasBook(std::list<Card*>* hand) {
     // iterate through the map
     for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
         if (mapIt->second.size() >= 3)
-            return true;
+            return 1;
     }
-    return false;
+    return 0;
 }
 
 // check if 3 or more cards in the same suit are sequential
-bool hasRun(std::list<Card*>* hand) {
+// returns 0 if a run doesn't exist
+// returns 2 if a run exists
+unsigned int hasRun(std::list<Card*>* hand) {
     std::map<Card::Suit, std::vector<Card*>> handBySuit;
     std::map<Card::Suit, std::vector<Card*>>::iterator mapIt;
 
@@ -232,13 +225,13 @@ bool hasRun(std::list<Card*>* hand) {
     }
 
     // is there at least one sequential list
-    bool tempFinal;
+    bool tempFinal = 0;
     for (bool b : isRunFinal) {
         if (b == true) {
-            tempFinal = true;
+            tempFinal = 2;
             break;
         } else {
-            tempFinal = false;
+            tempFinal = 0;
         }
     }
 //    /// print

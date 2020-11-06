@@ -20,8 +20,8 @@ std::map<unsigned int, std::vector<Card*>> matchedSets;
 
 bool sortCard(Card* a, Card* b);
 void drawCard(Player* p, unsigned int i, Deck* d);
-unsigned int hasBook(std::list<Card*>* hand);
-unsigned int hasRun(std::list<Card*>* hand);
+unsigned int hasBook(bool reveal, std::list<Card*>* hand);
+unsigned int hasRun(bool reveal, std::list<Card*>* hand);
 
 
 void Rummy::start() {
@@ -68,8 +68,8 @@ void Rummy::start() {
         // draw card
         drawCard(p, choice, deck);
         // check for book / run
-        bool book = hasBook(p->getHand());
-        bool run = hasRun(p->getHand());
+        bool book = hasBook(false, p->getHand());
+        bool run = hasRun(false, p->getHand());
 
         std::vector<std::string> revealChoices;
         unsigned int revealChoice = 0;
@@ -162,7 +162,7 @@ void drawCard(Player* p, unsigned int i, Deck* d) {
 // check if 3 or 4 cards have the same rank
 // returns 1 if a book exist
 // returns 0 if no book exist
-unsigned int hasBook(std::list<Card*>* hand) {
+unsigned int hasBook(bool reveal, std::list<Card*>* hand) {
     std::map<Card::Rank, std::vector<Card*>> handByRank;
     std::map<Card::Rank, std::vector<Card*>>::iterator mapIt;
 
@@ -184,16 +184,19 @@ unsigned int hasBook(std::list<Card*>* hand) {
 
     // iterate through the map
     for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
-        if (mapIt->second.size() >= 3)
-            return 1;
+        if (mapIt->second.size() >= 3) {
+                return 1;
+        }
+
     }
     return 0;
 }
 
+
 // check if 3 or more cards in the same suit are sequential
 // returns 0 if a run doesn't exist
 // returns 2 if a run exists
-unsigned int hasRun(std::list<Card*>* hand) {
+unsigned int hasRun(bool reveal, std::list<Card*>* hand) {
     std::map<Card::Suit, std::vector<Card*>> handBySuit;
     std::map<Card::Suit, std::vector<Card*>>::iterator mapIt;
 

@@ -81,7 +81,7 @@ void Rummy::start() {
             ui->print("You have a book");
             revealChoice =  ui->choose(revealChoices);
             revealChoices.clear();
-            switch (revealChoice){
+            switch (revealChoice) {
                 case 0: break;
                 case 1: // call function to reveal book
                     break;

@@ -54,8 +54,9 @@ void Rummy::start() {
             std::list<Card*>* hand = p->getHand();
             std::list<Card*>::iterator card;
             for (card = hand->begin(); card != hand->end(); ++card) {
-                std::cout << **card << std::endl;
+                std::cout << **card << " ";
             }
+            std::cout << "\n";
         }
         //*************************
 
@@ -66,10 +67,40 @@ void Rummy::start() {
         unsigned int choice = ui->choose(drawChoices);
         // draw card
         drawCard(p, choice, deck);
-        // check for melds
-        //bool
+        // check for book / run
+        bool book = hasBook(p->getHand());
+        bool run = hasRun(p->getHand());
 
+        std::vector<std::string> revealChoices;
+        unsigned int revealChoice = 0;
 
+        // what to do if there's a book
+        if (book) {
+            revealChoices.push_back("Do nothing");
+            revealChoices.push_back("Reveal book");
+            ui->print("You have a book");
+            revealChoice =  ui->choose(revealChoices);
+            revealChoices.clear();
+            switch (revealChoice){
+                case 0: break;
+                case 1: // call function to reveal book
+                    break;
+            }
+        }
+
+        // what to do if there's a run
+        if (run) {
+            revealChoices.push_back("Do nothing");
+            revealChoices.push_back("Reveal run");
+            ui->print("You have a run");
+            revealChoice = ui->choose(revealChoices);
+            revealChoices.clear();
+            switch (revealChoice) {
+                case 0: break;
+                case 1: // call function to reveal run
+                    break;
+            }
+        }
     }
 }
 

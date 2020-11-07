@@ -22,6 +22,17 @@ Card* Player::getCard(unsigned int index) {
     return *card;
 }
 
+void Player::removeCard(Card* card) {
+  std::list<Card*>::iterator cardIt;
+
+  for (cardIt = hand.begin(); cardIt != hand.end(); ++cardIt) {
+    if (card->rank == (*cardIt)->rank &&
+        card->suit == (*cardIt)->suit) {
+       cardIt = hand.erase(cardIt);
+    }
+  }
+}
+
 void Player::addPoints(unsigned int points) {
     score += points;
 }

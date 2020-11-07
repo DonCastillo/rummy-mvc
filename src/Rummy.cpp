@@ -16,12 +16,13 @@ std::list<Card*> discardPile;
 /** matched sets of cards */
 // key 0 = rank
 // key 1 = suit
-std::map<unsigned int, std::vector<Card*>> matchedSets;
+std::map<std::string, std::list<Card*>> matchedSets;
+void insertToMatchedSets(char c, std::list<Card*> cardsSet);
 
 bool sortCard(Card* a, Card* b);
 void drawCard(Player* p, unsigned int i, Deck* d);
-unsigned int hasBook(bool reveal, std::list<Card*>* hand);
-unsigned int hasRun(bool reveal, std::list<Card*>* hand);
+unsigned int hasBook(bool reveal, Player* player);
+unsigned int hasRun(bool reveal, Player* player);
 
 
 void Rummy::start() {
@@ -68,8 +69,8 @@ void Rummy::start() {
         // draw card
         drawCard(p, choice, deck);
         // check for book / run
-        bool book = hasBook(false, p->getHand());
-        bool run = hasRun(false, p->getHand());
+        bool book = hasBook(false, p);
+        bool run = hasRun(false, p);
 
         std::vector<std::string> revealChoices;
         unsigned int revealChoice = 0;
@@ -83,7 +84,7 @@ void Rummy::start() {
             revealChoices.clear();
             switch (revealChoice) {
                 case 0: break;
-                case 1: // call function to reveal book
+                case 1: hasBook(true, p);
                     break;
             }
         }
@@ -162,7 +163,8 @@ void drawCard(Player* p, unsigned int i, Deck* d) {
 // check if 3 or 4 cards have the same rank
 // returns 1 if a book exist
 // returns 0 if no book exist
-unsigned int hasBook(bool reveal, std::list<Card*>* hand) {
+unsigned int hasBook(bool reveal, Player* player) {
+    std::list<Card*>* hand = player->getHand();
     std::map<Card::Rank, std::vector<Card*>> handByRank;
     std::map<Card::Rank, std::vector<Card*>>::iterator mapIt;
 
@@ -172,23 +174,61 @@ unsigned int hasBook(bool reveal, std::list<Card*>* hand) {
     // iterate through hand
     for (it1 = hand->begin(); it1 != hand->end(); ++it1) {
         std::vector<Card*> indexes;
+        unsigned int counter = 0;
         for (it2 = hand->begin(); it2 != hand->end(); ++it2) {
             // collect cards with similar rank
             if ((*it1)->rank == (*it2)->rank)
                 indexes.push_back(*it2);
+            ++counter;
         }
         handByRank.insert(std::pair<Card::Rank,
                           std::vector<Card*>>((*it1)->rank, indexes));
     }
 
 
+
+    /// print before deletion ////////////////
+    for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
+        std::cout << Card::getRank(mapIt->first) << " => ";
+        for (Card* c : mapIt->second)
+            std::cout << *c << "  ";
+        std::cout << "\n";
+    }
+    /// print ////////////////////////////////
+
+
+
+
     // iterate through the map
     for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
         if (mapIt->second.size() >= 3) {
-                return 1;
-        }
+            if (reveal) {
+                std::list<Card*> cardsSet;
 
+                for (Card* c : mapIt->second) {
+                    cardsSet.push_back(c);
+                    //std::cout << "Working" << std::endl;
+                    player->removeCard(c);
+                }
+                insertToMatchedSets('r', cardsSet);
+            } else {
+                return 1;
+            }
+        }
     }
+
+
+
+    std::cout << "%%%%%%%%" << std::endl;
+    /// print before deletion ////////////////
+    for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
+        std::cout << Card::getRank(mapIt->first) << " => ";
+        for (Card* c : mapIt->second)
+            std::cout << *c << "  ";
+        std::cout << "\n";
+    }
+    std::cout << "%%%%%%%%" << std::endl;
+    /// print ////////////////////////////////
     return 0;
 }
 
@@ -196,7 +236,8 @@ unsigned int hasBook(bool reveal, std::list<Card*>* hand) {
 // check if 3 or more cards in the same suit are sequential
 // returns 0 if a run doesn't exist
 // returns 2 if a run exists
-unsigned int hasRun(bool reveal, std::list<Card*>* hand) {
+unsigned int hasRun(bool reveal, Player* player) {
+    std::list<Card*>* hand = player->getHand();
     std::map<Card::Suit, std::vector<Card*>> handBySuit;
     std::map<Card::Suit, std::vector<Card*>>::iterator mapIt;
 
@@ -287,6 +328,16 @@ bool Rummy::turnOver() {
 
 bool sortCard(Card* a, Card* b) {
     return *a < *b;
+}
+
+// [r/s]-[#]
+void insertToMatchedSets(char c, std::list<Card*> cardsSet) {
+    unsigned int num = matchedSets.size();
+    std::string key = "";
+    key.append(std::to_string(c));
+    key.append("-");
+    key.append(std::to_string(num));
+    matchedSets.insert(std::pair<std::string, std::list<Card*>>(key, cardsSet));
 }
 
 

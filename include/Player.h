@@ -13,6 +13,7 @@ class Player {
     Card* getCard(unsigned int index);
     std::list<Card*>* getHand();
     void addPoints(unsigned int points);
+    void removeCard(Card* card);
     unsigned int getScore();
 
     const std::string name;

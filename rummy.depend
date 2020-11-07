@@ -47,12 +47,12 @@
 	<list>
 	"Card.h"
 
-1603851934 source:c:\users\donqc\3720\rummy\src\player.cpp
+1604712166 source:c:\users\donqc\3720\rummy\src\player.cpp
 	"Player.h"
 	<iostream>
 	<list>
 
-1604617770 source:c:\users\donqc\3720\rummy\src\rummy.cpp
+1604710884 source:c:\users\donqc\3720\rummy\src\rummy.cpp
 	"Rummy.h"
 	"RummyUI.h"
 	"Exceptions.h"
@@ -62,6 +62,7 @@
 	<iostream>
 	<map>
 	<algorithm>
+	<utility>
 
 1604639007 source:c:\users\donqc\3720\rummy\src\rummyui.cpp
 	"Rummy.h"

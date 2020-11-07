@@ -6,6 +6,8 @@ docs
 /testGame
 /include/*.gch
 *.gcda
+*.cbp
+*.dia
 *~
 *.layout
 src/todo.cpp

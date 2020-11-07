@@ -63,11 +63,15 @@ unsigned int GameUI::choose(std::vector<std::string> choices) {
     //return 0;
 }
 
-void GameUI::print(std::string left, std::string right) {
+void GameUI::println(std::string left, std::string right) {
     std::cout << left << ": " << right << std::endl;
 }
 
 void GameUI::print(std::string message) {
+    std::cout << message;
+}
+
+void GameUI::println(std::string message) {
     std::cout << message << std::endl;
 }
 

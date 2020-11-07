@@ -46,40 +46,37 @@ void Rummy::start() {
 
 
         //*************************print numbers
-        ui->print("Deck size", std::to_string(deck->size()));
-        ui->print("Discard pile size", std::to_string(discardPile.size()));
-        ui->print("Matched sets size", std::to_string(matchedSets.size()));
+        ui->println("Deck size", std::to_string(deck->size()));
+        ui->println("Discard pile size", std::to_string(discardPile.size()));
+        ui->println("Matched sets size", std::to_string(matchedSets.size()));
         for (Player* p : players) {
-            ui->print(p->name + "\'s hand:");
-            ui->print("Hand size: ", std::to_string(p->getHand()->size()));
+            ui->println(p->name + "\'s hand: " + "[" + std::to_string(p->getHand()->size()) + "]");
             std::list<Card*>* hand = p->getHand();
             std::list<Card*>::iterator card;
             for (card = hand->begin(); card != hand->end(); ++card) {
-                std::cout << **card << " ";
+                std::cout << **card << "  ";
             }
             std::cout << "\n";
         }
         //*************************
 
 
-        ui->print("\nCurrent player", p->name);
+        ui->println("\nCurrent player", p->name);
 
         // ask player where to draw
         unsigned int choice = ui->choose(drawChoices);
         // draw card
         drawCard(p, choice, deck);
         // check for book / run
-        bool book = hasBook(false, p);
-        bool run = hasRun(false, p);
 
         std::vector<std::string> revealChoices;
         unsigned int revealChoice = 0;
 
         // what to do if there's a book
-        if (book) {
+        if (hasBook(false, p)) {
             revealChoices.push_back("Do nothing");
             revealChoices.push_back("Reveal book");
-            ui->print("You have a book");
+            ui->println("You have a book");
             revealChoice =  ui->choose(revealChoices);
             revealChoices.clear();
             switch (revealChoice) {
@@ -90,15 +87,15 @@ void Rummy::start() {
         }
 
         // what to do if there's a run
-        if (run) {
+        if (hasRun(false, p)) {
             revealChoices.push_back("Do nothing");
             revealChoices.push_back("Reveal run");
-            ui->print("You have a run");
+            ui->println("You have a run");
             revealChoice = ui->choose(revealChoices);
             revealChoices.clear();
             switch (revealChoice) {
                 case 0: break;
-                case 1: // call function to reveal run
+                case 1: hasRun(true, p);// call function to reveal run
                     break;
             }
         }
@@ -188,12 +185,14 @@ unsigned int hasBook(bool reveal, Player* player) {
 
 
     /// print before deletion ////////////////
+    std::cout << "\n" << "Possible Book" << std::endl;
     for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
         std::cout << Card::getRank(mapIt->first) << " => ";
         for (Card* c : mapIt->second)
             std::cout << *c << "  ";
         std::cout << "\n";
     }
+    std::cout << std::endl;
     /// print ////////////////////////////////
 
 
@@ -207,10 +206,10 @@ unsigned int hasBook(bool reveal, Player* player) {
 
                 for (Card* c : mapIt->second) {
                     cardsSet.push_back(c);
-                    //std::cout << "Working" << std::endl;
                     player->removeCard(c);
                 }
                 insertToMatchedSets('r', cardsSet);
+                return 1;
             } else {
                 return 1;
             }
@@ -219,16 +218,16 @@ unsigned int hasBook(bool reveal, Player* player) {
 
 
 
-    std::cout << "%%%%%%%%" << std::endl;
-    /// print before deletion ////////////////
-    for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
-        std::cout << Card::getRank(mapIt->first) << " => ";
-        for (Card* c : mapIt->second)
-            std::cout << *c << "  ";
-        std::cout << "\n";
-    }
-    std::cout << "%%%%%%%%" << std::endl;
-    /// print ////////////////////////////////
+//    std::cout << "%%%%%%%%" << std::endl;
+//    /// print before deletion ////////////////
+//    for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
+//        std::cout << Card::getRank(mapIt->first) << " => ";
+//        for (Card* c : mapIt->second)
+//            std::cout << *c << "  ";
+//        std::cout << "\n";
+//    }
+//    std::cout << "%%%%%%%%" << std::endl;
+//    /// print ////////////////////////////////
     return 0;
 }
 
@@ -256,8 +255,25 @@ unsigned int hasRun(bool reveal, Player* player) {
      }
 
 
+
+
+
+
+     /// print before deletion ////////////////
+    std::cout << "\n" << "Possible Run" << std::endl;
+    for (mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
+        std::cout << Card::getSuit(mapIt->first) << " => ";
+        for (Card* c : mapIt->second)
+            std::cout << *c << "  ";
+        std::cout << "\n";
+    }
+    std::cout << std::endl;
+    /// print ////////////////////////////////
+
+
     // iterate through the map
     std::vector<bool> isRunFinal;
+
 
     for (mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
         std::vector<Card*> cardTemp = mapIt->second;
@@ -270,8 +286,12 @@ unsigned int hasRun(bool reveal, Player* player) {
         bool isRun = false;
 
         if (cardTemp.size() >= 3) {
-            unsigned int index = -1;
+        ///------------------------------------------------------------------------
+            Card::Suit key = mapIt->first; // get the handBySuit key
+            std::list<Card*> value;
+            int index = -1;
             unsigned int chain = 0;
+
             do {
                 ++index;
                 // what is next card rank
@@ -283,24 +303,43 @@ unsigned int hasRun(bool reveal, Player* player) {
 
                 bool isSequential = (a == b);
 
-                if (isSequential)
-                    chain++;
-                else
+                if (isSequential){
+                   chain++;
+                   value.push_back(cardTemp[index]);
+                   value.push_back(cardTemp[index + 1]);
+                   value.unique();
+                } else {
+                    if (chain >= 2)
+                        break;
+                    if (value.size() < 3)
+                        value.clear();
                     chain = 0;
+                }
 
                 if (chain >= 2)
                     isRun = true;
+
             } while (index < cardTemp.size() - 2);
+
+            if (reveal) {
+                for(Card* c : value){
+                    player->removeCard(c);
+                }
+                value.clear();
+                insertToMatchedSets('s', value);
+                // remove card
+            }
+        ///------------------------------------------------------------------------
         } else {
             isRun = false;
         }
-
         isRunFinal.push_back(isRun);
-        mapIt->second = cardTemp;
+        //mapIt->second = cardTemp;
     }
 
+
     // is there at least one sequential list
-    bool tempFinal = 0;
+    unsigned int tempFinal = 0;
     for (bool b : isRunFinal) {
         if (b == true) {
             tempFinal = 2;
@@ -309,15 +348,8 @@ unsigned int hasRun(bool reveal, Player* player) {
             tempFinal = 0;
         }
     }
-//    /// print
-//    for(mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
-//        std::cout << Card::getSuit(mapIt->first) << std::endl;
-//        for(Card* c : mapIt->second) {
-//            std::cout << *c << " ";
-//        }
-//        std::cout << std::endl;
-//    }
-//    /// print
+
+
     return tempFinal;
 }
 

@@ -28,7 +28,7 @@ void Player::removeCard(Card* card) {
   for (cardIt = hand.begin(); cardIt != hand.end(); ++cardIt) {
     if (card->rank == (*cardIt)->rank &&
         card->suit == (*cardIt)->suit) {
-       cardIt = hand.erase(cardIt);
+        cardIt = hand.erase(cardIt);
     }
   }
 }

@@ -21,8 +21,9 @@ class GameUI {
     virtual void showScores(std::vector<Player*> players);
     virtual void printDeck(Deck* d);
     virtual unsigned int choose(std::vector<std::string> choices);
-    virtual void print(std::string left, std::string right);
+    virtual void println(std::string left, std::string right);
     virtual void print(std::string message);
+    virtual void println(std::string message);
     virtual void printMapCard(Card::Suit s, std::list<Card*> right);
 
 

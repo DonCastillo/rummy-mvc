@@ -50,7 +50,8 @@ void Rummy::start() {
         ui->println("Discard pile size", std::to_string(discardPile.size()));
         ui->println("Matched sets size", std::to_string(matchedSets.size()));
         for (Player* p : players) {
-            ui->println(p->name + "\'s hand: " + "[" + std::to_string(p->getHand()->size()) + "]");
+            ui->println(p->name + "\'s hand: " + "[" +
+                        std::to_string(p->getHand()->size()) + "]");
             std::list<Card*>* hand = p->getHand();
             std::list<Card*>::iterator card;
             for (card = hand->begin(); card != hand->end(); ++card) {
@@ -303,7 +304,7 @@ unsigned int hasRun(bool reveal, Player* player) {
 
                 bool isSequential = (a == b);
 
-                if (isSequential){
+                if (isSequential) {
                    chain++;
                    value.push_back(cardTemp[index]);
                    value.push_back(cardTemp[index + 1]);
@@ -318,11 +319,10 @@ unsigned int hasRun(bool reveal, Player* player) {
 
                 if (chain >= 2)
                     isRun = true;
-
             } while (index < cardTemp.size() - 2);
 
             if (reveal) {
-                for(Card* c : value){
+                for (Card* c : value) {
                     player->removeCard(c);
                 }
                 value.clear();

@@ -50,7 +50,7 @@ void GameUI::printMapCard(Card::Suit s, std::list<Card*> right) {
 unsigned int GameUI::choose(std::vector<std::string> choices) {
     std::string choice;
     for (int i = 0; i < choices.size(); ++i) {
-        std::cout << "Choose " << i << ": " << choices[i] << std::endl;
+        std::cout << "\tChoose " << i << ": " << choices[i] << std::endl;
     }
 
 
@@ -76,6 +76,9 @@ void GameUI::println(std::string message) {
 }
 
 bool choiceValid(std::string choice, unsigned int choicesSize) {
+    if (choice == "")
+      return false;
+
     // check if it's not a digit
     for (char c : choice) {
         if (!isdigit(c))
@@ -89,7 +92,3 @@ bool choiceValid(std::string choice, unsigned int choicesSize) {
 
     return true;
 }
-
-
-
-

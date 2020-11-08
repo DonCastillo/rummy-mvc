@@ -18,7 +18,7 @@ std::list<Card*> discardPile;
 // key 1 = suit
 std::map<std::string, std::list<Card*>> matchedSets;
 void insertToMatchedSets(char c, std::list<Card*> cardsSet);
-
+void layoff(Player* player, GameUI* pUI);
 bool sortCard(Card* a, Card* b);
 void drawCard(Player* p, unsigned int i, Deck* d);
 unsigned int hasBook(bool reveal, Player* player);
@@ -100,10 +100,59 @@ void Rummy::start() {
                     break;
             }
         }
+
+        // ask player to choose which card to reveal
+        //unsigned int don = ui->requestCard(p->getHand());
+        //std::cout << "Don: " << std::to_string(don) << std::endl;
+        layoff(p, ui);
+
+
+
+
     }
 }
 
 
+void layoff(Player* player, GameUI* pUI) {
+
+    if (matchedSets.size() > 0) {
+        std::cout << "Don Castillo" << std::endl;
+
+        // if player has a card in hand
+        if (player->getHand()->size() > 0) {
+
+            // get card index
+            unsigned int index = pUI->requestCard(player->getHand());
+            // get the actual card
+            Card* pickedCard = player->getCard(index);
+            Card::Rank r = pickedCard->rank;
+            Card::Suit s = pickedCard->suit;
+
+            pUI->print("Picked Card: ");
+            pUI->println(Card::getRank(r) + ":" + Card::getSuit(s));
+
+
+            std::map<std::string, std::list<Card*>>::iterator mapIt;
+            std::vector<std::string> choices;
+
+            for (mapIt = matchedSets.begin(); mapIt != matchedSets.end(); ++mapIt) {
+                std::string choiceRow = "";
+
+                for (Card* c: mapIt->second) {
+                    choiceRow.append(Card::getRank(c->rank));
+                    choiceRow.append(":");
+                    choiceRow.append(Card::getSuit(c->suit));
+                    choiceRow.append("  ");
+                }
+
+                choices.push_back(choiceRow);
+            }
+
+            pUI->choose(choices);
+
+        }
+    }
+}
 
 void Rummy::dealCards(std::vector<Player*> p) {
     unsigned int numOfPlayers = p.size();
@@ -325,7 +374,7 @@ unsigned int hasRun(bool reveal, Player* player) {
                 for (Card* c : value) {
                     player->removeCard(c);
                 }
-                value.clear();
+                //value.clear();
                 insertToMatchedSets('s', value);
                 // remove card
             }

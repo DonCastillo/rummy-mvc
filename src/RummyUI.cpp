@@ -8,8 +8,15 @@
 
 
 unsigned int RummyUI::requestCard(std::list<Card*>* hand) {
-    return 0;
+    std::vector<std::string> choices;
+    for (std::list<Card*>::iterator i = hand->begin(); i != hand->end(); ++i) {
+        Card::Suit s = (*i)->suit;
+        Card::Rank r = (*i)->rank;
+        std::string card = Card::getRank(r) + ":" + Card::getSuit(s);
+        choices.push_back(card);
+    }
+    return GameUI::choose(choices);
 }
+
 void RummyUI::playFailed() {}
 void RummyUI::playSucceeded() {}
-

@@ -120,7 +120,7 @@ void Rummy::start() {
         }
 
         // ask player to choose which card to reveal
-        //layoff(p, ui);
+        layoff(p, ui);
     }
 }
 
@@ -250,7 +250,7 @@ bool insertToRun(Player* player, Card* card) {
 
                 if (proceed) {
                     value.push_back(card);
-                    value.sort();
+                    value.sort(sortCard);
                     mapIt->second = value;
                     player->removeCard(card);
                     success = true;

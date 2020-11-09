@@ -26,6 +26,7 @@ bool insertToRun(Player* player, Card* card);
 unsigned int hasBook(bool reveal, Player* player);
 unsigned int hasRun(bool reveal, Player* player);
 void displayStats(std::vector<Player*> players, Deck* deck, GameUI* pUI);
+void displayMatchedSets(GameUI* pUI);
 
 
 void Rummy::start() {
@@ -43,6 +44,7 @@ void Rummy::start() {
     while (!isOver()) {
         p = players.at(turn);
         displayStats(players, deck, ui);
+        displayMatchedSets(ui);
         // display current player
         ui->println("\nCurrent player", p->name);
 
@@ -102,6 +104,25 @@ void Rummy::start() {
     }
 }
 
+void displayMatchedSets(GameUI* pUI) {
+    // print matched sets
+    if (matchedSets.size() > 0) {
+        pUI->println("\nMatched set");
+        std::map<std::string, std::list<Card*>>::iterator mapIt;
+        for (mapIt = matchedSets.begin(); mapIt != matchedSets.end(); ++mapIt) {
+            pUI->print(mapIt->first);
+            pUI->print(" => ");
+            for (Card* c : mapIt->second) {
+                pUI->print(Card::getRank(c->rank));
+                pUI->print(":");
+                pUI->print(Card::getSuit(c->suit));
+                pUI->print("  ");
+            }
+            pUI->println("\n");
+        }
+    }
+}
+
 
 void displayStats(std::vector<Player*> players, Deck* deck, GameUI* pUI) {
     // print numbers
@@ -124,23 +145,6 @@ void displayStats(std::vector<Player*> players, Deck* deck, GameUI* pUI) {
         }
         pUI->println("");
     }
-
-    // print matched sets
-    if (matchedSets.size() > 0) {
-        pUI->println("Matched set");
-        std::map<std::string, std::list<Card*>>::iterator mapIt;
-        for (mapIt = matchedSets.begin(); mapIt != matchedSets.end(); ++mapIt) {
-            pUI->print(mapIt->first);
-            pUI->print(" => ");
-            for (Card* c : mapIt->second) {
-                pUI->print(Card::getRank(c->rank));
-                pUI->print(":");
-                pUI->print(Card::getSuit(c->suit));
-                pUI->print("  ");
-            }
-            pUI->println("");
-        }
-    }
 }
 
 
@@ -162,84 +166,92 @@ void discard(Player* player, GameUI* pUI) {
 
 void layoff(Player* player, GameUI* pUI) {
     if (matchedSets.size() > 0) {
-        std::vector<std::string> layoffChoices;
-        layoffChoices.push_back("Yes");
-        layoffChoices.push_back("No");
-        pUI->println("Do you want to layoff card?: ");
-        unsigned int choice = pUI->choose(layoffChoices);
-        if (choice != 0)
-            return;
-
         // if player has a card in hand
         if (player->getHand()->size() > 0) {
-            // get card index
-            unsigned int index = pUI->requestCard(player->getHand());
-
-            // get the actual card
-            Card* pickedCard = player->getCard(index);
-            Card::Rank r = pickedCard->rank;
-            Card::Suit s = pickedCard->suit;
-
-            // print picked card
-            pUI->print("Picked Card: ");
-            pUI->println(Card::getRank(r) + ":" + Card::getSuit(s));
-
-            // collect row of cards in map and print it as choices
-            std::map<std::string, std::list<Card*>>::iterator mapIt;
-            std::vector<std::string> choices;
-
-            for (mapIt = matchedSets.begin();
-                 mapIt != matchedSets.end(); ++mapIt) {
-                std::string choiceRow = "";
-                for (Card* c : mapIt->second) {
-                    choiceRow.append(Card::getRank(c->rank));
-                    choiceRow.append(":");
-                    choiceRow.append(Card::getSuit(c->suit));
-                    choiceRow.append("  ");
-                }
-                choices.push_back(choiceRow);
-            }
-            choices.push_back("Exit");
-
-
-            ///-------------------------
-            bool isSuccessful = true;
+            unsigned int choice = 0;
             do {
-                // get index of selected map row
-                unsigned int exit = choices.size() - 1;
-                unsigned int mapIndex = pUI->choose(choices);
-
-                // access actual row of map based on chosen mapIndex
-                unsigned int counter = 0;
-                std::string key = "";
-                char mode;
-
-                // exit
-                if (mapIndex == exit)
+                std::vector<std::string> layoffChoices;
+                layoffChoices.push_back("Yes");
+                layoffChoices.push_back("No");
+                pUI->println("Do you want to layoff card?: ");
+                choice = pUI->choose(layoffChoices);
+                pUI->println("");
+                if (choice != 0)
                     break;
 
-                // get the first char of the map key to know if it's
-                // a suit or rank based insertion
+                // print map
+                displayMatchedSets(pUI);
+                // get card index
+                pUI->println("\nWhich card to insert to the matched sets?");
+                unsigned int index = pUI->requestCard(player->getHand());
+
+                // get the actual card
+                Card* pickedCard = player->getCard(index);
+                Card::Rank r = pickedCard->rank;
+                Card::Suit s = pickedCard->suit;
+
+                // print picked card
+                pUI->print("Picked Card: ");
+                pUI->println(Card::getRank(r) + ":" + Card::getSuit(s));
+
+                // collect row of cards in map and print it as choices
+                std::map<std::string, std::list<Card*>>::iterator mapIt;
+                std::vector<std::string> choices;
+
+                pUI->println("Which set to insert the picked card?");
                 for (mapIt = matchedSets.begin();
                      mapIt != matchedSets.end(); ++mapIt) {
-                    if (mapIndex == counter)
-                        key = mapIt->first;
-                    ++counter;
+                    std::string choiceRow = "";
+                    for (Card* c : mapIt->second) {
+                        choiceRow.append(Card::getRank(c->rank));
+                        choiceRow.append(":");
+                        choiceRow.append(Card::getSuit(c->suit));
+                        choiceRow.append("  ");
+                    }
+                    choices.push_back(choiceRow);
                 }
+                choices.push_back("Exit");
 
-                // get mode
 
-                mode = key[0];
-                switch (mode) {
-                    case 'r':
-                        isSuccessful = insertToBook(player, pickedCard);
+                ///-------------------------
+                bool isSuccessful = true;
+                do {
+                    // get index of selected map row
+                    unsigned int exit = choices.size() - 1;
+                    unsigned int mapIndex = pUI->choose(choices);
+
+                    // access actual row of map based on chosen mapIndex
+                    unsigned int counter = 0;
+                    std::string key = "";
+                    char mode;
+
+                    // exit
+                    if (mapIndex == exit)
                         break;
-                    case 's':
-                        isSuccessful = insertToRun(player, pickedCard);
-                        break;
-                }
-            } while (!isSuccessful);
-            ///-------------------------
+
+                    // get the first char of the map key to know if it's
+                    // a suit or rank based insertion
+                    for (mapIt = matchedSets.begin();
+                         mapIt != matchedSets.end(); ++mapIt) {
+                        if (mapIndex == counter)
+                            key = mapIt->first;
+                        ++counter;
+                    }
+
+                    // get mode
+
+                    mode = key[0];
+                    switch (mode) {
+                        case 'r':
+                            isSuccessful = insertToBook(player, pickedCard);
+                            break;
+                        case 's':
+                            isSuccessful = insertToRun(player, pickedCard);
+                            break;
+                    }
+                } while (!isSuccessful);
+                ///-------------------------
+            } while (choice == 0);
         }
     }
 }
@@ -401,21 +413,18 @@ unsigned int hasBook(bool reveal, Player* player) {
                           std::vector<Card*>>((*it1)->rank, indexes));
     }
 
-
-
-    /// print before deletion ////////////////
-    std::cout << "\n" << "Possible Book" << std::endl;
-    for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
-        std::cout << Card::getRank(mapIt->first) << " => ";
-        for (Card* c : mapIt->second)
-            std::cout << *c << "  ";
-        std::cout << "\n";
+     /// print before deletion ////////////////
+    if (!reveal) {
+        std::cout << "\n" << "Possible Book" << std::endl;
+        for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
+            std::cout << Card::getRank(mapIt->first) << " => ";
+            for (Card* c : mapIt->second)
+                std::cout << *c << "  ";
+            std::cout << "\n";
+        }
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
     /// print ////////////////////////////////
-
-
-
 
     // iterate through the map
     for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
@@ -473,20 +482,17 @@ unsigned int hasRun(bool reveal, Player* player) {
                           std::vector<Card*>>((*it1)->suit, indexes));
      }
 
-
-
-
-
-
      /// print before deletion ////////////////
-    std::cout << "\n" << "Possible Run" << std::endl;
-    for (mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
-        std::cout << Card::getSuit(mapIt->first) << " => ";
-        for (Card* c : mapIt->second)
-            std::cout << *c << "  ";
-        std::cout << "\n";
+    if (!reveal) {
+        std::cout << "\n" << "Possible Run" << std::endl;
+        for (mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
+            std::cout << Card::getSuit(mapIt->first) << " => ";
+            for (Card* c : mapIt->second)
+                std::cout << *c << "  ";
+            std::cout << "\n";
+        }
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
     /// print ////////////////////////////////
 
 

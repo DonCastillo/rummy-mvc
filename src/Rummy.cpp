@@ -120,7 +120,7 @@ void Rummy::start() {
         }
 
         // ask player to choose which card to reveal
-        layoff(p, ui);
+        //layoff(p, ui);
     }
 }
 
@@ -251,7 +251,6 @@ bool insertToRun(Player* player, Card* card) {
                 if (proceed) {
                     value.push_back(card);
                     value.sort();
-                    //std::sort(value.begin(), value.end(), sortCard);
                     mapIt->second = value;
                     player->removeCard(card);
                     success = true;
@@ -506,7 +505,7 @@ unsigned int hasRun(bool reveal, Player* player) {
                     isRun = true;
             } while (index < cardTemp.size() - 2);
 
-            if (reveal) {
+            if (reveal && value.size() >= 3) {
                 for (Card* c : value) {
                     player->removeCard(c);
                 }

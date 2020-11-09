@@ -101,6 +101,9 @@ void Rummy::start() {
         // discard a card
         if (p->getHand()->size() > 0)
             discard(p, ui);
+
+        // next player
+        turn = ++turn % players.size();
     }
 }
 

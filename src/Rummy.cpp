@@ -227,23 +227,26 @@ bool insertToRun(Player* player, Card* card) {
             // check if card to be inserted has the
             // same suit as the cards in the map
             if (card->suit == value.front()->suit) {
-
                 // if card is KING : x
                 bool proceed = false;
 
                 switch (card->rank) {
                     case Card::KING:
-                        proceed = (value.back()->rank == Card::QUEEN) ? true : false;
+                        proceed = (value.back()->rank == Card::QUEEN) ?
+                                                        true : false;
                         break;
                     case Card::ACE:
-                        proceed = (value.front()->rank == Card::TWO) ? true : false;
+                        proceed = (value.front()->rank == Card::TWO) ?
+                                                        true : false;
                         break;
                     default:
                         Card::Rank frontRank = value.front()->rank;
                         Card::Rank backRank = value.back()->rank;
                         bool okayFront = false, okayBack = false;
-                        okayFront = Card::nextRank(card->rank) == frontRank ? true : false;
-                        okayBack = Card::prevRank(card->rank) == backRank ? true : false;
+                        okayFront = Card::nextRank(card->rank) ==
+                                        frontRank ? true : false;
+                        okayBack = Card::prevRank(card->rank) ==
+                                        backRank ? true : false;
                         proceed = okayFront || okayBack;
                         break;
                 }

@@ -50,7 +50,7 @@ void GameUI::printMapCard(Card::Suit s, std::list<Card*> right) {
 unsigned int GameUI::choose(std::vector<std::string> choices) {
     std::string choice;
     for (int i = 0; i < choices.size(); ++i) {
-        std::cout << "\tChoose " << i << ": " << choices[i] << std::endl;
+        std::cout << "Choose " << i << ": " << choices[i] << std::endl;
     }
 
 

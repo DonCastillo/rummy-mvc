@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include <list>
-#include <iostream>
 #include <map>
 #include <algorithm>
 #include <utility>
@@ -19,19 +18,17 @@ std::list<Card*> discardPile;
 std::map<std::string, std::list<Card*>> matchedSets;
 void insertToMatchedSets(char c, std::list<Card*> cardsSet);
 void layoff(Player* player, GameUI* pUI);
+void discard(Player* player, GameUI* pUI);
 bool sortCard(Card* a, Card* b);
 void drawCard(Player* p, unsigned int i, Deck* d);
 bool insertToBook(Player* player, Card* card);
 bool insertToRun(Player* player, Card* card);
 unsigned int hasBook(bool reveal, Player* player);
 unsigned int hasRun(bool reveal, Player* player);
+void displayStats(std::vector<Player*> players, Deck* deck, GameUI* pUI);
 
 
 void Rummy::start() {
-    std::vector<std::string> drawChoices;
-    drawChoices.push_back("Draw from the deck");
-    drawChoices.push_back("Draw from the discarded pile");
-
     // check if there's a player
     if (players.empty())
         throw game_init_error("No players for game");
@@ -45,64 +42,38 @@ void Rummy::start() {
 
     while (!isOver()) {
         p = players.at(turn);
-
-
-        //*************************print numbers
-        ui->println("Deck size", std::to_string(deck->size()));
-        ui->println("Discard pile size", std::to_string(discardPile.size()));
-        ui->println("Matched sets size", std::to_string(matchedSets.size()));
-        for (Player* p : players) {
-            ui->println(p->name + "\'s hand: " + "[" +
-                        std::to_string(p->getHand()->size()) + "]");
-            std::list<Card*>* hand = p->getHand();
-            std::list<Card*>::iterator card;
-            for (card = hand->begin(); card != hand->end(); ++card) {
-                std::cout << **card << "  ";
-            }
-            std::cout << "\n";
-        }
-        //*************************
-
-        //*************************print maps
-        ui->println("Matched set");
-        std::map<std::string, std::list<Card*>>::iterator mapIt;
-        for (mapIt = matchedSets.begin(); mapIt != matchedSets.end(); ++mapIt) {
-            ui->print(mapIt->first);
-            ui->print(" => ");
-            for (Card* c : mapIt->second) {
-                ui->print(Card::getRank(c->rank));
-                ui->print(":");
-                ui->print(Card::getSuit(c->suit));
-                ui->print("  ");
-            }
-            ui->println("");
-        }
-        //*************************************
-
-
+        displayStats(players, deck, ui);
+        // display current player
         ui->println("\nCurrent player", p->name);
 
         // ask player where to draw
+        std::vector<std::string> drawChoices;
+        drawChoices.push_back("Draw from the deck");
+        drawChoices.push_back("Draw from the discarded pile");
         unsigned int choice = ui->choose(drawChoices);
+        drawChoices.clear();
+
         // draw card
         drawCard(p, choice, deck);
-        // check for book / run
 
+        // check for book / run
         std::vector<std::string> revealChoices;
-        unsigned int revealChoice = 0;
+        int revealBook = 0, revealRun = 0;
 
         // what to do if there's a book
         if (hasBook(false, p)) {
             revealChoices.push_back("Do nothing");
             revealChoices.push_back("Reveal book");
             ui->println("You have a book");
-            revealChoice =  ui->choose(revealChoices);
+            revealBook =  ui->choose(revealChoices);
             revealChoices.clear();
-            switch (revealChoice) {
+            switch (revealBook) {
                 case 0: break;
                 case 1: hasBook(true, p);
                     break;
             }
+        } else {
+            ui->println("No book");
         }
 
         // what to do if there's a run
@@ -110,18 +81,82 @@ void Rummy::start() {
             revealChoices.push_back("Do nothing");
             revealChoices.push_back("Reveal run");
             ui->println("You have a run");
-            revealChoice = ui->choose(revealChoices);
+            revealRun = ui->choose(revealChoices);
             revealChoices.clear();
-            switch (revealChoice) {
+            switch (revealRun) {
                 case 0: break;
-                case 1: hasRun(true, p);// call function to reveal run
+                case 1: hasRun(true, p);
                     break;
             }
+        } else {
+            ui->println("No Run");
+            ui->println("");
         }
 
         // ask player to choose which card to reveal
         layoff(p, ui);
+
+        // discard a card
+        if (p->getHand()->size() > 0)
+            discard(p, ui);
     }
+}
+
+
+void displayStats(std::vector<Player*> players, Deck* deck, GameUI* pUI) {
+    // print numbers
+    pUI->println("");
+    pUI->println("Deck size", std::to_string(deck->size()));
+    pUI->println("Discard pile size", std::to_string(discardPile.size()));
+    //pUI->println("Matched sets size", std::to_string(matchedSets.size()));
+
+    for (Player* p : players) {
+        pUI->print(p->name + "\'s hand: " + "[" +
+                    std::to_string(p->getHand()->size()) + "] ");
+        std::list<Card*>* hand = p->getHand();
+        std::list<Card*>::iterator card;
+        for (card = hand->begin(); card != hand->end(); ++card) {
+            //std::cout << **card << "  ";
+            pUI->print(Card::getRank((*card)->rank));
+            pUI->print(":");
+            pUI->print(Card::getSuit((*card)->suit));
+            pUI->print("  ");
+        }
+        pUI->println("");
+    }
+
+    // print matched sets
+    if (matchedSets.size() > 0) {
+        pUI->println("Matched set");
+        std::map<std::string, std::list<Card*>>::iterator mapIt;
+        for (mapIt = matchedSets.begin(); mapIt != matchedSets.end(); ++mapIt) {
+            pUI->print(mapIt->first);
+            pUI->print(" => ");
+            for (Card* c : mapIt->second) {
+                pUI->print(Card::getRank(c->rank));
+                pUI->print(":");
+                pUI->print(Card::getSuit(c->suit));
+                pUI->print("  ");
+            }
+            pUI->println("");
+        }
+    }
+}
+
+
+void discard(Player* player, GameUI* pUI) {
+    pUI->println("Discard a card");
+    // get card index
+    unsigned int index = pUI->requestCard(player->getHand());
+
+    // get the actual card
+    Card* pickedCard = player->getCard(index);
+
+    // add to discard pile
+    discardPile.push_back(pickedCard);
+
+    // remove card from player's hand
+    player->removeCard(pickedCard);
 }
 
 
@@ -134,8 +169,6 @@ void layoff(Player* player, GameUI* pUI) {
         unsigned int choice = pUI->choose(layoffChoices);
         if (choice != 0)
             return;
-
-        std::cout << "Don Castillo" << std::endl;
 
         // if player has a card in hand
         if (player->getHand()->size() > 0) {
@@ -200,8 +233,6 @@ void layoff(Player* player, GameUI* pUI) {
                 switch (mode) {
                     case 'r':
                         isSuccessful = insertToBook(player, pickedCard);
-                        std::cout << std::boolalpha
-                                  << isSuccessful << std::endl;
                         break;
                     case 's':
                         isSuccessful = insertToRun(player, pickedCard);

@@ -125,6 +125,35 @@ Card::Rank Card::nextRank(Rank r) {
     }
 }
 
+Card::Rank Card::prevRank(Rank r) {
+    switch (r) {
+    case Card::TWO :
+        return Card::ACE;
+    case Card::THREE :
+        return Card::TWO;
+    case Card::FOUR :
+        return Card::THREE;
+    case Card::FIVE :
+        return Card::FOUR;
+    case Card::SIX :
+        return Card::FIVE;
+    case Card::SEVEN :
+        return Card::SIX;
+    case Card::EIGHT :
+        return Card::SEVEN;
+    case Card::NINE :
+        return Card::EIGHT;
+    case Card::TEN :
+        return Card::NINE;
+    case Card::JACK :
+        return Card::TEN;
+    case Card::QUEEN :
+        return Card::JACK;
+    case Card::KING :
+        return Card::QUEEN;
+    }
+}
+
 unsigned int Card::numRank(Rank r) {
     switch (r) {
     case Card::ACE :

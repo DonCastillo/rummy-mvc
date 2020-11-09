@@ -77,8 +77,6 @@ void Rummy::start() {
             }
             ui->println("");
         }
-
-
         //*************************************
 
 
@@ -216,6 +214,59 @@ void layoff(Player* player, GameUI* pUI) {
 }
 
 
+bool insertToRun(Player* player, Card* card) {
+    bool success = false;
+    std::map<std::string, std::list<Card*>>::iterator mapIt;
+
+    for (mapIt = matchedSets.begin(); mapIt != matchedSets.end(); ++mapIt) {
+        std::string key        = mapIt->first;
+        std::list<Card*> value = mapIt->second;
+
+        // suit
+        if (key[0] == 's') {
+            // check if card to be inserted has the
+            // same suit as the cards in the map
+            if (card->suit == value.front()->suit) {
+
+                // if card is KING : x
+                bool proceed = false;
+
+                switch (card->rank) {
+                    case Card::KING:
+                        proceed = (value.back()->rank == Card::QUEEN) ? true : false;
+                        break;
+                    case Card::ACE:
+                        proceed = (value.front()->rank == Card::TWO) ? true : false;
+                        break;
+                    default:
+                        Card::Rank frontRank = value.front()->rank;
+                        Card::Rank backRank = value.back()->rank;
+                        bool okayFront = false, okayBack = false;
+                        okayFront = Card::nextRank(card->rank) == frontRank ? true : false;
+                        okayBack = Card::prevRank(card->rank) == backRank ? true : false;
+                        proceed = okayFront || okayBack;
+                        break;
+                }
+
+                if (proceed) {
+                    value.push_back(card);
+                    value.sort();
+                    //std::sort(value.begin(), value.end(), sortCard);
+                    mapIt->second = value;
+                    player->removeCard(card);
+                    success = true;
+                } else {
+                    success = false;
+                }
+            }
+        }
+    }
+
+    return success;
+}
+
+
+
 bool insertToBook(Player* player, Card* card) {
     bool success = false;
     std::map<std::string, std::list<Card*>>::iterator mapIt;
@@ -238,8 +289,6 @@ bool insertToBook(Player* player, Card* card) {
     return success;
 }
 
-
-bool insertToRun(Player* player, Card* card) {}
 
 void Rummy::dealCards(std::vector<Player*> p) {
     unsigned int numOfPlayers = p.size();
@@ -506,9 +555,6 @@ void insertToMatchedSets(char c, std::list<Card*> cardsSet) {
     key.append("-");
     key.append(std::to_string(num));
     matchedSets.insert(std::pair<std::string, std::list<Card*>>(key, cardsSet));
-    std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;
-    std::cout << key << std::endl;
-    std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;
 }
 
 

@@ -14,6 +14,7 @@ class Card {
     static std::string getRank(Card::Rank r);
     static std::string getSuit(Card::Suit s);
     static Rank nextRank(Rank r);
+    static Rank prevRank(Rank r);
     static unsigned int numRank(Rank r);
 
 

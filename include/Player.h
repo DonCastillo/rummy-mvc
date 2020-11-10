@@ -13,6 +13,11 @@ class Player {
     Card* getCard(unsigned int index);
     std::list<Card*>* getHand();
     void addPoints(unsigned int points);
+
+    /*!
+       \brief   removes card from the player's hand
+       \param   card    card to be removed
+    */
     void removeCard(Card* card);
     unsigned int getScore();
 

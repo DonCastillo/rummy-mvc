@@ -20,7 +20,7 @@ class GameUI {
                                       unsigned int numPlayers);
     virtual void showScores(std::vector<Player*> players);
     virtual void printDeck(Deck* d);
-    virtual unsigned int choose(std::vector<std::string> choices);
+    static unsigned int choose(std::vector<std::string> choices);
     virtual void println(std::string left, std::string right);
     virtual void print(std::string message);
     virtual void println(std::string message);

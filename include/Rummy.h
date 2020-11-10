@@ -44,8 +44,6 @@ class Rummy : public Game {
                          Card* played) {}
     bool turnOver();
 
-
-
  private:
 };
 

@@ -17,7 +17,6 @@ class RummyUI : public GameUI {
     void playFailed();
     void playSucceeded();
 
-    //void printDeck();
  private:
 };
 

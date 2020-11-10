@@ -56,7 +56,7 @@ void Rummy::start() {
             std::vector<std::string> drawChoices;
             drawChoices.push_back("Draw from the deck");
             drawChoices.push_back("Draw from the discarded pile");
-            unsigned int choice = ui->choose(drawChoices);
+            unsigned int choice = GameUI::choose(drawChoices);
             drawChoices.clear();
             if (deck->size() > 0 && discardPile.size() > 0)
                 successDraw = drawCard(p, choice, deck);
@@ -72,7 +72,7 @@ void Rummy::start() {
             revealChoices.push_back("Do nothing");
             revealChoices.push_back("Reveal book");
             ui->println("You have a book");
-            revealBook =  ui->choose(revealChoices);
+            revealBook =  GameUI::choose(revealChoices);
             revealChoices.clear();
             switch (revealBook) {
                 case 0: break;
@@ -88,7 +88,7 @@ void Rummy::start() {
             revealChoices.push_back("Do nothing");
             revealChoices.push_back("Reveal run");
             ui->println("You have a run");
-            revealRun = ui->choose(revealChoices);
+            revealRun = GameUI::choose(revealChoices);
             revealChoices.clear();
             switch (revealRun) {
                 case 0: break;
@@ -191,7 +191,7 @@ void layoff(Player* player, GameUI* pUI) {
                 layoffChoices.push_back("Yes");
                 layoffChoices.push_back("No");
                 pUI->println("Do you want to layoff card?: ");
-                choice = pUI->choose(layoffChoices);
+                choice = GameUI::choose(layoffChoices);
                 pUI->println("");
                 if (choice != 0)
                     break;
@@ -235,7 +235,7 @@ void layoff(Player* player, GameUI* pUI) {
                 do {
                     // get index of selected map row
                     unsigned int exit = choices.size() - 1;
-                    unsigned int mapIndex = pUI->choose(choices);
+                    unsigned int mapIndex = GameUI::choose(choices);
 
                     // access actual row of map based on chosen mapIndex
                     unsigned int counter = 0;

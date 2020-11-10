@@ -20,13 +20,15 @@ void insertToMatchedSets(char c, std::list<Card*> cardsSet);
 void layoff(Player* player, GameUI* pUI);
 void discard(Player* player, GameUI* pUI);
 bool sortCard(Card* a, Card* b);
-void drawCard(Player* p, unsigned int i, Deck* d);
+bool drawCard(Player* p, unsigned int i, Deck* d);
 bool insertToBook(Player* player, Card* card);
 bool insertToRun(Player* player, Card* card);
 unsigned int hasBook(bool reveal, Player* player);
 unsigned int hasRun(bool reveal, Player* player);
 void displayStats(std::vector<Player*> players, Deck* deck, GameUI* pUI);
 void displayMatchedSets(GameUI* pUI);
+void replenishDeck(Deck* deck);
+void determineWinner(std::vector<Player*> players, GameUI* pUI);
 
 
 void Rummy::start() {
@@ -49,14 +51,17 @@ void Rummy::start() {
         ui->println("\nCurrent player", p->name);
 
         // ask player where to draw
-        std::vector<std::string> drawChoices;
-        drawChoices.push_back("Draw from the deck");
-        drawChoices.push_back("Draw from the discarded pile");
-        unsigned int choice = ui->choose(drawChoices);
-        drawChoices.clear();
+        bool successDraw = true;
+        do {
+            std::vector<std::string> drawChoices;
+            drawChoices.push_back("Draw from the deck");
+            drawChoices.push_back("Draw from the discarded pile");
+            unsigned int choice = ui->choose(drawChoices);
+            drawChoices.clear();
+            if (deck->size() > 0 && discardPile.size() > 0)
+                successDraw = drawCard(p, choice, deck);
+        } while (!successDraw);
 
-        // draw card
-        drawCard(p, choice, deck);
 
         // check for book / run
         std::vector<std::string> revealChoices;
@@ -104,6 +109,15 @@ void Rummy::start() {
 
         // next player
         turn = ++turn % players.size();
+    }
+
+    determineWinner(players, ui);
+}
+
+void determineWinner(std::vector<Player*> players, GameUI* pUI) {
+    for (Player* p : players) {
+        if (p->getHand()->size() == 0)
+            pUI->println("Congrats, " + p->name);
     }
 }
 
@@ -374,18 +388,49 @@ void Rummy::dealCards(std::vector<Player*> p) {
 // draw from either the deck or discarded pile
 // 0 draw from deck
 // 1 draw from discarded pile
-void drawCard(Player* p, unsigned int i, Deck* d) {
+bool drawCard(Player* p, unsigned int i, Deck* d) {
     Card* cardtemp;
+    bool success = false;
     switch (i) {
         case 0:
-            cardtemp = d->getCard();
+            do {
+                cardtemp = d->getCard();
+                if (cardtemp == nullptr && discardPile.size() > 1) {
+                    success = false;
+                    replenishDeck(d);
+                    continue;
+                } else if (cardtemp == nullptr && discardPile.size() == 1) {
+                    success = false;
+                    break;
+                } else {
+                    success = true;
+                    break;
+                }
+            } while (true);
             break;
         case 1:
-            cardtemp = discardPile.back();
-            discardPile.pop_back();
+            if (discardPile.size() > 0) {
+                cardtemp = discardPile.back();
+                discardPile.pop_back();
+                success = true;
+            } else {
+                success = false;
+            }
             break;
     }
-    p->addCard(cardtemp);
+    if (success)
+        p->addCard(cardtemp);
+
+    return success;
+}
+
+
+void replenishDeck(Deck* deck) {
+    Card* cardToRetain = discardPile.front();
+    discardPile.pop_front();
+    for (Card* c : discardPile)
+        deck->addCard(c);
+    discardPile.push_back(cardToRetain);
 }
 
 

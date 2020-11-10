@@ -1,5 +1,6 @@
 #include "Rummy.h"
 #include "RummyUI.h"
+#include "GameUI.h"
 #include "Exceptions.h"
 #include <vector>
 #include <string>
@@ -48,7 +49,7 @@ void Rummy::start() {
         displayStats(players, deck, ui);
         displayMatchedSets(ui);
         // display current player
-        ui->println("\nCurrent player", p->name);
+        GameUI::println("\nCurrent player", p->name);
 
         // ask player where to draw
         bool successDraw = true;
@@ -71,7 +72,7 @@ void Rummy::start() {
         if (hasBook(false, p)) {
             revealChoices.push_back("Do nothing");
             revealChoices.push_back("Reveal book");
-            ui->println("You have a book");
+            GameUI::println("You have a book");
             revealBook =  GameUI::choose(revealChoices);
             revealChoices.clear();
             switch (revealBook) {
@@ -80,14 +81,14 @@ void Rummy::start() {
                     break;
             }
         } else {
-            ui->println("No book");
+            GameUI::println("No book");
         }
 
         // what to do if there's a run
         if (hasRun(false, p)) {
             revealChoices.push_back("Do nothing");
             revealChoices.push_back("Reveal run");
-            ui->println("You have a run");
+            GameUI::println("You have a run");
             revealRun = GameUI::choose(revealChoices);
             revealChoices.clear();
             switch (revealRun) {
@@ -96,8 +97,8 @@ void Rummy::start() {
                     break;
             }
         } else {
-            ui->println("No Run");
-            ui->println("");
+            GameUI::println("No Run");
+            GameUI::println("");
         }
 
         // ask player to choose which card to reveal
@@ -117,25 +118,25 @@ void Rummy::start() {
 void determineWinner(std::vector<Player*> players, GameUI* pUI) {
     for (Player* p : players) {
         if (p->getHand()->size() == 0)
-            pUI->println("Congrats, " + p->name);
+            GameUI::println("Congrats, " + p->name);
     }
 }
 
 void displayMatchedSets(GameUI* pUI) {
     // print matched sets
     if (matchedSets.size() > 0) {
-        pUI->println("\nMatched set");
+        GameUI::println("\nMatched set");
         std::map<std::string, std::list<Card*>>::iterator mapIt;
         for (mapIt = matchedSets.begin(); mapIt != matchedSets.end(); ++mapIt) {
-            pUI->print(mapIt->first);
-            pUI->print(" => ");
+            GameUI::print(mapIt->first);
+            GameUI::print(" => ");
             for (Card* c : mapIt->second) {
-                pUI->print(Card::getRank(c->rank));
-                pUI->print(":");
-                pUI->print(Card::getSuit(c->suit));
-                pUI->print("  ");
+                GameUI::print(Card::getRank(c->rank));
+                GameUI::print(":");
+                GameUI::print(Card::getSuit(c->suit));
+                GameUI::print("  ");
             }
-            pUI->println("\n");
+            GameUI::println("\n");
         }
     }
 }
@@ -143,30 +144,30 @@ void displayMatchedSets(GameUI* pUI) {
 
 void displayStats(std::vector<Player*> players, Deck* deck, GameUI* pUI) {
     // print numbers
-    pUI->println("");
-    pUI->println("Deck size", std::to_string(deck->size()));
-    pUI->println("Discard pile size", std::to_string(discardPile.size()));
+    GameUI::println("");
+    GameUI::println("Deck size", std::to_string(deck->size()));
+    GameUI::println("Discard pile size", std::to_string(discardPile.size()));
     //pUI->println("Matched sets size", std::to_string(matchedSets.size()));
 
     for (Player* p : players) {
-        pUI->print(p->name + "\'s hand: " + "[" +
+        GameUI::print(p->name + "\'s hand: " + "[" +
                     std::to_string(p->getHand()->size()) + "] ");
         std::list<Card*>* hand = p->getHand();
         std::list<Card*>::iterator card;
         for (card = hand->begin(); card != hand->end(); ++card) {
             //std::cout << **card << "  ";
-            pUI->print(Card::getRank((*card)->rank));
-            pUI->print(":");
-            pUI->print(Card::getSuit((*card)->suit));
-            pUI->print("  ");
+            GameUI::print(Card::getRank((*card)->rank));
+            GameUI::print(":");
+            GameUI::print(Card::getSuit((*card)->suit));
+            GameUI::print("  ");
         }
-        pUI->println("");
+        GameUI::println("");
     }
 }
 
 
 void discard(Player* player, GameUI* pUI) {
-    pUI->println("Discard a card");
+    GameUI::println("Discard a card");
     // get card index
     unsigned int index = pUI->requestCard(player->getHand());
 
@@ -190,16 +191,16 @@ void layoff(Player* player, GameUI* pUI) {
                 std::vector<std::string> layoffChoices;
                 layoffChoices.push_back("Yes");
                 layoffChoices.push_back("No");
-                pUI->println("Do you want to layoff card?: ");
+                GameUI::println("Do you want to layoff card?: ");
                 choice = GameUI::choose(layoffChoices);
-                pUI->println("");
+                GameUI::println("");
                 if (choice != 0)
                     break;
 
                 // print map
                 displayMatchedSets(pUI);
                 // get card index
-                pUI->println("\nWhich card to insert to the matched sets?");
+                GameUI::println("\nWhich card to insert to the matched sets?");
                 unsigned int index = pUI->requestCard(player->getHand());
 
                 // get the actual card
@@ -208,14 +209,14 @@ void layoff(Player* player, GameUI* pUI) {
                 Card::Suit s = pickedCard->suit;
 
                 // print picked card
-                pUI->print("Picked Card: ");
-                pUI->println(Card::getRank(r) + ":" + Card::getSuit(s));
+                GameUI::print("Picked Card: ");
+                GameUI::println(Card::getRank(r) + ":" + Card::getSuit(s));
 
                 // collect row of cards in map and print it as choices
                 std::map<std::string, std::list<Card*>>::iterator mapIt;
                 std::vector<std::string> choices;
 
-                pUI->println("Which set to insert the picked card?");
+                GameUI::println("Which set to insert the picked card?");
                 for (mapIt = matchedSets.begin();
                      mapIt != matchedSets.end(); ++mapIt) {
                     std::string choiceRow = "";

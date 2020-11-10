@@ -33,19 +33,6 @@ void GameUI::showScores(std::vector<Player*> players) {
         std::cout << player->name << ": " << player->getScore() << std::endl;
 }
 
-void GameUI::printDeck(Deck* d) {
-    for (Card* c : d->getDeck()) {
-        std::cout << *c << std::endl;
-    }
-}
-
-void GameUI::printMapCard(Card::Suit s, std::list<Card*> right) {
-    std::cout << Card::getSuit(s) << "=> ";
-    for (Card* c : right)
-        std::cout << *c << " ";
-    std::cout << std::endl;
-}
-
 
 unsigned int GameUI::choose(std::vector<std::string> choices) {
     std::string choice;

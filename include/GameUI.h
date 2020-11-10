@@ -19,18 +19,10 @@ class GameUI {
     virtual unsigned int choosePlayer(unsigned int playerNum,
                                       unsigned int numPlayers);
     virtual void showScores(std::vector<Player*> players);
-    virtual void printDeck(Deck* d);
     static unsigned int choose(std::vector<std::string> choices);
-    virtual void println(std::string left, std::string right);
-    virtual void print(std::string message);
-    virtual void println(std::string message);
-    virtual void printMapCard(Card::Suit s, std::list<Card*> right);
-
-
- protected:
-    const char LINEFILL = ' ';
-    const unsigned int LINEWIDTH = 35;
-    const char TITLEFILL = '=';
+    static void println(std::string left, std::string right);
+    static void print(std::string message);
+    static void println(std::string message);
 };
 
 #endif // GAMEUI_H_INCLUDED

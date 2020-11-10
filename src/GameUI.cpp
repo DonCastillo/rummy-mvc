@@ -47,7 +47,6 @@ unsigned int GameUI::choose(std::vector<std::string> choices) {
     }while( !choiceValid(choice, choices.size()) );
 
     return std::stoul(choice, nullptr, 10);
-    //return 0;
 }
 
 void GameUI::println(std::string left, std::string right) {

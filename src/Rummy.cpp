@@ -14,8 +14,7 @@
 std::list<Card*> discardPile;
 
 /** matched sets of cards */
-// key 0 = rank
-// key 1 = suit
+// map 0 = <r/s>-<id> => run/book
 std::map<std::string, std::list<Card*>> matchedSets;
 void insertToMatchedSets(char c, std::list<Card*> cardsSet);
 void layoff(Player* player, GameUI* pUI);
@@ -26,10 +25,10 @@ bool insertToBook(Player* player, Card* card);
 bool insertToRun(Player* player, Card* card);
 unsigned int hasBook(bool reveal, Player* player);
 unsigned int hasRun(bool reveal, Player* player);
-void displayStats(std::vector<Player*> players, Deck* deck, GameUI* pUI);
-void displayMatchedSets(GameUI* pUI);
+void displayStats(std::vector<Player*> players, Deck* deck);
+void displayMatchedSets();
 void replenishDeck(Deck* deck);
-void determineWinner(std::vector<Player*> players, GameUI* pUI);
+void determineWinner(std::vector<Player*> players);
 
 
 void Rummy::start() {
@@ -46,8 +45,8 @@ void Rummy::start() {
 
     while (!isOver()) {
         p = players.at(turn);
-        displayStats(players, deck, ui);
-        displayMatchedSets(ui);
+        displayStats(players, deck);
+        displayMatchedSets();
         // display current player
         GameUI::println("\nCurrent player", p->name);
 
@@ -112,17 +111,25 @@ void Rummy::start() {
         turn = ++turn % players.size();
     }
 
-    determineWinner(players, ui);
+    determineWinner(players);
 }
 
-void determineWinner(std::vector<Player*> players, GameUI* pUI) {
+/*!
+   \brief   display who the winner is depending
+            on who gets an empty hand first
+   \param   players   list of players in the game
+*/
+void determineWinner(std::vector<Player*> players) {
     for (Player* p : players) {
         if (p->getHand()->size() == 0)
             GameUI::println("Congrats, " + p->name);
     }
 }
 
-void displayMatchedSets(GameUI* pUI) {
+/*!
+   \brief   displays the current matchedset
+*/
+void displayMatchedSets() {
     // print matched sets
     if (matchedSets.size() > 0) {
         GameUI::println("\nMatched set");
@@ -142,12 +149,16 @@ void displayMatchedSets(GameUI* pUI) {
 }
 
 
-void displayStats(std::vector<Player*> players, Deck* deck, GameUI* pUI) {
+/*!
+   \brief   displays current size of deck, discarded pile, and player's hands
+   \param   deck      deck
+            players   lists of players in the game
+*/
+void displayStats(std::vector<Player*> players, Deck* deck) {
     // print numbers
     GameUI::println("");
     GameUI::println("Deck size", std::to_string(deck->size()));
     GameUI::println("Discard pile size", std::to_string(discardPile.size()));
-    //pUI->println("Matched sets size", std::to_string(matchedSets.size()));
 
     for (Player* p : players) {
         GameUI::print(p->name + "\'s hand: " + "[" +
@@ -166,6 +177,10 @@ void displayStats(std::vector<Player*> players, Deck* deck, GameUI* pUI) {
 }
 
 
+/*!
+   \brief   lets the player discards a card from his hand
+   \param   player    player discarding the card
+*/
 void discard(Player* player, GameUI* pUI) {
     GameUI::println("Discard a card");
     // get card index
@@ -182,6 +197,11 @@ void discard(Player* player, GameUI* pUI) {
 }
 
 
+/*!
+   \brief   lays off a card from the player's hand into a book or run
+            in the matchedSet
+   \param   player    player inserting the card
+*/
 void layoff(Player* player, GameUI* pUI) {
     if (matchedSets.size() > 0) {
         // if player has a card in hand
@@ -198,7 +218,7 @@ void layoff(Player* player, GameUI* pUI) {
                     break;
 
                 // print map
-                displayMatchedSets(pUI);
+                displayMatchedSets();
                 // get card index
                 GameUI::println("\nWhich card to insert to the matched sets?");
                 unsigned int index = pUI->requestCard(player->getHand());
@@ -230,8 +250,6 @@ void layoff(Player* player, GameUI* pUI) {
                 }
                 choices.push_back("Exit");
 
-
-                ///-------------------------
                 bool isSuccessful = true;
                 do {
                     // get index of selected map row
@@ -257,7 +275,6 @@ void layoff(Player* player, GameUI* pUI) {
                     }
 
                     // get mode
-
                     mode = key[0];
                     switch (mode) {
                         case 'r':
@@ -268,13 +285,18 @@ void layoff(Player* player, GameUI* pUI) {
                             break;
                     }
                 } while (!isSuccessful);
-                ///-------------------------
             } while (choice == 0);
         }
     }
 }
 
-
+/*!
+   \brief   inserts a card into the run set in the matchedSet and removes
+            that card from the player's hand
+   \param   player    player inserting the card
+            card      card to be inserted
+   \return  return true if insertion is successful, otherwise false
+*/
 bool insertToRun(Player* player, Card* card) {
     bool success = false;
     std::map<std::string, std::list<Card*>>::iterator mapIt;
@@ -324,12 +346,17 @@ bool insertToRun(Player* player, Card* card) {
             }
         }
     }
-
     return success;
 }
 
 
-
+/*!
+   \brief   inserts a card into the book set in the matchedSet and removes
+            that card from the player's hand
+   \param   player    player inserting the card
+            card      card to be inserted
+   \return  return true if insertion is successful, otherwise false
+*/
 bool insertToBook(Player* player, Card* card) {
     bool success = false;
     std::map<std::string, std::list<Card*>>::iterator mapIt;
@@ -348,7 +375,6 @@ bool insertToBook(Player* player, Card* card) {
             }
         }
     }
-
     return success;
 }
 
@@ -386,9 +412,16 @@ void Rummy::dealCards(std::vector<Player*> p) {
 }
 
 
-// draw from either the deck or discarded pile
-// 0 draw from deck
-// 1 draw from discarded pile
+
+/*!
+   \brief   draw from either the deck of discarded pile
+   \param   p   player to draw
+            i   where to draw:
+                0 = draw from the deck
+                1 = draw from the discarded pile
+            d   deck
+   \return  returns true if drawing was successful, false if not
+*/
 bool drawCard(Player* p, unsigned int i, Deck* d) {
     Card* cardtemp;
     bool success = false;
@@ -426,6 +459,11 @@ bool drawCard(Player* p, unsigned int i, Deck* d) {
 }
 
 
+
+/*!
+   \brief   refill the deck from the discard pile of cards
+   \param   deck    deck to be refilled
+*/
 void replenishDeck(Deck* deck) {
     Card* cardToRetain = discardPile.front();
     discardPile.pop_front();
@@ -435,17 +473,19 @@ void replenishDeck(Deck* deck) {
 }
 
 
-
-
-// check if 3 or 4 cards have the same rank
-// returns 1 if a book exist
-// returns 0 if no book exist
+/*!
+   \brief   check if 3 or 4 cards have the same rank in the player's hand
+   \param   reveal    true = removes cards that belong in a book and
+                             put them into the matchedSets
+                      false = does not remove cards
+   \return  0  means book does not exist
+            1  means book exist
+*/
 unsigned int hasBook(bool reveal, Player* player) {
     std::list<Card*>* hand = player->getHand();
     std::map<Card::Rank, std::vector<Card*>> handByRank;
     std::map<Card::Rank, std::vector<Card*>>::iterator mapIt;
 
-    //std::list<Card*>* hand = p->getHand();
     std::list<Card*>::iterator it1, it2;
 
     // iterate through hand
@@ -462,18 +502,22 @@ unsigned int hasBook(bool reveal, Player* player) {
                           std::vector<Card*>>((*it1)->rank, indexes));
     }
 
-     /// print before deletion ////////////////
+    // display possible book
     if (!reveal) {
-        std::cout << "\n" << "Possible Book" << std::endl;
+        GameUI::println("\nPossible Book");
         for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
-            std::cout << Card::getRank(mapIt->first) << " => ";
-            for (Card* c : mapIt->second)
-                std::cout << *c << "  ";
-            std::cout << "\n";
+            GameUI::print(Card::getRank(mapIt->first) + " => ");
+            for (Card* c : mapIt->second) {
+                GameUI::print(Card::getRank((*c).rank));
+                GameUI::print(":");
+                GameUI::print(Card::getSuit((*c).suit));
+                GameUI::print(" ");
+            }
+            GameUI::println("");
         }
-        std::cout << std::endl;
+        GameUI::println("");
     }
-    /// print ////////////////////////////////
+
 
     // iterate through the map
     for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
@@ -492,26 +536,19 @@ unsigned int hasBook(bool reveal, Player* player) {
             }
         }
     }
-
-
-
-//    std::cout << "%%%%%%%%" << std::endl;
-//    /// print before deletion ////////////////
-//    for (mapIt = handByRank.begin(); mapIt != handByRank.end(); ++mapIt) {
-//        std::cout << Card::getRank(mapIt->first) << " => ";
-//        for (Card* c : mapIt->second)
-//            std::cout << *c << "  ";
-//        std::cout << "\n";
-//    }
-//    std::cout << "%%%%%%%%" << std::endl;
-//    /// print ////////////////////////////////
     return 0;
 }
 
 
-// check if 3 or more cards in the same suit are sequential
-// returns 0 if a run doesn't exist
-// returns 2 if a run exists
+/*!
+   \brief   check if 3 or more cards in the same suit are sequential
+            in the player's hand
+   \param   reveal    true = removes cards that belong in a run
+                             and put them into the matchedSets
+                      false = does not remove cards
+   \return  0  means run does not exist
+            2  means run exist
+*/
 unsigned int hasRun(bool reveal, Player* player) {
     std::list<Card*>* hand = player->getHand();
     std::map<Card::Suit, std::vector<Card*>> handBySuit;
@@ -531,23 +568,24 @@ unsigned int hasRun(bool reveal, Player* player) {
                           std::vector<Card*>>((*it1)->suit, indexes));
      }
 
-     /// print before deletion ////////////////
+    // display possible run
     if (!reveal) {
-        std::cout << "\n" << "Possible Run" << std::endl;
+        GameUI::println("\nPossible Run");
         for (mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
-            std::cout << Card::getSuit(mapIt->first) << " => ";
-            for (Card* c : mapIt->second)
-                std::cout << *c << "  ";
-            std::cout << "\n";
+            GameUI::print(Card::getSuit(mapIt->first) + " => ");
+            for (Card* c : mapIt->second) {
+                GameUI::print(Card::getRank((*c).rank));
+                GameUI::print(":");
+                GameUI::print(Card::getSuit((*c).suit));
+                GameUI::print(" ");
+            }
+            GameUI::println("");
         }
-        std::cout << std::endl;
+        GameUI::println("");
     }
-    /// print ////////////////////////////////
 
 
-    // iterate through the map
     std::vector<bool> isRunFinal;
-
 
     for (mapIt = handBySuit.begin(); mapIt != handBySuit.end(); ++mapIt) {
         std::vector<Card*> cardTemp = mapIt->second;
@@ -560,7 +598,6 @@ unsigned int hasRun(bool reveal, Player* player) {
         bool isRun = false;
 
         if (cardTemp.size() >= 3) {
-        ///------------------------------------------------------------------------
             Card::Suit key = mapIt->first; // get the handBySuit key
             std::list<Card*> value;
             int index = -1;
@@ -598,18 +635,13 @@ unsigned int hasRun(bool reveal, Player* player) {
                 for (Card* c : value) {
                     player->removeCard(c);
                 }
-                //value.clear();
                 insertToMatchedSets('s', value);
-                // remove card
             }
-        ///------------------------------------------------------------------------
         } else {
             isRun = false;
         }
         isRunFinal.push_back(isRun);
-        //mapIt->second = cardTemp;
     }
-
 
     // is there at least one sequential list
     unsigned int tempFinal = 0;
@@ -621,8 +653,6 @@ unsigned int hasRun(bool reveal, Player* player) {
             tempFinal = 0;
         }
     }
-
-
     return tempFinal;
 }
 
@@ -631,11 +661,25 @@ bool Rummy::turnOver() {
     return false;
 }
 
+/*!
+   \brief   compares cards if first card less than the second card
+   \param   a   first card
+            b   second card
+   \return  true if first card is less than the second card, otherwise false
+*/
 bool sortCard(Card* a, Card* b) {
     return *a < *b;
 }
 
-// [r/s]-[#]
+/*!
+   \brief   insert a set of cards to the matched set map
+   \param   c   key of the map based on the type of meld or set
+                r = sets of cards to be inserted are books
+                    (same rank)
+                s = sets of cards to be inserted are run
+                    (same suit and sequential)
+            cardsSet  set of cards to be inserted
+*/
 void insertToMatchedSets(char c, std::list<Card*> cardsSet) {
     unsigned int num = matchedSets.size();
     std::string key = "";
@@ -644,18 +688,3 @@ void insertToMatchedSets(char c, std::list<Card*> cardsSet) {
     key.append(std::to_string(num));
     matchedSets.insert(std::pair<std::string, std::list<Card*>>(key, cardsSet));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
